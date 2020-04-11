@@ -10,6 +10,7 @@ class FaceCard extends StatelessWidget {
 
   const FaceCard({Key key, this.nombre, this.url, this.onPressed})
       : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;

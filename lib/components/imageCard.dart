@@ -20,9 +20,11 @@ class ImageCard extends StatelessWidget {
       this.secondUrl,
       this.onPressed})
       : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
+
     var border = Radius.circular(getResponsiveDps(7, width));
 
     Widget txtNombre = Positioned(

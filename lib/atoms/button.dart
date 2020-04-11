@@ -3,12 +3,11 @@ import 'package:remap/utils/constants.dart';
 import 'package:remap/utils/utils.dart';
 
 class PrimaryBtn extends StatefulWidget {
-  final double screenWidth;
   final String text;
   final Function onPress;
+
   PrimaryBtn({
     Key key,
-    this.screenWidth,
     this.text,
     this.onPress,
   }) : super(key: key);

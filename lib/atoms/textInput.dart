@@ -3,6 +3,7 @@ import 'package:remap/utils/utils.dart';
 
 class DecoratedTextInput extends StatefulWidget {
   final String labelText;
+
   DecoratedTextInput({Key key, this.labelText}) : super(key: key);
 
   @override
@@ -13,6 +14,7 @@ class _DecoratedTextInputState extends State<DecoratedTextInput> {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
+
     return Container(
       child: Container(
         width: getResponsiveDps(294, width),
