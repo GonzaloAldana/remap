@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:loading_animations/loading_animations.dart';
 
 class MyConstants extends InheritedWidget {
   static MyConstants of(BuildContext context) =>
@@ -17,6 +18,17 @@ class MyConstants extends InheritedWidget {
   final FontWeight fontLight = FontWeight.w400;
   final FontWeight fontMedium = FontWeight.w600;
   final FontWeight fontSemiBold = FontWeight.w800;
+
+  final listaServicios = ['Estética', 'Gimnasio'];
+  final listaProductos = ['Frutas', 'Verduras', 'Carne', 'Pan', 'Abarrotes'];
+
+  final LoadingDoubleFlipping progressIndicator = LoadingDoubleFlipping.circle(
+    borderColor: Colors.cyan,
+    borderSize: 3.0,
+    size: 100.0,
+    backgroundColor: Colors.cyanAccent,
+    duration: Duration(milliseconds: 500),
+  );
 
   @override
   bool updateShouldNotify(MyConstants oldWidget) => false;

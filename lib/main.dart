@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:remap/screens/NavigationBar.dart';
 import 'package:remap/utils/constants.dart';
 
 void main() => runApp(MyApp());
@@ -8,14 +9,14 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Remap 4.0',
       theme: ThemeData(
         primaryColor: MyConstants.of(context).color1,
         accentColor: MyConstants.of(context).color2,
         fontFamily: MyConstants.of(context).fontFamily,
         primarySwatch: Colors.blue,
       ),
-      home: SafeArea(child: Container()),
+      home: SafeArea(child: NavigationBar()),
     );
   }
 }
