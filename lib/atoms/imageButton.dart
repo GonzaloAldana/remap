@@ -60,6 +60,7 @@ class ImageButton extends StatelessWidget {
 
     var textContainer = Text(
       texto,
+      textAlign: TextAlign.center,
       style: TextStyle(
           fontSize: MyConstants.of(context).midTitleSize,
           color: MyConstants.of(context).colorGray),
@@ -87,7 +88,7 @@ class ImageButton extends StatelessWidget {
               ));
 
     return GestureDetector(
-        onTap: onPressed,
+        onTap: () => onPressed(),
         child: Container(
           height: height,
           width: width,

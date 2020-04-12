@@ -36,9 +36,7 @@ class _FloatingButtonState extends State<FloatingButton> {
               fontSize: MyConstants.of(context).midTitleSize,
               fontWeight: MyConstants.of(context).fontSemiBold,
             )),
-        onPressed: () {
-          widget.onPress();
-        },
+        onPressed: () => widget.onPress(),
       ),
     );
   }

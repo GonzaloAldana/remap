@@ -32,9 +32,7 @@ class _SlimButtonState extends State<SlimButton> {
           style: TextStyle(
               fontSize: MyConstants.of(context).midTitleSize,
               fontWeight: MyConstants.of(context).fontMedium)),
-      onPressed: () {
-        widget.onPress();
-      },
+      onPressed: () => widget.onPress(),
     );
   }
 }

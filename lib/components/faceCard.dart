@@ -52,7 +52,7 @@ class FaceCard extends StatelessWidget {
     );
 
     return GestureDetector(
-      onTap: onPressed,
+      onTap: () => onPressed(),
       child: Card(
         elevation: 6,
         child: Container(

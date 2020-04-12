@@ -79,7 +79,7 @@ class SlimCard extends StatelessWidget {
     );
 
     return GestureDetector(
-      onTap: onPressed,
+      onTap: () => onPressed(),
       child: Card(
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(getResponsiveDps(7, width))),

@@ -47,9 +47,7 @@ class _PrimaryBtnState extends State<PrimaryBtn> {
           ),
         ),
       ),
-      onPressed: () {
-        widget.onPress();
-      },
+      onPressed: () => widget.onPress(),
     );
   }
 }
