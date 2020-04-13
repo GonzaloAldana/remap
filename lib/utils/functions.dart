@@ -51,3 +51,13 @@ Future<List<DistanciaMarcador>> getDistanciasMarcadores(
   }
   return resultado;
 }
+
+Future<Position> getPosition() async {
+  Position respuesta = await Geolocator().getLastKnownPosition();
+  await Geolocator()
+      .getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
+      .then((Position position) {
+    respuesta = position;
+  });
+  return respuesta;
+}
