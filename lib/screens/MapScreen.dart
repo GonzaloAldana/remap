@@ -7,6 +7,7 @@ import 'package:remap/utils/functions.dart';
 import 'package:remap/utils/models.dart';
 import 'package:latlong/latlong.dart';
 
+import 'AddMarkerScreen.dart';
 import 'DetailScreen.dart';
 
 class MapScreen extends StatefulWidget {
@@ -41,16 +42,16 @@ class _HomePageState extends State<MapScreen> {
         color: Colors.black12,
         borderStrokeWidth: 3);
 
-    var btnCluster = RaisedButton(
-      color: Colors.blueAccent,
-      disabledColor: Colors.blueAccent,
-      disabledTextColor: Colors.black54,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: Text(markers.length.toString()),
-      onPressed: null,
-    );
+    var btnCluster = (markers) => RaisedButton(
+          color: Colors.blueAccent,
+          disabledColor: Colors.blueAccent,
+          disabledTextColor: Colors.black54,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: Text(markers.length.toString()),
+          onPressed: null,
+        );
 
     var markerClusterOptions = MarkerClusterLayerOptions(
       maxClusterRadius: 120,
@@ -61,9 +62,7 @@ class _HomePageState extends State<MapScreen> {
       ),
       markers: markers,
       polygonOptions: markerPolygonOptions,
-      builder: (context, markers) {
-        return btnCluster;
-      },
+      builder: (context, markers) => btnCluster(markers),
     );
 
     return Container(
@@ -101,6 +100,34 @@ class _HomePageState extends State<MapScreen> {
           );
           return FlutterMap(
             options: MapOptions(
+              onTap: (LatLng coord) {
+                showModalBottomSheet(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return SafeArea(
+                        child: ListTile(
+                          leading: Icon(Icons.build),
+                          title: Text("Mapear tienda aquí"),
+                          onTap: () {
+                            print('presionado');
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    AddMarkerScreen(pos: coord),
+                              ),
+                            );
+                            /* actuales.add(coord);
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              PantallaAgregarMapa(actuales))); */
+                          },
+                        ),
+                      );
+                    });
+              },
               center: LatLng(21.13091174983556, -101.68654561042786),
               zoom: 12,
               plugins: [

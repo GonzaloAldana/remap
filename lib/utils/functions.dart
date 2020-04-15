@@ -96,7 +96,7 @@ Future<List<DistanciaMarcador>> getSmartTicket(String collection, double dist,
     for (var i = 0; i < services.length; i++) {
       if (distMarc.marcador.servicios[i] && services[i]) necesarios++;
     }
-    if (necesarios > 1) {
+    if (necesarios > 0) {
       listaCercanosQueCumplenloQueQuiereElCliente.add(distMarc);
     }
   }
@@ -129,7 +129,7 @@ Future<List<DistanciaMarcador>> getSmartTicket(String collection, double dist,
   distMarcadorDefault.distancia = "--";
   listaDefault.add(distMarcadorDefault);
 
-  return listaRecursivaCombinacionesTiendasCumplenConElCliente.length > 1
+  return listaRecursivaCombinacionesTiendasCumplenConElCliente.isNotEmpty
       ? listaRecursivaCombinacionesTiendasCumplenConElCliente[0]
       : listaDefault;
 }
@@ -154,7 +154,7 @@ Future<Void> getCombinacionRecursiva(
     }
   }
 
-  if (necesarios > 1) {
+  if (necesarios > 0) {
     print('yeaaa');
 
     // Marcar este como parte de la permutación
@@ -197,7 +197,7 @@ Future<Void> getCombinacionRecursiva(
 
     // Si aún quedan necesidades por cumplir, vamos recursivamente
     // Si no es el caso, agregamos esta permutación a la lista de los que cumplen con las necesidades del cliente
-    if (necesariosFaltantes > 1) {
+    if (necesariosFaltantes > 0) {
       for (DistanciaMarcador distMarc in listaFaltantes) {
         // Vamos a repetir la recursividad
         await getCombinacionRecursiva(listaTemporal, distMarc,
