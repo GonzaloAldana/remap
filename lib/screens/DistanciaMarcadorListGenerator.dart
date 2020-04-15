@@ -27,7 +27,7 @@ class DistanciaMarcadorListGenerator extends StatelessWidget {
     return ListView(
         children: (listaDistanciaMarcador).map((marc) {
       return ImageCard(
-        onPressed: () => callback(marc),
+        onPressed: marc.distancia != '--' ? () => callback(marc) : null,
         nombre: marc.marcador.nombre,
         url: marc.marcador.imagen,
         distancia: marc.distancia,

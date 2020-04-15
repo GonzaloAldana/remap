@@ -43,3 +43,10 @@ class DistanciaMarcador {
 
   DistanciaMarcador({this.marcador, this.distancia});
 }
+
+class SmartTicket {
+  DistanciaMarcador distanciaMarcador;
+  String horario;
+
+  SmartTicket({this.distanciaMarcador, this.horario});
+}

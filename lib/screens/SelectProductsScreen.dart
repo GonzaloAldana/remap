@@ -21,7 +21,11 @@ class SelectProductscreen extends StatelessWidget {
           print(productsSelected + servicesSelected),
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => SmartTicketScreen()),
+            MaterialPageRoute(
+                builder: (context) => SmartTicketScreen(
+                      listaServicios: servicesSelected,
+                      listaProductos: productsSelected,
+                    )),
           )
         };
 

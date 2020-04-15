@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:remap/utils/constants.dart';
 import 'package:remap/utils/models.dart';
 import 'package:remap/utils/functions.dart';
@@ -7,8 +6,13 @@ import 'package:remap/utils/functions.dart';
 import 'DistanciaMarcadorListGenerator.dart';
 
 class SmartTicketScreen extends StatelessWidget {
+  final List<bool> listaServicios;
+  final List<bool> listaProductos;
+
   const SmartTicketScreen({
     Key key,
+    this.listaServicios,
+    this.listaProductos,
   }) : super(key: key);
 
   @override
@@ -21,29 +25,16 @@ class SmartTicketScreen extends StatelessWidget {
       appBar: appBar,
       body: Container(
         child: FutureBuilder(
-            future: getPosition(),
-            builder: (context, posicion) {
-              if (!posicion.hasData) {
-                return MyConstants.of(context).progressIndicator;
-              }
-              return FutureBuilder(
-                  future: getMarcadores("tiendas"),
-                  builder: (context, marcadores) {
-                    return FutureBuilder(
-                        future: getDistanciasMarcadores(
-                            marcadores.data,
-                            (posicion.data as Position).latitude,
-                            (posicion.data as Position).longitude),
-                        builder: (context, snp) {
-                          if (!snp.hasData) {
-                            return MyConstants.of(context).progressIndicator;
-                          }
-                          return DistanciaMarcadorListGenerator(
-                              listaDistanciaMarcador:
-                                  snp.data as List<DistanciaMarcador>);
-                        });
-                  });
-            }),
+          future: getSmartTicket("tiendas", 6, listaProductos, listaServicios),
+          builder: (context, marcadores) {
+            if (!marcadores.hasData) {
+              return MyConstants.of(context).progressIndicator;
+            }
+            return DistanciaMarcadorListGenerator(
+                listaDistanciaMarcador:
+                    marcadores.data as List<DistanciaMarcador>);
+          },
+        ),
       ),
     );
   }
