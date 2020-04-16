@@ -50,7 +50,7 @@ class ImageCard extends StatelessWidget {
                 height: getResponsiveDps(25, width),
                 width: getResponsiveDps(360, width),
                 child: Text(
-                  this.distancia,
+                  this.distancia + ' KM',
                   textAlign: TextAlign.right,
                   style: TextStyle(
                       fontSize: MyConstants.of(context).midTitleSize,
