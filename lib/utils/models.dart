@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class Marcador {
   String id;
   String nombre;
@@ -7,6 +9,7 @@ class Marcador {
   List<bool> servicios;
   List<bool> productos;
   int clientes;
+  Timestamp hora;
 
   Marcador(
       {this.id,
@@ -16,7 +19,8 @@ class Marcador {
       this.lon,
       this.servicios,
       this.productos,
-      this.clientes});
+      this.clientes,
+      this.hora});
 
   Marcador.fromMap(Map snapshot, String id)
       : id = id ?? '',
@@ -26,7 +30,8 @@ class Marcador {
         lon = snapshot['lon'] ?? '',
         servicios = snapshot['servicios'].cast<bool>() ?? '',
         productos = snapshot['productos'].cast<bool>() ?? '',
-        clientes = snapshot['clientes'] ?? '';
+        clientes = snapshot['clientes'] ?? '',
+        hora = snapshot['hora'] ?? '';
 
   toJson() {
     return {

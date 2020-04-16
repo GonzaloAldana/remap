@@ -33,6 +33,7 @@ dependencies:
   cloud_firestore: ^0.13.4+2
   geolocator: ^5.3.1
   url_launcher: ^5.4.2
+  intl: ^0.16.1
 
 dev_dependencies:
   flutter_test:

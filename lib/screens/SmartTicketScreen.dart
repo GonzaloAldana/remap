@@ -32,7 +32,8 @@ class SmartTicketScreen extends StatelessWidget {
             }
             return DistanciaMarcadorListGenerator(
                 listaDistanciaMarcador:
-                    marcadores.data as List<DistanciaMarcador>);
+                    marcadores.data as List<DistanciaMarcador>,
+                mostrarHorario: true);
           },
         ),
       ),
