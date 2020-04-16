@@ -25,7 +25,7 @@ class SmartTicketScreen extends StatelessWidget {
       appBar: appBar,
       body: Container(
         child: FutureBuilder(
-          future: getSmartTicket("tiendas", 6, listaProductos, listaServicios),
+          future: getSmartTicket("tiendas", 2, listaProductos, listaServicios),
           builder: (context, marcadores) {
             if (!marcadores.hasData) {
               return MyConstants.of(context).progressIndicator;

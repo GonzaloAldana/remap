@@ -34,7 +34,7 @@ class _NavigationBarState extends State<NavigationBar> {
   @override
   Widget build(BuildContext context) {
     var appBar = AppBar(
-      title: Text("Gonzalo's Flutter UI"),
+      title: Text('ReMap 4.0'),
     );
 
     return Scaffold(

@@ -54,7 +54,7 @@ class ImageButton extends StatelessWidget {
 
     var iconContainer = Icon(
       icono,
-      color: Theme.of(context).primaryColor,
+      color: Theme.of(context).accentColor,
       size: getResponsiveDps(50, width),
     );
 

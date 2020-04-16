@@ -8,8 +8,9 @@ class MyConstants extends InheritedWidget {
   MyConstants({Widget child, Key key}) : super(key: key, child: child);
 
   final String successMessage = 'Some message';
-  final Color color1 = Color(0xff584BDD);
-  final Color color2 = Color(0xffB154FD);
+  final Color color1 = Color(0xff100339); //Color(0xff584BDD);
+  final Color color2 = Color(0xfff1554c); //Color(0xffB154FD);
+  final Color color2Gradient = Color(0xfffdb05e); //Color(0xffB154FD);
   final Color colorGray = Color(0xff454545);
   final String fontFamily = 'Montserrat';
   final double titleSize = 19;

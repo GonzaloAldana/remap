@@ -9,6 +9,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Remap 4.0',
       theme: ThemeData(
         primaryColor: MyConstants.of(context).color1,

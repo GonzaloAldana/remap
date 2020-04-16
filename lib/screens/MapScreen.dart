@@ -38,13 +38,13 @@ class _HomePageState extends State<MapScreen> {
     );
 
     var markerPolygonOptions = PolygonOptions(
-        borderColor: Colors.blueAccent,
+        borderColor: Theme.of(context).accentColor,
         color: Colors.black12,
         borderStrokeWidth: 3);
 
     var btnCluster = (markers) => RaisedButton(
-          color: Colors.blueAccent,
-          disabledColor: Colors.blueAccent,
+          color: Theme.of(context).accentColor,
+          disabledColor: Theme.of(context).accentColor,
           disabledTextColor: Colors.black54,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),
@@ -83,7 +83,7 @@ class _HomePageState extends State<MapScreen> {
                   point: LatLng(marc.lat, marc.lon),
                   builder: (context) => IconButton(
                     icon: Icon(FontAwesomeIcons.mapMarkerAlt),
-                    color: Color.fromARGB(255, 255, 0, 110),
+                    color: Theme.of(context).accentColor,
                     iconSize: 30.0,
                     onPressed: () {
                       Navigator.push(

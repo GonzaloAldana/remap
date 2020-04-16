@@ -88,13 +88,17 @@ Future<List<DistanciaMarcador>> getSmartTicket(String collection, double dist,
 
   for (DistanciaMarcador distMarc in distanciaMarcadores) {
     int necesarios = 0;
-
+    print('yea');
     for (var i = 0; i < products.length; i++) {
-      if (distMarc.marcador.productos[i] && products[i]) necesarios++;
+      if (distMarc.marcador.productos.isNotEmpty &&
+          distMarc.marcador.productos[i] &&
+          products[i]) necesarios++;
     }
 
     for (var i = 0; i < services.length; i++) {
-      if (distMarc.marcador.servicios[i] && services[i]) necesarios++;
+      if (distMarc.marcador.servicios.isNotEmpty &&
+          distMarc.marcador.servicios[i] &&
+          services[i]) necesarios++;
     }
     if (necesarios > 0) {
       listaCercanosQueCumplenloQueQuiereElCliente.add(distMarc);
@@ -105,7 +109,7 @@ Future<List<DistanciaMarcador>> getSmartTicket(String collection, double dist,
   // Hasta aquí ya tenemos los lugares cercanos con lo que el cliente necesita;
   // necesitamos ver las permutaciones para conocer todas las combinaciones que funcionen
   // Para esto vamos a usar recursividad
-
+  print(listaCercanosQueCumplenloQueQuiereElCliente.length);
   for (DistanciaMarcador distMarc
       in listaCercanosQueCumplenloQueQuiereElCliente) {
     // Vamos a comenzar nuestras combinaciones con cada elemento de la lista
@@ -143,20 +147,22 @@ Future<Void> getCombinacionRecursiva(
   int necesarios = 0;
 
   for (var i = 0; i < productosFaltantes.length; i++) {
-    if (marcadorSiguiente.marcador.productos[i] && productosFaltantes[i]) {
+    if (marcadorSiguiente.marcador.productos.isNotEmpty &&
+        marcadorSiguiente.marcador.productos[i] &&
+        productosFaltantes[i]) {
       necesarios++;
     }
   }
 
   for (var i = 0; i < serviciosFaltantes.length; i++) {
-    if (marcadorSiguiente.marcador.servicios[i] && serviciosFaltantes[i]) {
+    if (marcadorSiguiente.marcador.servicios.isNotEmpty &&
+        marcadorSiguiente.marcador.servicios[i] &&
+        serviciosFaltantes[i]) {
       necesarios++;
     }
   }
 
   if (necesarios > 0) {
-    print('yeaaa');
-
     // Marcar este como parte de la permutación
     listaTemporal.add(marcadorSiguiente);
 
@@ -165,13 +171,15 @@ Future<Void> getCombinacionRecursiva(
 
     // Marcar los servicios que ya cumplimos
     for (var i = 0; i < productosFaltantes.length; i++) {
-      if (marcadorSiguiente.marcador.productos[i]) {
+      if (marcadorSiguiente.marcador.productos.isNotEmpty &&
+          marcadorSiguiente.marcador.productos[i]) {
         productosFaltantes[i] = false;
       }
     }
 
     for (var i = 0; i < serviciosFaltantes.length; i++) {
-      if (marcadorSiguiente.marcador.servicios[i]) {
+      if (marcadorSiguiente.marcador.servicios.isNotEmpty &&
+          marcadorSiguiente.marcador.servicios[i]) {
         serviciosFaltantes[i] = false;
       }
     }
@@ -191,17 +199,17 @@ Future<Void> getCombinacionRecursiva(
       }
     }
 
-    print(productosFaltantes);
-    print(serviciosFaltantes);
-    print(necesariosFaltantes);
-
     // Si aún quedan necesidades por cumplir, vamos recursivamente
     // Si no es el caso, agregamos esta permutación a la lista de los que cumplen con las necesidades del cliente
     if (necesariosFaltantes > 0) {
       for (DistanciaMarcador distMarc in listaFaltantes) {
         // Vamos a repetir la recursividad
-        await getCombinacionRecursiva(listaTemporal, distMarc,
-            productosFaltantes, serviciosFaltantes, listaFaltantes);
+        await getCombinacionRecursiva(
+            List.from(listaTemporal),
+            distMarc,
+            List.from(productosFaltantes),
+            List.from(serviciosFaltantes),
+            List.from(listaFaltantes));
       }
     } else {
       listaRecursivaCombinacionesTiendasCumplenConElCliente.add(listaTemporal);

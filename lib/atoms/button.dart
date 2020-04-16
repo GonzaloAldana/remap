@@ -32,7 +32,7 @@ class _PrimaryBtnState extends State<PrimaryBtn> {
           decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: <Color>[
-                  Theme.of(context).primaryColor,
+                  MyConstants.of(context).color2Gradient,
                   Theme.of(context).accentColor
                 ],
               ),
