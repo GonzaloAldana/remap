@@ -4,7 +4,7 @@ Proyecto presentado en Talent Hackathon @Home 2020
 
 Directorio inteligente que crea una experiencia urbana personalizada para surtir la despensa y cubrir servicios.  
 
-Hecho por: Gonzalo Aldana, Andrea Aldana y Beth Trujillo
+Hecho por: Gonzalo Aldana, Andrea Aldana y Beatriz Trujillo
 
 
 ## Distribución de las carpetas
