@@ -146,27 +146,31 @@ Future<List<DistanciaMarcador>> getSmartTicket(String collection, double dist,
 
   // Hasta aquí ya tenemos a la lista de tiendas más necesitadas
   // hay que agregarles 1 cliente y cambiar el horario
-  for (DistanciaMarcador distMarc in listaTiendasMenosClientes) {
-    print(distMarc.marcador.nombre);
-    await Firestore.instance
-        .collection(collection)
-        .document(distMarc.marcador.id)
-        .updateData({'clientes': FieldValue.increment(1)});
-    if (distMarc.marcador.hora.millisecondsSinceEpoch <
-        DateTime.now().millisecondsSinceEpoch) {
+  if (listaRecursivaCombinacionesTiendasCumplenConElCliente.isNotEmpty) {
+    for (DistanciaMarcador distMarc
+        in listaRecursivaCombinacionesTiendasCumplenConElCliente[0]) {
+      //listaTiendasMenosClientes) {
+      print(distMarc.marcador.nombre);
       await Firestore.instance
           .collection(collection)
           .document(distMarc.marcador.id)
-          .updateData({'hora': DateTime.now()});
-    } else {
-      await Firestore.instance
-          .collection(collection)
-          .document(distMarc.marcador.id)
-          .updateData({
-        'hora': DateTime.fromMicrosecondsSinceEpoch(
-                distMarc.marcador.hora.millisecondsSinceEpoch)
-            .add(Duration(minutes: 10))
-      });
+          .updateData({'clientes': FieldValue.increment(1)});
+      if (distMarc.marcador.hora.millisecondsSinceEpoch <
+          DateTime.now().millisecondsSinceEpoch) {
+        await Firestore.instance
+            .collection(collection)
+            .document(distMarc.marcador.id)
+            .updateData({'hora': DateTime.now()});
+      } else {
+        await Firestore.instance
+            .collection(collection)
+            .document(distMarc.marcador.id)
+            .updateData({
+          'hora': DateTime.fromMicrosecondsSinceEpoch(
+                  distMarc.marcador.hora.millisecondsSinceEpoch)
+              .add(Duration(minutes: 10))
+        });
+      }
     }
   }
 
