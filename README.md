@@ -1,16 +1,10 @@
-# remap
+# ReMap 4.0
 
-A new Flutter application.
+Proyecto presentado en Talent Hackathon @Home 2020
 
-## Getting Started
+Directorio inteligente que crea una experiencia urbana personalizada para surtir la despensa y cubrir servicios.  
 
-This project is a starting point for a Flutter application.
+Hecho por: Gonzalo Aldana, Andrea Aldana y Beth Trujillo
+gonzaloaldana.com
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+![Infografia](https://i.ibb.co/ZTwfQyT/Re-Map-4-0-INFOGRAF-A.jpg)
