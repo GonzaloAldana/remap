@@ -6,6 +6,7 @@ class Marcador {
   double lon;
   List<bool> servicios;
   List<bool> productos;
+  int clientes;
 
   Marcador(
       {this.id,
@@ -14,7 +15,8 @@ class Marcador {
       this.lat,
       this.lon,
       this.servicios,
-      this.productos});
+      this.productos,
+      this.clientes});
 
   Marcador.fromMap(Map snapshot, String id)
       : id = id ?? '',
@@ -23,7 +25,8 @@ class Marcador {
         lat = snapshot['lat'] ?? '',
         lon = snapshot['lon'] ?? '',
         servicios = snapshot['servicios'].cast<bool>() ?? '',
-        productos = snapshot['productos'].cast<bool>() ?? '';
+        productos = snapshot['productos'].cast<bool>() ?? '',
+        clientes = snapshot['clientes'] ?? '';
 
   toJson() {
     return {
