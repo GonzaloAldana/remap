@@ -10,7 +10,9 @@ Hecho por: Gonzalo Aldana, Andrea Aldana y Beth Trujillo
 ## Distribución de las carpetas
 
 /atoms, /components: son lo básico de la interfaz
+
 /screens: son las pantallas
+
 /utils: cosas que comparte todo el proyecto
 
 # La magia ocurre en /utils/functions.dart
