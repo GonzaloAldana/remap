@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:remap/screens/NavigationBar.dart';
+import 'package:remap/screens/SearchScreen.dart';
 import 'package:remap/utils/constants.dart';
 
 void main() => runApp(MyConstants(child: MyApp()));
@@ -17,7 +18,9 @@ class MyApp extends StatelessWidget {
         fontFamily: MyConstants.of(context).fontFamily,
         primarySwatch: Colors.blue,
       ),
-      home: SafeArea(child: NavigationBar()),
+      home: SafeArea(
+          child: // NavigationBar()
+              SearchScreen()),
     );
   }
 }
