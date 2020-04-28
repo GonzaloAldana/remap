@@ -1,9 +1,32 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:remap/atoms/button.dart';
 import 'package:remap/components/bulletList.dart';
+import 'package:remap/store/tienda_store/tiendastore.dart';
 import 'package:remap/utils/constants.dart';
 import 'package:latlong/latlong.dart';
+
+class Dialogs {
+  static Future<void> showLoadingDialog(
+      BuildContext context, GlobalKey key) async {
+    return showDialog<void>(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return WillPopScope(
+              onWillPop: () async => false,
+              child: SimpleDialog(
+                  key: key,
+                  backgroundColor: Colors.black54,
+                  children: <Widget>[
+                    Center(
+                      child: CircularProgressIndicator(),
+                    )
+                  ]));
+        });
+  }
+}
 
 class AddMarkerScreen extends StatelessWidget {
   final LatLng pos;
@@ -15,6 +38,8 @@ class AddMarkerScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    TiendaStore tiendaStore = Provider.of<TiendaStore>(context, listen: false);
+
     var appBar = AppBar(
       title: Text("Agregar tienda"),
     );
@@ -26,11 +51,14 @@ class AddMarkerScreen extends StatelessWidget {
 
     Function callbackProducts =
         (List<bool> itemsSelected) => {productsSelected = itemsSelected};
+
     Function callbackServices =
         (List<bool> itemsSelected) => {servicesSelected = itemsSelected};
-    Function btnCallBack = () => {
-          print(productsSelected + servicesSelected),
-          if (formKey.currentState.validate())
+
+    Function btnCallBack = () async => {
+          if (formKey.currentState.validate() &&
+              (productsSelected.where((item) => item == true).isNotEmpty ||
+                  servicesSelected.where((item) => item == true).isNotEmpty))
             {
               formKey.currentState.save(),
               Firestore.instance.collection('tiendas').document().setData({
@@ -43,9 +71,41 @@ class AddMarkerScreen extends StatelessWidget {
                 'imagen':
                     'https://www.prensalibre.com/wp-content/uploads/2018/12/eee060b0-296f-4463-8429-542adef7bb6b.jpg?quality=82&w=760&h=430&crop=1',
                 'hora': Timestamp.now()
-              })
+              }),
+              await tiendaStore.loadEverything(),
+              await Navigator.of(context).pop()
+            }
+          else
+            {
+              await showDialog(
+                context: context,
+                barrierDismissible: false,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: Text('Error'),
+                    content: Text('Falta llenar datos de la tienda'),
+                    actions: <Widget>[
+                      FlatButton(
+                        child: Text('OK'),
+                        onPressed: () async {
+                          await Navigator.of(context).pop();
+                        },
+                      ),
+                    ],
+                  );
+                },
+              )
             }
         };
+
+    final GlobalKey<State> _keyLoader = GlobalKey<State>();
+
+    Future<void> _handleSubmit(BuildContext context) async {
+      Dialogs.showLoadingDialog(context, _keyLoader); //invoking login
+      await btnCallBack();
+      Navigator.of(_keyLoader.currentContext, rootNavigator: true)
+          .pop(); //close the dialoge
+    }
 
     return Scaffold(
         appBar: appBar,
@@ -83,7 +143,7 @@ class AddMarkerScreen extends StatelessWidget {
               ),
               PrimaryBtn(
                 text: 'Agregar nueva tienda',
-                onPress: btnCallBack,
+                onPress: () => _handleSubmit(context),
               ),
               Container(
                 height: 20,
