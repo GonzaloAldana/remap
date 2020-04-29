@@ -1,11 +1,16 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:remap/atoms/button.dart';
 import 'package:remap/components/bulletList.dart';
 import 'package:remap/store/tienda_store/tiendastore.dart';
 import 'package:remap/utils/constants.dart';
 import 'package:latlong/latlong.dart';
+import 'package:path/path.dart' as Path;
 
 class Dialogs {
   static Future<void> showLoadingDialog(
@@ -40,8 +45,66 @@ class AddMarkerScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     TiendaStore tiendaStore = Provider.of<TiendaStore>(context, listen: false);
 
+    File image;
+
+    Future uploadFile() async {
+      String res;
+      StorageReference storageReference = FirebaseStorage.instance
+          .ref()
+          .child('${tiendaStore.countryCode}/${Path.basename(image.path)}}');
+      StorageUploadTask uploadTask = storageReference.putFile(image);
+      await uploadTask.onComplete;
+      print('File Uploaded');
+      await storageReference.getDownloadURL().then((fileURL) {
+        res = fileURL;
+      });
+      return res;
+    }
+
     var appBar = AppBar(
       title: Text("Agregar tienda"),
+      actions: <Widget>[
+        Padding(
+            padding: EdgeInsets.only(right: 20.0),
+            child: GestureDetector(
+              onTap: () {
+                showModalBottomSheet(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return SafeArea(
+                        child: Column(
+                          children: <Widget>[
+                            ListTile(
+                              leading: Icon(Icons.add_a_photo),
+                              title: Text("Fotografía"),
+                              onTap: () async {
+                                image = await ImagePicker.pickImage(
+                                    source: ImageSource.camera,
+                                    imageQuality: 50);
+                                await Navigator.of(context).pop();
+                              },
+                            ),
+                            ListTile(
+                              leading: Icon(Icons.image),
+                              title: Text("Galería"),
+                              onTap: () async {
+                                image = await ImagePicker.pickImage(
+                                    source: ImageSource.gallery,
+                                    imageQuality: 50);
+                                await Navigator.of(context).pop();
+                              },
+                            ),
+                          ],
+                        ),
+                      );
+                    });
+              },
+              child: Icon(
+                Icons.add_a_photo,
+                size: 26.0,
+              ),
+            )),
+      ],
     );
 
     final formKey = GlobalKey<FormState>();
@@ -57,6 +120,7 @@ class AddMarkerScreen extends StatelessWidget {
 
     Function btnCallBack = () async => {
           if (formKey.currentState.validate() &&
+              image != null &&
               (productsSelected.where((item) => item == true).isNotEmpty ||
                   servicesSelected.where((item) => item == true).isNotEmpty))
             {
@@ -72,8 +136,7 @@ class AddMarkerScreen extends StatelessWidget {
                 'servicios': servicesSelected,
                 'clientes': 0,
                 'administrativeArea': tiendaStore.administrativeArea,
-                'imagen':
-                    'https://www.prensalibre.com/wp-content/uploads/2018/12/eee060b0-296f-4463-8429-542adef7bb6b.jpg?quality=82&w=760&h=430&crop=1',
+                'imagen': await uploadFile(),
                 'hora': Timestamp.now()
               }),
               await tiendaStore.loadEverything(),
