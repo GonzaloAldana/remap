@@ -26,6 +26,23 @@ mixin _$TiendaStore on _TiendaStore, Store {
     }, _$positionAtom, name: '${_$positionAtom.name}_set');
   }
 
+  final _$countryCodeAtom = Atom(name: '_TiendaStore.countryCode');
+
+  @override
+  String get countryCode {
+    _$countryCodeAtom.context.enforceReadPolicy(_$countryCodeAtom);
+    _$countryCodeAtom.reportObserved();
+    return super.countryCode;
+  }
+
+  @override
+  set countryCode(String value) {
+    _$countryCodeAtom.context.conditionallyRunInAction(() {
+      super.countryCode = value;
+      _$countryCodeAtom.reportChanged();
+    }, _$countryCodeAtom, name: '${_$countryCodeAtom.name}_set');
+  }
+
   final _$ubicacionIsLoadingAtom =
       Atom(name: '_TiendaStore.ubicacionIsLoading');
 
@@ -260,7 +277,7 @@ mixin _$TiendaStore on _TiendaStore, Store {
   @override
   String toString() {
     final string =
-        'position: ${position.toString()},ubicacionIsLoading: ${ubicacionIsLoading.toString()},listaMarcadores: ${listaMarcadores.toString()},listaMarcadoresIsLoading: ${listaMarcadoresIsLoading.toString()},listaDistanciaMarcadores: ${listaDistanciaMarcadores.toString()},listaDistanciaMarcadoresIsLoading: ${listaDistanciaMarcadoresIsLoading.toString()},everythingIsLoading: ${everythingIsLoading.toString()}';
+        'position: ${position.toString()},countryCode: ${countryCode.toString()},ubicacionIsLoading: ${ubicacionIsLoading.toString()},listaMarcadores: ${listaMarcadores.toString()},listaMarcadoresIsLoading: ${listaMarcadoresIsLoading.toString()},listaDistanciaMarcadores: ${listaDistanciaMarcadores.toString()},listaDistanciaMarcadoresIsLoading: ${listaDistanciaMarcadoresIsLoading.toString()},everythingIsLoading: ${everythingIsLoading.toString()}';
     return '{$string}';
   }
 }

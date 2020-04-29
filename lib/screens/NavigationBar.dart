@@ -7,7 +7,6 @@ import 'package:remap/store/tienda_store/tiendastore.dart';
 import 'package:remap/utils/constants.dart';
 import 'ImageListScreen.dart';
 import 'MapScreen.dart';
-import 'SelectProductsScreen.dart';
 
 class NavigationBar extends StatefulWidget {
   const NavigationBar({
@@ -23,13 +22,13 @@ class _NavigationBarState extends State<NavigationBar> {
 
   screens(BuildContext rootContext, int _tabIndex) {
     switch (_tabIndex) {
-      case 0:
+      /*  case 0:
         return SelectProductscreen();
-        break;
-      case 1:
+        break; */
+      case 0:
         return ImageListScreen();
         break;
-      case 2:
+      case 1:
         return MapScreen();
         break;
     }
@@ -39,7 +38,7 @@ class _NavigationBarState extends State<NavigationBar> {
   Widget build(BuildContext context) {
     TiendaStore tiendaStore = Provider.of<TiendaStore>(context, listen: false);
 
-    tiendaStore.loadEverything();
+    if (tiendaStore.everythingIsLoading) tiendaStore.loadEverything();
 
     var appBar = AppBar(
       title: Text('ReMap 4.0'),
@@ -67,7 +66,7 @@ class _NavigationBarState extends State<NavigationBar> {
       body: screens(context, currentPage),
       bottomNavigationBar: FancyBottomNavigation(
         tabs: [
-          TabData(iconData: Icons.home, title: "Comprar"),
+          //TabData(iconData: Icons.home, title: "Comprar"),
           TabData(iconData: Icons.location_city, title: "Negocios"),
           TabData(iconData: FontAwesomeIcons.mapMarkerAlt, title: "Mapa")
         ],

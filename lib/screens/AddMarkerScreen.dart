@@ -61,13 +61,17 @@ class AddMarkerScreen extends StatelessWidget {
                   servicesSelected.where((item) => item == true).isNotEmpty))
             {
               formKey.currentState.save(),
-              Firestore.instance.collection('tiendas').document().setData({
+              Firestore.instance
+                  .collection(tiendaStore.countryCode)
+                  .document()
+                  .setData({
                 'lat': pos.latitude,
                 'lon': pos.longitude,
                 'nombre': _titulo,
                 'productos': productsSelected,
                 'servicios': servicesSelected,
                 'clientes': 0,
+                'administrativeArea': tiendaStore.administrativeArea,
                 'imagen':
                     'https://www.prensalibre.com/wp-content/uploads/2018/12/eee060b0-296f-4463-8429-542adef7bb6b.jpg?quality=82&w=760&h=430&crop=1',
                 'hora': Timestamp.now()
@@ -115,7 +119,16 @@ class AddMarkerScreen extends StatelessWidget {
               Form(
                 key: formKey,
                 child: TextFormField(
-                  decoration: InputDecoration(labelText: 'Nombre:'),
+                  decoration: InputDecoration(
+                      focusColor: Theme.of(context).accentColor,
+                      fillColor: Theme.of(context).accentColor,
+                      hoverColor: Theme.of(context).accentColor,
+                      hintText: "Nombre",
+                      prefixIcon: Icon(Icons.text_fields,
+                          color: Theme.of(context).accentColor),
+                      border: OutlineInputBorder(
+                          borderRadius:
+                              BorderRadius.all(Radius.circular(25.0)))),
                   validator: (input) =>
                       input.isEmpty ? 'Introduce un Nombre' : null,
                   onSaved: (input) => _titulo = input,

@@ -16,6 +16,12 @@ abstract class _TiendaStore with Store {
   Position position;
 
   @observable
+  String countryCode;
+
+  @observable
+  String administrativeArea;
+
+  @observable
   bool ubicacionIsLoading = true;
 
   @action
@@ -34,6 +40,10 @@ abstract class _TiendaStore with Store {
     await getPosition().then((pos) {
       position = pos;
       changeUbicacionIsNotLoading();
+    });
+    await Geolocator().placemarkFromPosition(position).then((placemark) {
+      countryCode = placemark[0].isoCountryCode;
+      administrativeArea = placemark[0].administrativeArea;
     });
   }
 
@@ -57,7 +67,7 @@ abstract class _TiendaStore with Store {
   @action
   Future getListaMarcadoresFromAPI() async {
     changeListaMarcadoresIsLoading();
-    await getMarcadores("tiendas").then((lista) {
+    await getMarcadores(countryCode, administrativeArea).then((lista) {
       listaMarcadores = lista;
       changeListaMarcadoresIsNotLoading();
     });
@@ -107,8 +117,8 @@ abstract class _TiendaStore with Store {
 
   @action
   Future<void> loadEverything() async {
-    await getListaMarcadoresFromAPI();
     await getUbicacionStore();
+    await getListaMarcadoresFromAPI();
     await getListaDistanciaMarcadoresFromAPI();
     changeEverythingIsNotLoading();
   }
