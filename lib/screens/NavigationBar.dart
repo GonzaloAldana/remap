@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:remap/screens/SelectProductsScreen.dart';
 import 'package:remap/store/tienda_store/tiendastore.dart';
 import 'package:remap/utils/constants.dart';
 import 'ImageListScreen.dart';
@@ -22,13 +23,13 @@ class _NavigationBarState extends State<NavigationBar> {
 
   screens(BuildContext rootContext, int _tabIndex) {
     switch (_tabIndex) {
-      /*  case 0:
-        return SelectProductscreen();
-        break; */
       case 0:
-        return ImageListScreen();
+        return SelectProductscreen();
         break;
       case 1:
+        return ImageListScreen();
+        break;
+      case 2:
         return MapScreen();
         break;
     }
@@ -66,7 +67,7 @@ class _NavigationBarState extends State<NavigationBar> {
       body: screens(context, currentPage),
       bottomNavigationBar: FancyBottomNavigation(
         tabs: [
-          //TabData(iconData: Icons.home, title: "Comprar"),
+          TabData(iconData: Icons.home, title: "Comprar"),
           TabData(iconData: Icons.location_city, title: "Negocios"),
           TabData(iconData: FontAwesomeIcons.mapMarkerAlt, title: "Mapa")
         ],

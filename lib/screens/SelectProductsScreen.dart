@@ -30,37 +30,36 @@ class SelectProductscreen extends StatelessWidget {
         };
 
     return Container(
-      child: Column(
-        children: <Widget>[
-          Expanded(
-            child: Center(
-              child: BulletList(
-                options: MyConstants.of(context).listaProductos,
-                isSecondary: true,
-                isMultiSelectable: true,
-                callBack: callbackProducts,
-              ),
-            ),
-          ),
-          Expanded(
-            child: Center(
-              child: BulletList(
-                options: MyConstants.of(context).listaServicios,
-                isSecondary: true,
-                isMultiSelectable: true,
-                callBack: callbackServices,
-              ),
-            ),
-          ),
-          PrimaryBtn(
-            text: 'Generar Ticket Inteligente',
-            onPress: btnCallBack,
-          ),
-          Container(
-            height: 20,
-          )
-        ],
-      ),
-    );
+        child: CustomScrollView(
+      slivers: <Widget>[
+        SliverList(
+          delegate: SliverChildListDelegate([
+            Column(
+              children: <Widget>[
+                BulletList(
+                  options: MyConstants.of(context).listaProductos,
+                  isSecondary: true,
+                  isMultiSelectable: true,
+                  callBack: callbackProducts,
+                ),
+                BulletList(
+                  options: MyConstants.of(context).listaServicios,
+                  isSecondary: true,
+                  isMultiSelectable: true,
+                  callBack: callbackServices,
+                ),
+                PrimaryBtn(
+                  text: 'Generar Ticket Inteligente',
+                  onPress: btnCallBack,
+                ),
+                Container(
+                  height: 20,
+                )
+              ],
+            )
+          ]),
+        )
+      ],
+    ));
   }
 }

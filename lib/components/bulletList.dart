@@ -91,6 +91,8 @@ class _BulletListState extends State<BulletList> {
     return Container(
       width: getResponsiveDps(305, width),
       child: ListView.builder(
+        shrinkWrap: true,
+        physics: ClampingScrollPhysics(),
         itemCount: list.length,
         itemBuilder: _getListItemTile,
       ),

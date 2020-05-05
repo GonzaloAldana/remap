@@ -10,29 +10,9 @@ import 'package:remap/components/bulletList.dart';
 import 'package:remap/store/tienda_store/tiendastore.dart';
 import 'package:remap/utils/constants.dart';
 import 'package:latlong/latlong.dart';
-import 'package:path/path.dart' as Path;
+import 'package:path/path.dart' as _path;
 import 'package:pedantic/pedantic.dart';
-
-class Dialogs {
-  static Future<void> showLoadingDialog(
-      BuildContext context, GlobalKey key) async {
-    return showDialog<void>(
-        context: context,
-        barrierDismissible: false,
-        builder: (BuildContext context) {
-          return WillPopScope(
-              onWillPop: () async => false,
-              child: SimpleDialog(
-                  key: key,
-                  backgroundColor: Colors.black54,
-                  children: <Widget>[
-                    Center(
-                      child: CircularProgressIndicator(),
-                    )
-                  ]));
-        });
-  }
-}
+import 'package:remap/utils/utils.dart';
 
 class AddMarkerScreen extends StatelessWidget {
   final LatLng pos;
@@ -52,7 +32,7 @@ class AddMarkerScreen extends StatelessWidget {
       String res;
       StorageReference storageReference = FirebaseStorage.instance
           .ref()
-          .child('${tiendaStore.countryCode}/${Path.basename(image.path)}}');
+          .child('${tiendaStore.countryCode}/${_path.basename(image.path)}}');
       StorageUploadTask uploadTask = storageReference.putFile(image);
       await uploadTask.onComplete;
       print('File Uploaded');
@@ -169,65 +149,62 @@ class AddMarkerScreen extends StatelessWidget {
     final GlobalKey<State> _keyLoader = GlobalKey<State>();
 
     Future<void> _handleSubmit(BuildContext context) async {
-      unawaited(
-          Dialogs.showLoadingDialog(context, _keyLoader)); //invoking login
+      unawaited(showLoadingDialog(context, _keyLoader)); //invoking login
       await btnCallBack();
       Navigator.of(_keyLoader.currentContext, rootNavigator: true)
           .pop(); //close the dialoge
     }
 
+    var txtNombre = Form(
+      key: formKey,
+      child: TextFormField(
+        decoration: InputDecoration(
+            focusColor: Theme.of(context).accentColor,
+            fillColor: Theme.of(context).accentColor,
+            hoverColor: Theme.of(context).accentColor,
+            hintText: "Nombre",
+            prefixIcon:
+                Icon(Icons.text_fields, color: Theme.of(context).accentColor),
+            border: OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(25.0)))),
+        validator: (input) => input.isEmpty ? 'Introduce un Nombre' : null,
+        onSaved: (input) => _titulo = input,
+      ),
+    );
+
     return Scaffold(
         appBar: appBar,
-        body: Container(
-          child: Column(
-            children: <Widget>[
-              Form(
-                key: formKey,
-                child: TextFormField(
-                  decoration: InputDecoration(
-                      focusColor: Theme.of(context).accentColor,
-                      fillColor: Theme.of(context).accentColor,
-                      hoverColor: Theme.of(context).accentColor,
-                      hintText: "Nombre",
-                      prefixIcon: Icon(Icons.text_fields,
-                          color: Theme.of(context).accentColor),
-                      border: OutlineInputBorder(
-                          borderRadius:
-                              BorderRadius.all(Radius.circular(25.0)))),
-                  validator: (input) =>
-                      input.isEmpty ? 'Introduce un Nombre' : null,
-                  onSaved: (input) => _titulo = input,
-                ),
-              ),
-              Expanded(
-                child: Center(
-                  child: BulletList(
-                    options: MyConstants.of(context).listaProductos,
-                    isSecondary: true,
-                    isMultiSelectable: true,
-                    callBack: callbackProducts,
-                  ),
-                ),
-              ),
-              Expanded(
-                child: Center(
-                  child: BulletList(
-                    options: MyConstants.of(context).listaServicios,
-                    isSecondary: true,
-                    isMultiSelectable: true,
-                    callBack: callbackServices,
-                  ),
-                ),
-              ),
-              PrimaryBtn(
-                text: 'Agregar nueva tienda',
-                onPress: () => _handleSubmit(context),
-              ),
-              Container(
-                height: 20,
-              )
-            ],
-          ),
+        body: CustomScrollView(
+          slivers: <Widget>[
+            SliverList(
+              delegate: SliverChildListDelegate([
+                Column(
+                  children: <Widget>[
+                    txtNombre,
+                    BulletList(
+                      options: MyConstants.of(context).listaProductos,
+                      isSecondary: true,
+                      isMultiSelectable: true,
+                      callBack: callbackProducts,
+                    ),
+                    BulletList(
+                      options: MyConstants.of(context).listaServicios,
+                      isSecondary: true,
+                      isMultiSelectable: true,
+                      callBack: callbackServices,
+                    ),
+                    PrimaryBtn(
+                      text: 'Agregar nueva tienda',
+                      onPress: () => _handleSubmit(context),
+                    ),
+                    Container(
+                      height: 20,
+                    )
+                  ],
+                )
+              ]),
+            )
+          ],
         ));
   }
 }
