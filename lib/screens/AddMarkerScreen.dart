@@ -11,6 +11,7 @@ import 'package:remap/store/tienda_store/tiendastore.dart';
 import 'package:remap/utils/constants.dart';
 import 'package:latlong/latlong.dart';
 import 'package:path/path.dart' as Path;
+import 'package:pedantic/pedantic.dart';
 
 class Dialogs {
   static Future<void> showLoadingDialog(
@@ -168,7 +169,8 @@ class AddMarkerScreen extends StatelessWidget {
     final GlobalKey<State> _keyLoader = GlobalKey<State>();
 
     Future<void> _handleSubmit(BuildContext context) async {
-      Dialogs.showLoadingDialog(context, _keyLoader); //invoking login
+      unawaited(
+          Dialogs.showLoadingDialog(context, _keyLoader)); //invoking login
       await btnCallBack();
       Navigator.of(_keyLoader.currentContext, rootNavigator: true)
           .pop(); //close the dialoge

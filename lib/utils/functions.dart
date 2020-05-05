@@ -1,6 +1,9 @@
 import 'dart:ffi';
 import 'dart:io';
+import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:esys_flutter_share/esys_flutter_share.dart';
+import 'package:flutter/foundation.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -10,6 +13,16 @@ Future<Marcador> getMarcador(String coleccion, String id) async {
   DocumentSnapshot doc =
       await Firestore.instance.collection(coleccion).document(id).get();
   return Marcador.fromMap(doc.data, doc.documentID);
+}
+
+void shareImage(String imageUrl) async {
+  var request = await HttpClient().getUrl(Uri.parse(imageUrl));
+  var response = await request.close();
+  Uint8List bytes = await consolidateHttpClientResponseBytes(response);
+  String tipo = imageUrl.split('.').last.split('%').first.split('?').first;
+  await Share.file("Compartir en", 'foto.${tipo}', bytes.buffer.asUint8List(),
+      'image/${tipo}',
+      text: 'Compartido desde ReMap 4.0');
 }
 
 Future<List<Marcador>> getMarcadores(
