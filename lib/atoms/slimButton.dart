@@ -22,12 +22,12 @@ class _SlimButtonState extends State<SlimButton> {
     double width = MediaQuery.of(context).size.width;
 
     return MaterialButton(
-      minWidth: getResponsiveDps(200, width),
+      minWidth: getResponsiveDps(100, width),
       height: getResponsiveDps(30, width),
       shape: StadiumBorder(),
       textColor: Colors.white,
       elevation: 20,
-      color: Theme.of(context).primaryColor,
+      color: Theme.of(context).accentColor,
       child: Text(widget.text,
           style: TextStyle(
               fontSize: MyConstants.of(context).midTitleSize,

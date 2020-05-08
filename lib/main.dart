@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:remap/screens/NavigationBar.dart';
 import 'package:remap/store/tienda_store/tiendastore.dart';
@@ -10,6 +11,8 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+
     return Provider<TiendaStore>(
       create: (_) => TiendaStore(),
       child: MaterialApp(

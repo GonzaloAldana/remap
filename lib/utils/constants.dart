@@ -20,7 +20,7 @@ class MyConstants extends InheritedWidget {
   final FontWeight fontMedium = FontWeight.w600;
   final FontWeight fontSemiBold = FontWeight.w800;
 
-  final listaServicios = ['Estética', 'Gimnasio', 'Restaurante'];
+  final listaServicios = ['Estética', 'Gimnasio', 'Restaurante', 'Reparación'];
   final listaProductos = [
     'Frutas',
     'Verduras',
