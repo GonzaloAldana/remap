@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_marker_cluster/flutter_map_marker_cluster.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:remap/utils/constants.dart';
-import 'package:remap/utils/functions.dart';
-import 'package:remap/utils/models.dart';
+import 'package:provider/provider.dart';
+import 'package:remap/store/tienda_store/tiendastore.dart';
 import 'package:latlong/latlong.dart';
 
 import 'AddMarkerScreen.dart';
@@ -25,6 +25,8 @@ class _HomePageState extends State<MapScreen> {
 
   @override
   Widget build(BuildContext context) {
+    TiendaStore tiendaStore = Provider.of<TiendaStore>(context, listen: false);
+
     var tileLayerOptions = TileLayerOptions(
       urlTemplate:
           "https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}@2x.png?access_token={accessToken}",
@@ -53,94 +55,80 @@ class _HomePageState extends State<MapScreen> {
           onPressed: null,
         );
 
-    var markerClusterOptions = MarkerClusterLayerOptions(
-      maxClusterRadius: 120,
-      size: Size(40, 40),
-      anchor: AnchorPos.align(AnchorAlign.center),
-      fitBoundsOptions: FitBoundsOptions(
-        padding: EdgeInsets.all(50),
-      ),
-      markers: markers,
-      polygonOptions: markerPolygonOptions,
-      builder: (context, markers) => btnCluster(markers),
-    );
-
-    return Container(
-      child: FutureBuilder(
-        future: getMarcadores("tiendas"),
-        builder: (context, snp) {
-          if (!snp.hasData) {
-            return MyConstants.of(context).progressIndicator;
-          }
-
-          (snp.data as List<Marcador>).forEach(
-            (marc) {
-              markers.add(
-                Marker(
-                  anchorPos: AnchorPos.align(AnchorAlign.center),
-                  height: 30,
-                  width: 30,
-                  point: LatLng(marc.lat, marc.lon),
-                  builder: (context) => IconButton(
-                    icon: Icon(FontAwesomeIcons.mapMarkerAlt),
-                    color: Theme.of(context).accentColor,
-                    iconSize: 30.0,
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => DetailScreen(marc: marc),
-                        ),
-                      );
-                    },
-                  ),
-                ),
-              );
-            },
-          );
-          return FlutterMap(
-            options: MapOptions(
-              onTap: (LatLng coord) {
-                showModalBottomSheet(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return SafeArea(
-                        child: ListTile(
-                          leading: Icon(Icons.build),
-                          title: Text("Mapear tienda aquí"),
-                          onTap: () {
-                            print('presionado');
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    AddMarkerScreen(pos: coord),
-                              ),
-                            );
-                            /* actuales.add(coord);
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              PantallaAgregarMapa(actuales))); */
-                          },
-                        ),
-                      );
-                    });
-              },
-              center: LatLng(21.13091174983556, -101.68654561042786),
-              zoom: 12,
-              plugins: [
-                MarkerClusterPlugin(),
-              ],
+    return Observer(builder: (_) {
+      markers = [];
+      tiendaStore.listaMarcadores.forEach(
+        (marc) {
+          markers.add(
+            Marker(
+              anchorPos: AnchorPos.align(AnchorAlign.center),
+              height: 30,
+              width: 30,
+              point: LatLng(marc.lat, marc.lon),
+              builder: (context) => IconButton(
+                icon: Icon(FontAwesomeIcons.mapMarkerAlt),
+                color: Theme.of(context).accentColor,
+                iconSize: 30.0,
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => DetailScreen(marc: marc),
+                    ),
+                  );
+                },
+              ),
             ),
-            layers: [
-              tileLayerOptions,
-              markerClusterOptions,
-            ],
           );
         },
-      ),
-    );
+      );
+
+      var markerClusterOptions = MarkerClusterLayerOptions(
+        maxClusterRadius: 120,
+        size: Size(50, 50),
+        anchor: AnchorPos.align(AnchorAlign.center),
+        fitBoundsOptions: FitBoundsOptions(
+          padding: EdgeInsets.all(10),
+        ),
+        markers: markers,
+        polygonOptions: markerPolygonOptions,
+        builder: (context, markers) => btnCluster(markers),
+      );
+
+      return FlutterMap(
+        options: MapOptions(
+          onTap: (LatLng coord) {
+            showModalBottomSheet(
+                context: context,
+                builder: (BuildContext context) {
+                  return SafeArea(
+                    child: ListTile(
+                      leading: Icon(Icons.build),
+                      title: Text("Mapear tienda aquí"),
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => AddMarkerScreen(pos: coord),
+                          ),
+                        );
+                      },
+                    ),
+                  );
+                });
+          },
+          center: LatLng(
+              tiendaStore.position.latitude, tiendaStore.position.longitude),
+          zoom: 14,
+          plugins: [
+            MarkerClusterPlugin(),
+          ],
+        ),
+        layers: [
+          tileLayerOptions,
+          markerClusterOptions,
+        ],
+      );
+    });
   }
 }

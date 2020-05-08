@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:remap/atoms/imageButton.dart';
 import 'package:remap/components/imageCard.dart';
+import 'package:remap/screens/ImageScreen.dart';
 import 'package:remap/utils/constants.dart';
 import 'package:remap/utils/functions.dart';
 import 'package:remap/utils/models.dart';
@@ -19,12 +20,35 @@ class DetailScreen extends StatelessWidget {
         icon: Icon(Icons.arrow_back),
         onPressed: () => Navigator.pop(context),
       ),
+      actions: <Widget>[
+        Padding(
+            padding: EdgeInsets.only(right: 20.0),
+            child: GestureDetector(
+              onTap: () async {
+                await shareImage(marc.imagen);
+              },
+              child: Icon(
+                Icons.share,
+                size: 26.0,
+              ),
+            )),
+      ],
     );
+
+    var callBack = () => {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => ImageScreen(marc.imagen),
+            ),
+          )
+        };
 
     var imagenDetalle = ImageCard(
       nombre: marc.nombre,
       url: marc.imagen,
       distancia: ' ',
+      onPressed: callBack,
     );
 
     var btnLanzarMapa = ImageButton(

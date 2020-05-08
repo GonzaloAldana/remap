@@ -20,8 +20,16 @@ class MyConstants extends InheritedWidget {
   final FontWeight fontMedium = FontWeight.w600;
   final FontWeight fontSemiBold = FontWeight.w800;
 
-  final listaServicios = ['Estética', 'Gimnasio'];
-  final listaProductos = ['Frutas', 'Verduras', 'Carne', 'Pan', 'Abarrotes'];
+  final listaServicios = ['Estética', 'Gimnasio', 'Restaurante'];
+  final listaProductos = [
+    'Frutas',
+    'Verduras',
+    'Carne',
+    'Pan',
+    'Abarrotes',
+    'Tienda de conveniencia',
+    'Farmacia'
+  ];
 
   final LoadingDoubleFlipping progressIndicator = LoadingDoubleFlipping.circle(
     borderColor: Colors.cyan,
