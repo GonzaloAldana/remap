@@ -101,6 +101,44 @@ abstract class _TiendaStore with Store {
     });
   }
 
+  // Lista Busqueda --------------------------------------------------
+  @observable
+  List<DistanciaMarcador> resultadoBusqueda = List<DistanciaMarcador>();
+
+  @observable
+  bool resultadoBusquedaIsLoading = false;
+
+  @action
+  void changeResultadoBusquedaIsLoading() {
+    resultadoBusquedaIsLoading = true;
+  }
+
+  @action
+  void changeResultadoBusquedaIsNotLoading() {
+    resultadoBusquedaIsLoading = false;
+  }
+
+  @action
+  void filterSearchResults(String query) {
+    changeResultadoBusquedaIsLoading();
+    List<DistanciaMarcador> dummySearchList = List<DistanciaMarcador>();
+    dummySearchList.addAll(listaDistanciaMarcadores);
+    if (query.isNotEmpty) {
+      List<DistanciaMarcador> dummyListData = List<DistanciaMarcador>();
+      dummySearchList.forEach((item) {
+        if (item.marcador.nombre.toLowerCase().contains(query.toLowerCase())) {
+          dummyListData.add(item);
+        }
+      });
+      resultadoBusqueda.clear();
+      resultadoBusqueda.addAll(dummyListData);
+    } else {
+      resultadoBusqueda.clear();
+      resultadoBusqueda.addAll(listaDistanciaMarcadores);
+    }
+    changeResultadoBusquedaIsNotLoading();
+  }
+
 // Todossss---------------------------------------------------------
   @observable
   bool everythingIsLoading = true;
@@ -120,6 +158,7 @@ abstract class _TiendaStore with Store {
     await getUbicacionStore();
     await getListaMarcadoresFromAPI();
     await getListaDistanciaMarcadoresFromAPI();
+    resultadoBusqueda = List.of(listaDistanciaMarcadores);
     changeEverythingIsNotLoading();
   }
 }

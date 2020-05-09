@@ -43,6 +43,25 @@ mixin _$TiendaStore on _TiendaStore, Store {
     }, _$countryCodeAtom, name: '${_$countryCodeAtom.name}_set');
   }
 
+  final _$administrativeAreaAtom =
+      Atom(name: '_TiendaStore.administrativeArea');
+
+  @override
+  String get administrativeArea {
+    _$administrativeAreaAtom.context
+        .enforceReadPolicy(_$administrativeAreaAtom);
+    _$administrativeAreaAtom.reportObserved();
+    return super.administrativeArea;
+  }
+
+  @override
+  set administrativeArea(String value) {
+    _$administrativeAreaAtom.context.conditionallyRunInAction(() {
+      super.administrativeArea = value;
+      _$administrativeAreaAtom.reportChanged();
+    }, _$administrativeAreaAtom, name: '${_$administrativeAreaAtom.name}_set');
+  }
+
   final _$ubicacionIsLoadingAtom =
       Atom(name: '_TiendaStore.ubicacionIsLoading');
 
@@ -138,6 +157,43 @@ mixin _$TiendaStore on _TiendaStore, Store {
       _$listaDistanciaMarcadoresIsLoadingAtom.reportChanged();
     }, _$listaDistanciaMarcadoresIsLoadingAtom,
         name: '${_$listaDistanciaMarcadoresIsLoadingAtom.name}_set');
+  }
+
+  final _$resultadoBusquedaAtom = Atom(name: '_TiendaStore.resultadoBusqueda');
+
+  @override
+  List<DistanciaMarcador> get resultadoBusqueda {
+    _$resultadoBusquedaAtom.context.enforceReadPolicy(_$resultadoBusquedaAtom);
+    _$resultadoBusquedaAtom.reportObserved();
+    return super.resultadoBusqueda;
+  }
+
+  @override
+  set resultadoBusqueda(List<DistanciaMarcador> value) {
+    _$resultadoBusquedaAtom.context.conditionallyRunInAction(() {
+      super.resultadoBusqueda = value;
+      _$resultadoBusquedaAtom.reportChanged();
+    }, _$resultadoBusquedaAtom, name: '${_$resultadoBusquedaAtom.name}_set');
+  }
+
+  final _$resultadoBusquedaIsLoadingAtom =
+      Atom(name: '_TiendaStore.resultadoBusquedaIsLoading');
+
+  @override
+  bool get resultadoBusquedaIsLoading {
+    _$resultadoBusquedaIsLoadingAtom.context
+        .enforceReadPolicy(_$resultadoBusquedaIsLoadingAtom);
+    _$resultadoBusquedaIsLoadingAtom.reportObserved();
+    return super.resultadoBusquedaIsLoading;
+  }
+
+  @override
+  set resultadoBusquedaIsLoading(bool value) {
+    _$resultadoBusquedaIsLoadingAtom.context.conditionallyRunInAction(() {
+      super.resultadoBusquedaIsLoading = value;
+      _$resultadoBusquedaIsLoadingAtom.reportChanged();
+    }, _$resultadoBusquedaIsLoadingAtom,
+        name: '${_$resultadoBusquedaIsLoadingAtom.name}_set');
   }
 
   final _$everythingIsLoadingAtom =
@@ -255,6 +311,36 @@ mixin _$TiendaStore on _TiendaStore, Store {
   }
 
   @override
+  void changeResultadoBusquedaIsLoading() {
+    final _$actionInfo = _$_TiendaStoreActionController.startAction();
+    try {
+      return super.changeResultadoBusquedaIsLoading();
+    } finally {
+      _$_TiendaStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void changeResultadoBusquedaIsNotLoading() {
+    final _$actionInfo = _$_TiendaStoreActionController.startAction();
+    try {
+      return super.changeResultadoBusquedaIsNotLoading();
+    } finally {
+      _$_TiendaStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void filterSearchResults(String query) {
+    final _$actionInfo = _$_TiendaStoreActionController.startAction();
+    try {
+      return super.filterSearchResults(query);
+    } finally {
+      _$_TiendaStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void changeEverythingIsLoading() {
     final _$actionInfo = _$_TiendaStoreActionController.startAction();
     try {
@@ -277,7 +363,7 @@ mixin _$TiendaStore on _TiendaStore, Store {
   @override
   String toString() {
     final string =
-        'position: ${position.toString()},countryCode: ${countryCode.toString()},ubicacionIsLoading: ${ubicacionIsLoading.toString()},listaMarcadores: ${listaMarcadores.toString()},listaMarcadoresIsLoading: ${listaMarcadoresIsLoading.toString()},listaDistanciaMarcadores: ${listaDistanciaMarcadores.toString()},listaDistanciaMarcadoresIsLoading: ${listaDistanciaMarcadoresIsLoading.toString()},everythingIsLoading: ${everythingIsLoading.toString()}';
+        'position: ${position.toString()},countryCode: ${countryCode.toString()},administrativeArea: ${administrativeArea.toString()},ubicacionIsLoading: ${ubicacionIsLoading.toString()},listaMarcadores: ${listaMarcadores.toString()},listaMarcadoresIsLoading: ${listaMarcadoresIsLoading.toString()},listaDistanciaMarcadores: ${listaDistanciaMarcadores.toString()},listaDistanciaMarcadoresIsLoading: ${listaDistanciaMarcadoresIsLoading.toString()},resultadoBusqueda: ${resultadoBusqueda.toString()},resultadoBusquedaIsLoading: ${resultadoBusquedaIsLoading.toString()},everythingIsLoading: ${everythingIsLoading.toString()}';
     return '{$string}';
   }
 }
