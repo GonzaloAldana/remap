@@ -6,6 +6,8 @@ import 'package:remap/screens/ImageScreen.dart';
 import 'package:remap/utils/constants.dart';
 import 'package:remap/utils/functions.dart';
 import 'package:remap/utils/models.dart';
+import 'package:remap/utils/utils.dart';
+import 'package:pedantic/pedantic.dart';
 
 class DetailScreen extends StatelessWidget {
   final Marcador marc;
@@ -25,7 +27,12 @@ class DetailScreen extends StatelessWidget {
             padding: EdgeInsets.only(right: 20.0),
             child: GestureDetector(
               onTap: () async {
+                GlobalKey<State> _keyLoader = GlobalKey<State>();
+
+                unawaited(showLoadingDialog(context, _keyLoader)); //invokin
                 await shareImage(marc.imagen);
+                Navigator.of(_keyLoader.currentContext, rootNavigator: true)
+                    .pop();
               },
               child: Icon(
                 Icons.share,
