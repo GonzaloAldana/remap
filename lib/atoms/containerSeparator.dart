@@ -34,7 +34,7 @@ class ContainerSeparator extends StatelessWidget {
                 style: TextStyle(
                     fontSize: MyConstants.of(context).midTitleSize,
                     fontWeight: MyConstants.of(context).fontLight,
-                    color: Colors.black87)),
+                    color: Colors.black54)),
           )
         : Container();
 

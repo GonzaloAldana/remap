@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:remap/components/imageCard.dart';
+import 'package:remap/screens/DetailScreen.dart';
 import 'package:remap/utils/models.dart';
-
-import 'DetailScreen.dart';
 
 class DistanciaMarcadorListGenerator extends StatelessWidget {
   const DistanciaMarcadorListGenerator(

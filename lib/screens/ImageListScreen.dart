@@ -4,11 +4,10 @@ import 'package:just_debounce_it/just_debounce_it.dart';
 import 'package:provider/provider.dart';
 import 'package:remap/atoms/slimButton.dart';
 import 'package:remap/components/bulletList.dart';
+import 'package:remap/lists/DistanciaMarcadorListGenerator.dart';
 import 'package:remap/store/tienda_store/tiendastore.dart';
 import 'package:remap/utils/constants.dart';
 import 'package:remap/utils/utils.dart';
-
-import 'DistanciaMarcadorListGenerator.dart';
 
 class ImageListScreen extends StatefulWidget {
   const ImageListScreen({
