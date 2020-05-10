@@ -18,7 +18,7 @@ class HomeScreen extends StatelessWidget {
           children: <Widget>[
             ContainerSeparator(
               child: Container(
-                height: 200,
+                height: getResponsiveDps(220, width),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: <Widget>[
@@ -38,13 +38,16 @@ class HomeScreen extends StatelessWidget {
                             fontSize: MyConstants.of(context).midTitleSize,
                             fontWeight: MyConstants.of(context).fontMedium,
                             color: Colors.black)),
-                    Text(
-                        'Nos preocupa el comercio informal, la merma de alimentos y la salud de tu familia.',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            fontSize: MyConstants.of(context).midTitleSize,
-                            fontWeight: MyConstants.of(context).fontLight,
-                            color: Colors.black54))
+                    Container(
+                      width: getResponsiveDps(280, width),
+                      child: Text(
+                          'Nos preocupan los pequeños negocios vulnerables, la merma de alimentos y la salud de tu familia.',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontSize: MyConstants.of(context).midTitleSize,
+                              fontWeight: MyConstants.of(context).fontLight,
+                              color: Colors.black54)),
+                    )
                   ],
                 ),
               ),

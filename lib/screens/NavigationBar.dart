@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:remap/screens/ContactScreen.dart';
 import 'package:remap/screens/HomeScreen.dart';
 import 'package:remap/screens/SelectProductsScreen.dart';
 import 'package:remap/store/tienda_store/tiendastore.dart';
@@ -47,6 +48,20 @@ class _NavigationBarState extends State<NavigationBar> {
 
     var appBar = AppBar(
       title: Text('ReMap 4.0'),
+      actions: <Widget>[
+        IconButton(
+          icon: Icon(
+            Icons.textsms,
+            color: Colors.white,
+          ),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => ContactScreen()),
+            );
+          },
+        )
+      ],
     );
 
     var pantallaLoading = Scaffold(
