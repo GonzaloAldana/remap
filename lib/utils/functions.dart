@@ -26,11 +26,13 @@ void shareImage(String imageUrl) async {
 }
 
 Future<List<Marcador>> getMarcadores(
-    String coleccion, String administrativeArea) async {
+    String coleccion, String administrativeArea, String locality) async {
   List<Marcador> lista = List();
   QuerySnapshot doc = await Firestore.instance
       .collection(coleccion)
       .where('administrativeArea', isEqualTo: administrativeArea)
+      .where('locality', isEqualTo: locality)
+      .where('validado', isEqualTo: true)
       .getDocuments();
   lista = doc.documents.map((DocumentSnapshot docSnapshot) {
     return Marcador.fromMap(docSnapshot.data, docSnapshot.documentID);

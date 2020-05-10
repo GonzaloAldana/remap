@@ -117,6 +117,8 @@ class AddMarkerScreen extends StatelessWidget {
                 'servicios': servicesSelected,
                 'clientes': 0,
                 'administrativeArea': tiendaStore.administrativeArea,
+                'locality': tiendaStore.locality,
+                'validado': false,
                 'imagen': await uploadFile(),
                 'hora': Timestamp.now()
               }),
