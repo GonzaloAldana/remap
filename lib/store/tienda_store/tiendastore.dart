@@ -22,6 +22,9 @@ abstract class _TiendaStore with Store {
   String administrativeArea;
 
   @observable
+  String locality;
+
+  @observable
   bool ubicacionIsLoading = true;
 
   @action
@@ -44,6 +47,7 @@ abstract class _TiendaStore with Store {
     await Geolocator().placemarkFromPosition(position).then((placemark) {
       countryCode = placemark[0].isoCountryCode;
       administrativeArea = placemark[0].administrativeArea;
+      locality = placemark[0].locality;
     });
   }
 
@@ -67,7 +71,8 @@ abstract class _TiendaStore with Store {
   @action
   Future getListaMarcadoresFromAPI() async {
     changeListaMarcadoresIsLoading();
-    await getMarcadores(countryCode, administrativeArea).then((lista) {
+    await getMarcadores(countryCode, administrativeArea, locality)
+        .then((lista) {
       listaMarcadores = lista;
       changeListaMarcadoresIsNotLoading();
     });
@@ -97,6 +102,8 @@ abstract class _TiendaStore with Store {
             listaMarcadores, position.latitude, position.longitude)
         .then((lista) {
       listaDistanciaMarcadores = lista;
+      listaDistanciaMarcadores.sort((a, b) =>
+          double.parse(a.distancia).compareTo(double.parse(b.distancia)));
       changeListaDistanciaMarcadoresIsNotLoading();
     });
   }
