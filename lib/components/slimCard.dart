@@ -16,12 +16,14 @@ class SlimCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
+    // El ancho original era 162
+    double ancho = 220;
 
     var cardImage = CachedNetworkImage(
       imageUrl: url,
       imageBuilder: (context, imageProvider) => Container(
         height: getResponsiveDps(199, width),
-        width: getResponsiveDps(162, width),
+        width: getResponsiveDps(ancho, width),
         decoration: BoxDecoration(
           borderRadius:
               BorderRadius.all(Radius.circular(getResponsiveDps(7, width))),
@@ -34,7 +36,7 @@ class SlimCard extends StatelessWidget {
             borderRadius:
                 BorderRadius.all(Radius.circular(getResponsiveDps(7, width)))),
         height: getResponsiveDps(199, width),
-        width: getResponsiveDps(162, width),
+        width: getResponsiveDps(ancho, width),
       ),
       errorWidget: (context, url, error) => Opacity(
           opacity: 0.1,
@@ -44,7 +46,7 @@ class SlimCard extends StatelessWidget {
                 borderRadius: BorderRadius.all(
                     Radius.circular(getResponsiveDps(7, width)))),
             height: getResponsiveDps(199, width),
-            width: getResponsiveDps(162, width),
+            width: getResponsiveDps(ancho, width),
           )),
     );
 
@@ -52,7 +54,7 @@ class SlimCard extends StatelessWidget {
       bottom: 0,
       child: Container(
         height: getResponsiveDps(50, width),
-        width: getResponsiveDps(162, width),
+        width: getResponsiveDps(ancho, width),
         decoration: BoxDecoration(
             color: MyConstants.of(context).colorGray.withOpacity(0.5),
             borderRadius: BorderRadius.vertical(
@@ -65,7 +67,7 @@ class SlimCard extends StatelessWidget {
       child: Container(
           padding: EdgeInsets.all(getResponsiveDps(10, width)),
           height: getResponsiveDps(50, width),
-          width: getResponsiveDps(162, width),
+          width: getResponsiveDps(ancho, width),
           decoration: BoxDecoration(
               borderRadius: BorderRadius.vertical(
                   bottom: Radius.circular(getResponsiveDps(7, width)))),
@@ -86,7 +88,7 @@ class SlimCard extends StatelessWidget {
           elevation: 6,
           child: Container(
             height: getResponsiveDps(199, width),
-            width: getResponsiveDps(162, width),
+            width: getResponsiveDps(ancho, width),
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.all(
                     Radius.circular(getResponsiveDps(82, width)))),
