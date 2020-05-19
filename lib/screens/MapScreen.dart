@@ -6,8 +6,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:remap/store/tienda_store/tiendastore.dart';
 import 'package:latlong/latlong.dart';
+import 'package:remap/utils/constants.dart';
 
-import 'AddMarkerScreen.dart';
 import 'DetailScreen.dart';
 
 class MapScreen extends StatefulWidget {
@@ -26,18 +26,6 @@ class _HomePageState extends State<MapScreen> {
   @override
   Widget build(BuildContext context) {
     TiendaStore tiendaStore = Provider.of<TiendaStore>(context, listen: false);
-
-    var tileLayerOptions = TileLayerOptions(
-      urlTemplate:
-          "https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}@2x.png?access_token={accessToken}",
-      //: "https://api.mapbox.com/styles/v1/{id}/tiles/256/{z}/{x}/{y}?access_token={accessToken}",
-      additionalOptions: {
-        'accessToken':
-            'pk.eyJ1IjoiZ29uemFsbzk3IiwiYSI6ImNqbHF6NHV6MjAxMmIzcG1nMnBuMmgwMDgifQ.ZbuwSMu9bFrdNof0zfbFgw',
-        'id': 'mapbox.streets',
-        //: 'gonzalo97/cjxm4rj4g1hyj1cmwamidao0u',
-      },
-    );
 
     var markerPolygonOptions = PolygonOptions(
         borderColor: Theme.of(context).accentColor,
@@ -94,29 +82,19 @@ class _HomePageState extends State<MapScreen> {
         polygonOptions: markerPolygonOptions,
         builder: (context, markers) => btnCluster(markers),
       );
+      var circles = CircleLayerOptions(circles: [
+        CircleMarker(
+            point: LatLng(
+                tiendaStore.position.latitude, tiendaStore.position.longitude),
+            radius: 1500,
+            useRadiusInMeter: true,
+            borderStrokeWidth: 2,
+            borderColor: Theme.of(context).accentColor,
+            color: Colors.black.withAlpha(10))
+      ]);
 
       return FlutterMap(
         options: MapOptions(
-          onTap: (LatLng coord) {
-            showModalBottomSheet(
-                context: context,
-                builder: (BuildContext context) {
-                  return SafeArea(
-                    child: ListTile(
-                      leading: Icon(Icons.build),
-                      title: Text("Mapear tienda aquí"),
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => AddMarkerScreen(pos: coord),
-                          ),
-                        );
-                      },
-                    ),
-                  );
-                });
-          },
           center: LatLng(
               tiendaStore.position.latitude, tiendaStore.position.longitude),
           zoom: 14,
@@ -125,8 +103,9 @@ class _HomePageState extends State<MapScreen> {
           ],
         ),
         layers: [
-          tileLayerOptions,
-          markerClusterOptions,
+          MyConstants.of(context).tileLayerOptions,
+          circles,
+          markerClusterOptions
         ],
       );
     });

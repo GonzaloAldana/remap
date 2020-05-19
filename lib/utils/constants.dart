@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_map/flutter_map.dart';
 import 'package:loading_animations/loading_animations.dart';
 
 class MyConstants extends InheritedWidget {
@@ -37,6 +38,18 @@ class MyConstants extends InheritedWidget {
     size: 100.0,
     backgroundColor: Colors.cyanAccent,
     duration: Duration(milliseconds: 500),
+  );
+
+  final tileLayerOptions = TileLayerOptions(
+    urlTemplate:
+        "https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}@2x.png?access_token={accessToken}",
+    //: "https://api.mapbox.com/styles/v1/{id}/tiles/256/{z}/{x}/{y}?access_token={accessToken}",
+    additionalOptions: {
+      'accessToken':
+          'pk.eyJ1IjoiZ29uemFsbzk3IiwiYSI6ImNqbHF6NHV6MjAxMmIzcG1nMnBuMmgwMDgifQ.ZbuwSMu9bFrdNof0zfbFgw',
+      'id': 'mapbox.streets',
+      //: 'gonzalo97/cjxm4rj4g1hyj1cmwamidao0u',
+    },
   );
 
   @override

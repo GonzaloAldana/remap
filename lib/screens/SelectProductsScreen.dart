@@ -49,7 +49,7 @@ class SelectProductscreen extends StatelessWidget {
                   callBack: callbackServices,
                 ),
                 PrimaryBtn(
-                  text: 'Generar Ticket Inteligente',
+                  text: 'Generar Recorrido Inteligente',
                   onPress: btnCallBack,
                 ),
                 Container(
