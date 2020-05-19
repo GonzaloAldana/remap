@@ -57,7 +57,7 @@ class _DataContactScreenState extends State<DataContactScreen> {
     Future uploadFile() async {
       String res;
       StorageReference storageReference = FirebaseStorage.instance.ref().child(
-          '${tiendaStore.countryCode}/${tiendaStore.locality}/${_path.basename(image.path)}}');
+          '${tiendaStore.countryCode}/${tiendaStore.administrativeArea}/${tiendaStore.locality}/${_path.basename(image.path)}}');
       StorageUploadTask uploadTask = storageReference.putFile(image);
       await uploadTask.onComplete;
       await storageReference.getDownloadURL().then((fileURL) {
@@ -120,7 +120,6 @@ class _DataContactScreenState extends State<DataContactScreen> {
                       toolbarColor: Colors.grey[200]));
               if (cropped != null) {
                 image = cropped;
-//TODO: agregar lógica de subida
                 await Firestore.instance
                     .collection(tiendaStore.countryCode)
                     .document()
@@ -136,12 +135,14 @@ class _DataContactScreenState extends State<DataContactScreen> {
                   'validado': false,
                   'telefono': telefono,
                   'direccion': direccion,
-                  'horaApertura': horaInicial,
-                  'horaCierre': horaCierre,
+                  'horaApertura': '${horaInicial.hour}:${horaInicial.minute}',
+                  'horaCierre': '${horaCierre.hour}:${horaCierre.minute}',
                   'imagen': await uploadFile(),
-                  'hora': Timestamp.now()
+                  'hora': Timestamp.now(),
+                  'registrado': Timestamp.now()
                 });
-                await tiendaStore.loadEverything();
+                await showMissingDialog(context,
+                    'Tienda registrada. \n\nValidaremos tu información para que aparezca en la plataforma.');
               }
 
               Navigator.of(_keyLoader.currentContext, rootNavigator: true)
