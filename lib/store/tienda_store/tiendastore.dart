@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:geolocator/geolocator.dart';
 import 'package:mobx/mobx.dart';
 import 'package:remap/utils/functions.dart';
@@ -128,11 +130,9 @@ abstract class _TiendaStore with Store {
   @action
   void filterSearchResults(String query) {
     changeResultadoBusquedaIsLoading();
-    List<DistanciaMarcador> dummySearchList = List<DistanciaMarcador>();
-    dummySearchList.addAll(listaDistanciaMarcadores);
     if (query.isNotEmpty) {
       List<DistanciaMarcador> dummyListData = List<DistanciaMarcador>();
-      dummySearchList.forEach((item) {
+      listaDistanciaMarcadores.forEach((item) {
         if (item.marcador.nombre.toLowerCase().contains(query.toLowerCase())) {
           dummyListData.add(item);
         }
@@ -143,6 +143,57 @@ abstract class _TiendaStore with Store {
       resultadoBusqueda.clear();
       resultadoBusqueda.addAll(listaDistanciaMarcadores);
     }
+    changeResultadoBusquedaIsNotLoading();
+  }
+
+  @action
+  void filterProductServiceResults(
+      List<bool> products, List<bool> services) async {
+    changeResultadoBusquedaIsLoading();
+    if (products.isNotEmpty || services.isNotEmpty) {
+      List<DistanciaMarcador> dummyListData = List<DistanciaMarcador>();
+
+      for (DistanciaMarcador item in listaDistanciaMarcadores) {
+        int necesarios = 0;
+
+        for (var i = 0;
+            i < min(item.marcador.productos.length, products.length);
+            i++) {
+          if (item.marcador.productos[i] && products[i]) {
+            necesarios++;
+            break;
+          }
+        }
+
+        for (var i = 0;
+            i < min(item.marcador.servicios.length, services.length);
+            i++) {
+          if (item.marcador.servicios[i] && services[i]) {
+            necesarios++;
+            break;
+          }
+        }
+        if (necesarios > 0) {
+          dummyListData.add(item);
+        }
+      }
+      ;
+
+      resultadoBusqueda.clear();
+      resultadoBusqueda.addAll(dummyListData);
+    } else {
+      resultadoBusqueda.clear();
+      resultadoBusqueda.addAll(listaDistanciaMarcadores);
+    }
+    changeResultadoBusquedaIsNotLoading();
+  }
+
+  @action
+  void searchAll() {
+    changeResultadoBusquedaIsLoading();
+    resultadoBusqueda.clear();
+    resultadoBusqueda.addAll(listaDistanciaMarcadores);
+
     changeResultadoBusquedaIsNotLoading();
   }
 

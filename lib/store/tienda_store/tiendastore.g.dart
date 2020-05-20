@@ -62,6 +62,23 @@ mixin _$TiendaStore on _TiendaStore, Store {
     }, _$administrativeAreaAtom, name: '${_$administrativeAreaAtom.name}_set');
   }
 
+  final _$localityAtom = Atom(name: '_TiendaStore.locality');
+
+  @override
+  String get locality {
+    _$localityAtom.context.enforceReadPolicy(_$localityAtom);
+    _$localityAtom.reportObserved();
+    return super.locality;
+  }
+
+  @override
+  set locality(String value) {
+    _$localityAtom.context.conditionallyRunInAction(() {
+      super.locality = value;
+      _$localityAtom.reportChanged();
+    }, _$localityAtom, name: '${_$localityAtom.name}_set');
+  }
+
   final _$ubicacionIsLoadingAtom =
       Atom(name: '_TiendaStore.ubicacionIsLoading');
 
@@ -341,6 +358,26 @@ mixin _$TiendaStore on _TiendaStore, Store {
   }
 
   @override
+  void filterProductServiceResults(List<bool> products, List<bool> services) {
+    final _$actionInfo = _$_TiendaStoreActionController.startAction();
+    try {
+      return super.filterProductServiceResults(products, services);
+    } finally {
+      _$_TiendaStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void searchAll() {
+    final _$actionInfo = _$_TiendaStoreActionController.startAction();
+    try {
+      return super.searchAll();
+    } finally {
+      _$_TiendaStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void changeEverythingIsLoading() {
     final _$actionInfo = _$_TiendaStoreActionController.startAction();
     try {
@@ -363,7 +400,7 @@ mixin _$TiendaStore on _TiendaStore, Store {
   @override
   String toString() {
     final string =
-        'position: ${position.toString()},countryCode: ${countryCode.toString()},administrativeArea: ${administrativeArea.toString()},ubicacionIsLoading: ${ubicacionIsLoading.toString()},listaMarcadores: ${listaMarcadores.toString()},listaMarcadoresIsLoading: ${listaMarcadoresIsLoading.toString()},listaDistanciaMarcadores: ${listaDistanciaMarcadores.toString()},listaDistanciaMarcadoresIsLoading: ${listaDistanciaMarcadoresIsLoading.toString()},resultadoBusqueda: ${resultadoBusqueda.toString()},resultadoBusquedaIsLoading: ${resultadoBusquedaIsLoading.toString()},everythingIsLoading: ${everythingIsLoading.toString()}';
+        'position: ${position.toString()},countryCode: ${countryCode.toString()},administrativeArea: ${administrativeArea.toString()},locality: ${locality.toString()},ubicacionIsLoading: ${ubicacionIsLoading.toString()},listaMarcadores: ${listaMarcadores.toString()},listaMarcadoresIsLoading: ${listaMarcadoresIsLoading.toString()},listaDistanciaMarcadores: ${listaDistanciaMarcadores.toString()},listaDistanciaMarcadoresIsLoading: ${listaDistanciaMarcadoresIsLoading.toString()},resultadoBusqueda: ${resultadoBusqueda.toString()},resultadoBusquedaIsLoading: ${resultadoBusquedaIsLoading.toString()},everythingIsLoading: ${everythingIsLoading.toString()}';
     return '{$string}';
   }
 }

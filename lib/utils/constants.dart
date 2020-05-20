@@ -32,11 +32,11 @@ class MyConstants extends InheritedWidget {
     'Farmacia'
   ];
 
-  final LoadingDoubleFlipping progressIndicator = LoadingDoubleFlipping.circle(
-    borderColor: Colors.cyan,
+  final Widget progressIndicator = LoadingDoubleFlipping.circle(
+    borderColor: Color(0xfff1554c),
     borderSize: 3.0,
     size: 100.0,
-    backgroundColor: Colors.cyanAccent,
+    backgroundColor: Color(0xff100339),
     duration: Duration(milliseconds: 500),
   );
 
