@@ -23,7 +23,7 @@ class DistanciaMarcadorListGenerator extends StatelessWidget {
             context,
             MaterialPageRoute(
               builder: (context) => DetailScreen(
-                marc: (objectParameter as DistanciaMarcador).marcador,
+                marc: (objectParameter as DistanciaMarcador),
                 horario: mostrarHorario
                     ? DateFormat.Hm()
                         .format(

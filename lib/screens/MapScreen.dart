@@ -45,14 +45,14 @@ class _HomePageState extends State<MapScreen> {
 
     return Observer(builder: (_) {
       markers = [];
-      tiendaStore.listaMarcadores.forEach(
+      tiendaStore.listaDistanciaMarcadores.forEach(
         (marc) {
           markers.add(
             Marker(
               anchorPos: AnchorPos.align(AnchorAlign.center),
               height: 30,
               width: 30,
-              point: LatLng(marc.lat, marc.lon),
+              point: LatLng(marc.marcador.lat, marc.marcador.lon),
               builder: (context) => IconButton(
                 icon: Icon(FontAwesomeIcons.mapMarkerAlt),
                 color: Theme.of(context).accentColor,

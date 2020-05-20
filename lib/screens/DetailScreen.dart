@@ -10,7 +10,7 @@ import 'package:remap/utils/utils.dart';
 import 'package:pedantic/pedantic.dart';
 
 class DetailScreen extends StatelessWidget {
-  final Marcador marc;
+  final DistanciaMarcador marc;
   final String horario;
 
   const DetailScreen({Key key, this.marc, this.horario = ''}) : super(key: key);
@@ -30,7 +30,7 @@ class DetailScreen extends StatelessWidget {
                 GlobalKey<State> _keyLoader = GlobalKey<State>();
 
                 unawaited(showLoadingDialog(context, _keyLoader)); //invokin
-                await shareImage(marc.imagen);
+                await shareImage(marc.marcador.imagen);
                 Navigator.of(_keyLoader.currentContext, rootNavigator: true)
                     .pop();
               },
@@ -46,15 +46,15 @@ class DetailScreen extends StatelessWidget {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => ImageScreen(marc.imagen),
+              builder: (context) => ImageScreen(marc.marcador.imagen),
             ),
           )
         };
 
     var imagenDetalle = ImageCard(
-      nombre: marc.nombre,
-      url: marc.imagen,
-      distancia: ' ',
+      nombre: marc.marcador.nombre,
+      url: marc.marcador.imagen,
+      distancia: marc.distancia,
       onPressed: callBack,
     );
 
@@ -65,13 +65,14 @@ class DetailScreen extends StatelessWidget {
       url:
           'https://previews.123rf.com/images/elenabsl/elenabsl1409/elenabsl140900005/31392676-street-map.jpg',
       icono: FontAwesomeIcons.telegramPlane,
-      onPressed: () => launchMap(marc.lat.toString(), marc.lon.toString()),
+      onPressed: () =>
+          launchMap(marc.marcador.lat.toString(), marc.marcador.lon.toString()),
     );
 
     var listaProductosServicios = Expanded(
       child: ListView(
         children: [
-          for (MapEntry entry in marc.productos.asMap().entries)
+          for (MapEntry entry in marc.marcador.productos.asMap().entries)
             entry.value
                 ? Card(
                     child: ListTile(
@@ -84,7 +85,7 @@ class DetailScreen extends StatelessWidget {
                     ),
                   )
                 : Container(),
-          for (MapEntry entry in marc.servicios.asMap().entries)
+          for (MapEntry entry in marc.marcador.servicios.asMap().entries)
             entry.value
                 ? Card(
                     child: ListTile(
