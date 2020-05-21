@@ -5,11 +5,13 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:international_phone_input/international_phone_input.dart';
 import 'package:provider/provider.dart';
 import 'package:remap/atoms/containerSeparator.dart';
 import 'package:remap/atoms/slimButton.dart';
 import 'package:remap/components/bulletList.dart';
 import 'package:remap/store/tienda_store/tiendastore.dart';
+import 'package:remap/utils/constants.dart';
 import 'package:remap/utils/utils.dart';
 import 'package:latlong/latlong.dart';
 import 'package:pedantic/pedantic.dart';
@@ -34,12 +36,18 @@ class _DataContactScreenState extends State<DataContactScreen> {
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
   TimeOfDay horaInicial, horaCierre;
   List<bool> diasSemanaSeleccionados = List<bool>();
+  List<bool> serviciosClienteSeleccionado = List<bool>.of([false, false]);
   TiendaStore tiendaStore;
+  String phoneNumber;
+  String phoneIsoCode = '+52';
 
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     tiendaStore = Provider.of<TiendaStore>(context, listen: false);
+
+    Function callbackClient = (List<bool> itemsSelected) =>
+        {serviciosClienteSeleccionado = itemsSelected};
 
     Function callbackServices =
         (List<bool> itemsSelected) => {diasSemanaSeleccionados = itemsSelected};
@@ -53,6 +61,13 @@ class _DataContactScreenState extends State<DataContactScreen> {
       'Sábado',
       'Domingo'
     ];
+
+    void onPhoneNumberChange(
+        String number, String internationalizedPhoneNumber, String isoCode) {
+      setState(() {
+        telefono = internationalizedPhoneNumber;
+      });
+    }
 
     Future uploadFile() async {
       String res;
@@ -139,7 +154,9 @@ class _DataContactScreenState extends State<DataContactScreen> {
                   'horaCierre': '${horaCierre.hour}:${horaCierre.minute}',
                   'imagen': await uploadFile(),
                   'hora': Timestamp.now(),
-                  'registrado': Timestamp.now()
+                  'registrado': Timestamp.now(),
+                  'serviciosCliente': serviciosClienteSeleccionado,
+                  'telefono': telefono
                 });
                 await showMissingDialog(context,
                     'Tienda registrada. \n\nValidaremos tu información para que aparezca en la plataforma.');
@@ -219,26 +236,22 @@ class _DataContactScreenState extends State<DataContactScreen> {
                 ),
                 separador,
                 Container(
-                  width: getResponsiveDps(345, width),
-                  child: TextField(
-                    keyboardType: TextInputType.numberWithOptions(),
-                    cursorColor: Theme.of(context).accentColor,
-                    style: TextStyle(color: Theme.of(context).accentColor),
-                    onChanged: (value) => setState(() {
-                      telefono = value;
-                    }),
-                    decoration: InputDecoration(
-                        focusColor: Theme.of(context).accentColor,
-                        fillColor: Theme.of(context).accentColor,
-                        hoverColor: Theme.of(context).accentColor,
-                        hintText: "Teléfono tienda",
-                        prefixIcon: Icon(Icons.phone,
-                            color: Theme.of(context).accentColor),
-                        border: OutlineInputBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(25.0)))),
-                  ),
-                ),
+                    width: getResponsiveDps(345, width),
+                    child: InternationalPhoneInput(
+                      decoration: InputDecoration(
+                          hintText: '(363) 123-4567',
+                          focusColor: Theme.of(context).accentColor,
+                          fillColor: Theme.of(context).accentColor,
+                          hoverColor: Theme.of(context).accentColor,
+                          prefixIcon: Icon(Icons.phone,
+                              color: Theme.of(context).accentColor),
+                          border: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(25.0)))),
+                      onPhoneNumberChange: onPhoneNumberChange,
+                      initialPhoneNumber: phoneNumber,
+                      initialSelection: phoneIsoCode,
+                    )),
                 separador,
                 SlimButton(
                     text: horaInicial == null
@@ -264,6 +277,16 @@ class _DataContactScreenState extends State<DataContactScreen> {
                       });
                       print(horaInicial);
                     }),
+                separador,
+                ContainerSeparator(
+                  titulo: 'Atención al cliente',
+                  child: BulletList(
+                    options: MyConstants.of(context).listaServiciosCliente,
+                    isSecondary: true,
+                    isMultiSelectable: true,
+                    callBack: callbackClient,
+                  ),
+                ),
                 separador,
                 ContainerSeparator(
                   titulo: 'Días de la semana',

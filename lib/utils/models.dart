@@ -10,6 +10,10 @@ class Marcador {
   List<bool> productos;
   int clientes;
   Timestamp hora;
+  String horaApertura;
+  String horaCierre;
+  List<bool> serviciosCliente;
+  String telefono;
 
   Marcador(
       {this.id,
@@ -20,7 +24,11 @@ class Marcador {
       this.servicios,
       this.productos,
       this.clientes,
-      this.hora});
+      this.hora,
+      this.horaApertura,
+      this.horaCierre,
+      this.serviciosCliente,
+      this.telefono});
 
   Marcador.fromMap(Map snapshot, String id)
       : id = id ?? '',
@@ -31,7 +39,11 @@ class Marcador {
         servicios = snapshot['servicios'].cast<bool>() ?? '',
         productos = snapshot['productos'].cast<bool>() ?? '',
         clientes = snapshot['clientes'] ?? '',
-        hora = snapshot['hora'] ?? '';
+        hora = snapshot['hora'] ?? '',
+        horaApertura = snapshot['horaApertura'] ?? '',
+        horaCierre = snapshot['horaCierre'] ?? '',
+        serviciosCliente = snapshot['serviciosCliente'].cast<bool>() ?? '',
+        telefono = snapshot['telefono'] ?? '';
 
   toJson() {
     return {

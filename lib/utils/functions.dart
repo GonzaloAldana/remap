@@ -50,6 +50,18 @@ void launchMap(String lat, String long) async {
   }
 }
 
+void launchWhatsApp(DistanciaMarcador marc) async {
+  String message =
+      'Hola, vi tu tienda en ReMap 4.0 y me gustaría ponerme en contacto contigo';
+  var whatsappUrl =
+      "whatsapp://send?phone=${marc.marcador.telefono}&text=$message";
+  if (await canLaunch(whatsappUrl)) {
+    await launch(whatsappUrl);
+  } else {
+    throw 'Could not launch $whatsappUrl';
+  }
+}
+
 Future<String> dist(
     double latInit, double lonInit, double lat, double lon) async {
   double distancia =

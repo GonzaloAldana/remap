@@ -358,10 +358,12 @@ mixin _$TiendaStore on _TiendaStore, Store {
   }
 
   @override
-  void filterProductServiceResults(List<bool> products, List<bool> services) {
+  void filterProductServiceResults(
+      List<bool> products, List<bool> services, List<bool> serviceClient) {
     final _$actionInfo = _$_TiendaStoreActionController.startAction();
     try {
-      return super.filterProductServiceResults(products, services);
+      return super
+          .filterProductServiceResults(products, services, serviceClient);
     } finally {
       _$_TiendaStoreActionController.endAction(_$actionInfo);
     }

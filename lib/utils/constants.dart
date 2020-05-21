@@ -31,6 +31,10 @@ class MyConstants extends InheritedWidget {
     'Tienda de conveniencia',
     'Farmacia'
   ];
+  final listaServiciosCliente = [
+    'Medios de pago electrónico',
+    'Servicio a domicilio'
+  ];
 
   final Widget progressIndicator = LoadingDoubleFlipping.circle(
     borderColor: Color(0xfff1554c),

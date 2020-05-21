@@ -27,6 +27,7 @@ class _ImageListScreenState extends State<ImageListScreen> {
   void filterSearchResults() => tiendaStore.filterSearchResults(_titulo);
   List<bool> productsSelected = List<bool>();
   List<bool> servicesSelected = List<bool>();
+  List<bool> servicesClientSelected = List<bool>();
 
   @override
   Widget build(BuildContext context) {
@@ -37,6 +38,8 @@ class _ImageListScreenState extends State<ImageListScreen> {
         (List<bool> itemsSelected) => {productsSelected = itemsSelected};
     Function callbackServices =
         (List<bool> itemsSelected) => {servicesSelected = itemsSelected};
+    Function callbackServiceClient =
+        (List<bool> itemsSelected) => {servicesClientSelected = itemsSelected};
 
     Function showFilterDialog = (BuildContext context) => showDialog<void>(
           context: context,
@@ -76,6 +79,15 @@ class _ImageListScreenState extends State<ImageListScreen> {
                                             isSecondary: true,
                                             isMultiSelectable: true,
                                             callBack: callbackServices,
+                                          )),
+                                      ContainerSeparator(
+                                          titulo: 'Servicio al cliente',
+                                          child: BulletList(
+                                            options: MyConstants.of(context)
+                                                .listaServiciosCliente,
+                                            isSecondary: true,
+                                            isMultiSelectable: true,
+                                            callBack: callbackServiceClient,
                                           ))
                                     ],
                                   )
@@ -99,7 +111,9 @@ class _ImageListScreenState extends State<ImageListScreen> {
                                 text: 'Filtrar',
                                 onPress: () async {
                                   await tiendaStore.filterProductServiceResults(
-                                      productsSelected, servicesSelected);
+                                      productsSelected,
+                                      servicesSelected,
+                                      servicesClientSelected);
                                   productsSelected = List<bool>();
                                   servicesSelected = List<bool>();
                                   Navigator.of(context).pop();

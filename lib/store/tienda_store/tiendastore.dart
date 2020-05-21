@@ -147,10 +147,12 @@ abstract class _TiendaStore with Store {
   }
 
   @action
-  void filterProductServiceResults(
-      List<bool> products, List<bool> services) async {
+  void filterProductServiceResults(List<bool> products, List<bool> services,
+      List<bool> serviceClient) async {
     changeResultadoBusquedaIsLoading();
-    if (products.isNotEmpty || services.isNotEmpty) {
+    if (products.isNotEmpty ||
+        services.isNotEmpty ||
+        serviceClient.isNotEmpty) {
       List<DistanciaMarcador> dummyListData = List<DistanciaMarcador>();
 
       for (DistanciaMarcador item in listaDistanciaMarcadores) {
@@ -169,6 +171,17 @@ abstract class _TiendaStore with Store {
             i < min(item.marcador.servicios.length, services.length);
             i++) {
           if (item.marcador.servicios[i] && services[i]) {
+            necesarios++;
+            break;
+          }
+        }
+
+        for (var i = 0;
+            i <
+                min(item.marcador.serviciosCliente.length,
+                    serviceClient.length);
+            i++) {
+          if (item.marcador.serviciosCliente[i] && serviceClient[i]) {
             necesarios++;
             break;
           }

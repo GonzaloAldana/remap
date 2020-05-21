@@ -69,6 +69,15 @@ class DetailScreen extends StatelessWidget {
           launchMap(marc.marcador.lat.toString(), marc.marcador.lon.toString()),
     );
 
+    var btnContactar = ImageButton(
+      texto: 'Contactar al vendedor',
+      isBig: horario.isNotEmpty,
+      url:
+          'https://previews.123rf.com/images/elenabsl/elenabsl1409/elenabsl140900005/31392676-street-map.jpg',
+      icono: FontAwesomeIcons.whatsapp,
+      onPressed: () => launchWhatsApp(marc),
+    );
+
     var listaProductosServicios = Expanded(
       child: ListView(
         children: [
@@ -97,17 +106,40 @@ class DetailScreen extends StatelessWidget {
                       ),
                     ),
                   )
+                : Container(),
+          for (MapEntry entry in marc.marcador.serviciosCliente.asMap().entries)
+            entry.value
+                ? Card(
+                    child: ListTile(
+                      title: Text(MyConstants.of(context)
+                          .listaServiciosCliente[entry.key]),
+                      trailing: Icon(
+                        Icons.check_circle,
+                        color: Colors.green,
+                      ),
+                    ),
+                  )
                 : Container()
         ],
       ),
     );
+
+    var separador = SizedBox(height: 15);
 
     return SafeArea(
       child: Scaffold(
         appBar: appBar,
         body: Container(
           child: Column(
-            children: [imagenDetalle, btnLanzarMapa, listaProductosServicios],
+            children: [
+              imagenDetalle,
+              separador,
+              btnLanzarMapa,
+              separador,
+              btnContactar,
+              separador,
+              listaProductosServicios
+            ],
           ),
         ),
       ),
