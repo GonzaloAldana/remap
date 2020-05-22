@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 import 'package:remap/atoms/imageButton.dart';
 import 'package:remap/components/imageCard.dart';
 import 'package:remap/screens/ImageScreen.dart';
+import 'package:remap/store/tienda_store/tiendastore.dart';
 import 'package:remap/utils/constants.dart';
 import 'package:remap/utils/functions.dart';
 import 'package:remap/utils/models.dart';
@@ -15,8 +17,13 @@ class DetailScreen extends StatelessWidget {
 
   const DetailScreen({Key key, this.marc, this.horario = ''}) : super(key: key);
 
+  static TiendaStore tiendaStore;
+
   @override
   Widget build(BuildContext context) {
+    tiendaStore = Provider.of<TiendaStore>(context, listen: false);
+    putStatiscticsUpdate(tiendaStore.countryCode, marc, 1);
+
     var appBar = AppBar(
       leading: IconButton(
         icon: Icon(Icons.arrow_back),
@@ -30,6 +37,7 @@ class DetailScreen extends StatelessWidget {
                 GlobalKey<State> _keyLoader = GlobalKey<State>();
 
                 unawaited(showLoadingDialog(context, _keyLoader)); //invokin
+                await putStatiscticsUpdate(tiendaStore.countryCode, marc, 2);
                 await shareImage(marc.marcador.imagen);
                 Navigator.of(_keyLoader.currentContext, rootNavigator: true)
                     .pop();
@@ -46,7 +54,7 @@ class DetailScreen extends StatelessWidget {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => ImageScreen(marc.marcador.imagen),
+              builder: (context) => ImageScreen(marc),
             ),
           )
         };
@@ -75,7 +83,10 @@ class DetailScreen extends StatelessWidget {
       url:
           'https://previews.123rf.com/images/elenabsl/elenabsl1409/elenabsl140900005/31392676-street-map.jpg',
       icono: FontAwesomeIcons.whatsapp,
-      onPressed: () => launchWhatsApp(marc),
+      onPressed: () async {
+        await putStatiscticsUpdate(tiendaStore.countryCode, marc, 3);
+        await launchWhatsApp(marc);
+      },
     );
 
     var listaProductosServicios = Expanded(

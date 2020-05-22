@@ -15,6 +15,33 @@ Future<Marcador> getMarcador(String coleccion, String id) async {
   return Marcador.fromMap(doc.data, doc.documentID);
 }
 
+Future<void> putStatiscticsUpdate(
+    String coleccion, DistanciaMarcador distmarc, int option) async {
+  /// Option:
+  /// 1, vistos
+  /// 2, compartidos
+  /// 3, contactados
+  String campo;
+  switch (option) {
+    case 1:
+      campo = 'vistos';
+      break;
+    case 2:
+      campo = 'compartidos';
+      break;
+    case 3:
+      campo = 'contactados';
+      break;
+    default:
+      campo = 'vistos';
+      break;
+  }
+  await Firestore.instance
+      .collection(coleccion)
+      .document(distmarc.marcador.id)
+      .updateData({campo: FieldValue.increment(1)});
+}
+
 void shareImage(String imageUrl) async {
   var request = await HttpClient().getUrl(Uri.parse(imageUrl));
   var response = await request.close();

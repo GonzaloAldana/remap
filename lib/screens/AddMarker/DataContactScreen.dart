@@ -156,7 +156,10 @@ class _DataContactScreenState extends State<DataContactScreen> {
                   'hora': Timestamp.now(),
                   'registrado': Timestamp.now(),
                   'serviciosCliente': serviciosClienteSeleccionado,
-                  'telefono': telefono
+                  'telefono': telefono,
+                  'vistos': 0,
+                  'compartidos': 0,
+                  'contactados': 0
                 });
                 await showMissingDialog(context,
                     'Tienda registrada. \n\nValidaremos tu información para que aparezca en la plataforma.');
