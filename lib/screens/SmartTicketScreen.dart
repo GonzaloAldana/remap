@@ -1,22 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:remap/lists/DistanciaMarcadorListGenerator.dart';
+import 'package:remap/store/tienda_store/tiendastore.dart';
 import 'package:remap/utils/constants.dart';
 import 'package:remap/utils/models.dart';
 import 'package:remap/utils/functions.dart';
 
-import 'DistanciaMarcadorListGenerator.dart';
-
 class SmartTicketScreen extends StatelessWidget {
-  final List<bool> listaServicios;
   final List<bool> listaProductos;
 
   const SmartTicketScreen({
     Key key,
-    this.listaServicios,
     this.listaProductos,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    TiendaStore tiendaStore = Provider.of<TiendaStore>(context, listen: false);
+
     var appBar = AppBar(
       title: Text("Ticket Inteligente"),
     );
@@ -25,7 +26,8 @@ class SmartTicketScreen extends StatelessWidget {
       appBar: appBar,
       body: Container(
         child: FutureBuilder(
-          future: getSmartTicket("tiendas", 2, listaProductos, listaServicios),
+          future: getSmartTicket("tiendas", 2, listaProductos,
+              tiendaStore.listaDistanciaMarcadores),
           builder: (context, marcadores) {
             if (!marcadores.hasData) {
               return MyConstants.of(context).progressIndicator;

@@ -1,5 +1,6 @@
 import 'dart:ffi';
 import 'dart:io';
+import 'dart:math';
 import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:esys_flutter_share/esys_flutter_share.dart';
@@ -123,17 +124,13 @@ Future<Position> getPosition() async {
 List<List<DistanciaMarcador>>
     listaRecursivaCombinacionesTiendasCumplenConElCliente;
 Future<List<DistanciaMarcador>> getSmartTicket(String collection, double dist,
-    List<bool> products, List<bool> services) async {
+    List<bool> products, List<DistanciaMarcador> distanciaMarcadores) async {
   /// Aquí está la magia ;)
   /// Por Gonzalo Aldana
   /// gonzaloaldana.com
 //TODO: cambiar el área administrativa
   listaRecursivaCombinacionesTiendasCumplenConElCliente =
       List<List<DistanciaMarcador>>();
-  Position posicionUsuario = await getPosition();
-  List<Marcador> marcadores = await getMarcadores(collection, 'asd');
-  List<DistanciaMarcador> distanciaMarcadores = await getDistanciasMarcadores(
-      marcadores, posicionUsuario.latitude, posicionUsuario.longitude);
   List<DistanciaMarcador> listaCercanosQueCumplenloQueQuiereElCliente =
       List<DistanciaMarcador>();
 
@@ -145,17 +142,14 @@ Future<List<DistanciaMarcador>> getSmartTicket(String collection, double dist,
 
   for (DistanciaMarcador distMarc in distanciaMarcadores) {
     int necesarios = 0;
-    print('yea');
-    for (var i = 0; i < products.length; i++) {
-      if (distMarc.marcador.productos.isNotEmpty &&
-          distMarc.marcador.productos[i] &&
-          products[i]) necesarios++;
-    }
 
-    for (var i = 0; i < services.length; i++) {
-      if (distMarc.marcador.servicios.isNotEmpty &&
-          distMarc.marcador.servicios[i] &&
-          services[i]) necesarios++;
+    for (var i = 0;
+        i < min(distMarc.marcador.productos.length, products.length);
+        i++) {
+      if (distMarc.marcador.productos[i] && products[i]) {
+        necesarios++;
+        break;
+      }
     }
     if (necesarios > 0) {
       listaCercanosQueCumplenloQueQuiereElCliente.add(distMarc);
@@ -173,8 +167,8 @@ Future<List<DistanciaMarcador>> getSmartTicket(String collection, double dist,
     List<DistanciaMarcador> listaFaltantes =
         List.from(listaCercanosQueCumplenloQueQuiereElCliente);
     listaFaltantes.remove(distMarc);
-    await getCombinacionRecursiva(List<DistanciaMarcador>(), distMarc, products,
-        services, listaFaltantes);
+    await getCombinacionRecursiva(
+        List<DistanciaMarcador>(), distMarc, List.of(products), listaFaltantes);
   }
   ;
 
@@ -203,12 +197,9 @@ Future<List<DistanciaMarcador>> getSmartTicket(String collection, double dist,
 
   // Hasta aquí ya tenemos a la lista de tiendas más necesitadas
   // hay que agregarles 1 cliente y cambiar el horario
-  if (listaRecursivaCombinacionesTiendasCumplenConElCliente.isNotEmpty) {
-    for (DistanciaMarcador distMarc
-        in listaRecursivaCombinacionesTiendasCumplenConElCliente[0]) {
-      //listaTiendasMenosClientes) {
-      print(distMarc.marcador.nombre);
-      await Firestore.instance
+  for (DistanciaMarcador distMarc in listaTiendasMenosClientes) {
+    print(distMarc.marcador.nombre);
+    /* await Firestore.instance
           .collection(collection)
           .document(distMarc.marcador.id)
           .updateData({'clientes': FieldValue.increment(1)});
@@ -227,8 +218,8 @@ Future<List<DistanciaMarcador>> getSmartTicket(String collection, double dist,
                   distMarc.marcador.hora.millisecondsSinceEpoch)
               .add(Duration(minutes: 10))
         });
-      }
-    }
+      } */
+
   }
 
   // Lista en caso de que no haya suficientes tiendas para surtir la lista de la despensa
@@ -236,15 +227,15 @@ Future<List<DistanciaMarcador>> getSmartTicket(String collection, double dist,
   DistanciaMarcador distMarcadorDefault = DistanciaMarcador();
   Marcador marcadorDefault = Marcador();
   marcadorDefault.nombre =
-      "No pudimos completar tu ticket; nos falta mapear más tiendas por tu zona";
+      "No pudimos completar tu ticket; puedes mapear más tiendas por tu zona o buscarlas individualmente";
   marcadorDefault.imagen =
       'https://previews.123rf.com/images/elenabsl/elenabsl1409/elenabsl140900005/31392676-street-map.jpg';
   distMarcadorDefault.marcador = marcadorDefault;
   distMarcadorDefault.distancia = "--";
   listaDefault.add(distMarcadorDefault);
 
-  return listaRecursivaCombinacionesTiendasCumplenConElCliente.isNotEmpty
-      ? listaRecursivaCombinacionesTiendasCumplenConElCliente[0]
+  return listaTiendasMenosClientes.isNotEmpty
+      ? listaTiendasMenosClientes
       : listaDefault;
 }
 
@@ -252,22 +243,15 @@ Future<Void> getCombinacionRecursiva(
     List<DistanciaMarcador> listaTemporal,
     DistanciaMarcador marcadorSiguiente,
     List<bool> productosFaltantes,
-    List<bool> serviciosFaltantes,
     List<DistanciaMarcador> listaFaltantes) async {
   int necesarios = 0;
 
-  for (var i = 0; i < productosFaltantes.length; i++) {
-    if (marcadorSiguiente.marcador.productos.isNotEmpty &&
-        marcadorSiguiente.marcador.productos[i] &&
-        productosFaltantes[i]) {
-      necesarios++;
-    }
-  }
-
-  for (var i = 0; i < serviciosFaltantes.length; i++) {
-    if (marcadorSiguiente.marcador.servicios.isNotEmpty &&
-        marcadorSiguiente.marcador.servicios[i] &&
-        serviciosFaltantes[i]) {
+  for (var i = 0;
+      i <
+          min(marcadorSiguiente.marcador.productos.length,
+              productosFaltantes.length);
+      i++) {
+    if (marcadorSiguiente.marcador.productos[i] && productosFaltantes[i]) {
       necesarios++;
     }
   }
@@ -280,17 +264,13 @@ Future<Void> getCombinacionRecursiva(
     listaFaltantes.remove(marcadorSiguiente);
 
     // Marcar los servicios que ya cumplimos
-    for (var i = 0; i < productosFaltantes.length; i++) {
-      if (marcadorSiguiente.marcador.productos.isNotEmpty &&
-          marcadorSiguiente.marcador.productos[i]) {
+    for (var i = 0;
+        i <
+            min(marcadorSiguiente.marcador.productos.length,
+                productosFaltantes.length);
+        i++) {
+      if (marcadorSiguiente.marcador.productos[i]) {
         productosFaltantes[i] = false;
-      }
-    }
-
-    for (var i = 0; i < serviciosFaltantes.length; i++) {
-      if (marcadorSiguiente.marcador.servicios.isNotEmpty &&
-          marcadorSiguiente.marcador.servicios[i]) {
-        serviciosFaltantes[i] = false;
       }
     }
 
@@ -303,23 +283,13 @@ Future<Void> getCombinacionRecursiva(
       }
     }
 
-    for (var i = 0; i < serviciosFaltantes.length; i++) {
-      if (serviciosFaltantes[i] && serviciosFaltantes[i]) {
-        necesariosFaltantes++;
-      }
-    }
-
     // Si aún quedan necesidades por cumplir, vamos recursivamente
     // Si no es el caso, agregamos esta permutación a la lista de los que cumplen con las necesidades del cliente
     if (necesariosFaltantes > 0) {
       for (DistanciaMarcador distMarc in listaFaltantes) {
         // Vamos a repetir la recursividad
-        await getCombinacionRecursiva(
-            List.from(listaTemporal),
-            distMarc,
-            List.from(productosFaltantes),
-            List.from(serviciosFaltantes),
-            List.from(listaFaltantes));
+        await getCombinacionRecursiva(List.from(listaTemporal), distMarc,
+            List.from(productosFaltantes), List.from(listaFaltantes));
       }
     } else {
       listaRecursivaCombinacionesTiendasCumplenConElCliente.add(listaTemporal);
