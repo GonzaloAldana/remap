@@ -21,16 +21,26 @@ class MyConstants extends InheritedWidget {
   final FontWeight fontMedium = FontWeight.w600;
   final FontWeight fontSemiBold = FontWeight.w800;
 
-  final listaServicios = ['Estética', 'Gimnasio', 'Restaurante', 'Reparación'];
-  final listaProductos = [
-    'Frutas',
-    'Verduras',
-    'Carne',
-    'Pan',
-    'Abarrotes',
-    'Tienda de conveniencia',
-    'Farmacia'
+  final listaServicios = [
+    'Estética',
+    'Restaurante o Comida preparada',
+    'Servicios médicos',
+    'Reparación',
+    'Gimnasio',
+    'Otro'
   ];
+
+  final listaProductos = [
+    'Tienda de abarrotes',
+    'Carnicería',
+    'Panadería',
+    'Frutas y Verduras',
+    'Tienda de mascotas',
+    'Farmacia',
+    'Tortillería',
+    'Otro'
+  ];
+
   final listaServiciosCliente = [
     'Medios de pago electrónico',
     'Servicio a domicilio'

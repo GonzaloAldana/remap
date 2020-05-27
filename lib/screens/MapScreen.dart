@@ -87,6 +87,7 @@ class _HomePageState extends State<MapScreen> {
         polygonOptions: markerPolygonOptions,
         builder: (context, markers) => btnCluster(markers),
       );
+
       var circles = CircleLayerOptions(circles: [
         CircleMarker(
             point: LatLng(
