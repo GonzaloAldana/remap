@@ -17,6 +17,7 @@ class MapScreen extends StatefulWidget {
 
 class _HomePageState extends State<MapScreen> {
   List<Marker> markers = [];
+  TiendaStore tiendaStore;
 
   @override
   void initState() {
@@ -25,7 +26,9 @@ class _HomePageState extends State<MapScreen> {
 
   @override
   Widget build(BuildContext context) {
-    TiendaStore tiendaStore = Provider.of<TiendaStore>(context, listen: false);
+    if (tiendaStore == null) {
+      tiendaStore = Provider.of<TiendaStore>(context, listen: false);
+    }
 
     var markerPolygonOptions = PolygonOptions(
         borderColor: Theme.of(context).accentColor,

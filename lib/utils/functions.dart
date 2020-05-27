@@ -180,7 +180,7 @@ Future<List<DistanciaMarcador>> getSmartTicket(String collection, double dist,
       in listaRecursivaCombinacionesTiendasCumplenConElCliente) {
     double promedioListTemporal = 0;
     for (DistanciaMarcador distMarc in listaAux) {
-      promedioListTemporal += distMarc.marcador.clientes;
+      promedioListTemporal += distMarc.marcador.vistos;
     }
     promedioListTemporal = promedioListTemporal / listaAux.length;
     if (clientesPromedio == 0.0) {
@@ -197,9 +197,9 @@ Future<List<DistanciaMarcador>> getSmartTicket(String collection, double dist,
 
   // Hasta aquí ya tenemos a la lista de tiendas más necesitadas
   // hay que agregarles 1 cliente y cambiar el horario
-  for (DistanciaMarcador distMarc in listaTiendasMenosClientes) {
+  /* for (DistanciaMarcador distMarc in listaTiendasMenosClientes) {
     print(distMarc.marcador.nombre);
-    /* await Firestore.instance
+     await Firestore.instance
           .collection(collection)
           .document(distMarc.marcador.id)
           .updateData({'clientes': FieldValue.increment(1)});
@@ -218,9 +218,9 @@ Future<List<DistanciaMarcador>> getSmartTicket(String collection, double dist,
                   distMarc.marcador.hora.millisecondsSinceEpoch)
               .add(Duration(minutes: 10))
         });
-      } */
+      } 
 
-  }
+  } */
 
   // Lista en caso de que no haya suficientes tiendas para surtir la lista de la despensa
   List<DistanciaMarcador> listaDefault = List<DistanciaMarcador>();

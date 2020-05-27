@@ -32,7 +32,9 @@ class _ImageListScreenState extends State<ImageListScreen> {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
-    tiendaStore = Provider.of<TiendaStore>(context, listen: false);
+    if (tiendaStore == null) {
+      tiendaStore = Provider.of<TiendaStore>(context, listen: false);
+    }
 
     Function callbackProducts =
         (List<bool> itemsSelected) => {productsSelected = itemsSelected};

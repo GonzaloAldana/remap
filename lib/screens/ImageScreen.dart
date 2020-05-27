@@ -17,7 +17,9 @@ class ImageScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    tiendaStore = Provider.of<TiendaStore>(context, listen: false);
+    if (tiendaStore == null) {
+      tiendaStore = Provider.of<TiendaStore>(context, listen: false);
+    }
 
     var appBar = AppBar(
       title: Text("Foto de tienda"),

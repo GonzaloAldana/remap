@@ -8,6 +8,7 @@ import 'package:remap/utils/functions.dart';
 
 class SmartTicketScreen extends StatelessWidget {
   final List<bool> listaProductos;
+  static TiendaStore tiendaStore;
 
   const SmartTicketScreen({
     Key key,
@@ -16,7 +17,9 @@ class SmartTicketScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    TiendaStore tiendaStore = Provider.of<TiendaStore>(context, listen: false);
+    if (tiendaStore == null) {
+      tiendaStore = Provider.of<TiendaStore>(context, listen: false);
+    }
 
     var appBar = AppBar(
       title: Text("Ticket Inteligente"),
@@ -35,7 +38,7 @@ class SmartTicketScreen extends StatelessWidget {
             return DistanciaMarcadorListGenerator(
                 listaDistanciaMarcador:
                     marcadores.data as List<DistanciaMarcador>,
-                mostrarHorario: true);
+                mostrarHorario: false);
           },
         ),
       ),

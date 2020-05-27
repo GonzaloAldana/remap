@@ -44,7 +44,9 @@ class _DataContactScreenState extends State<DataContactScreen> {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
-    tiendaStore = Provider.of<TiendaStore>(context, listen: false);
+    if (tiendaStore == null) {
+      tiendaStore = Provider.of<TiendaStore>(context, listen: false);
+    }
 
     Function callbackClient = (List<bool> itemsSelected) =>
         {serviciosClienteSeleccionado = itemsSelected};

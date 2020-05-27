@@ -8,7 +8,7 @@ class Marcador {
   double lon;
   List<bool> servicios;
   List<bool> productos;
-  int clientes;
+  int vistos;
   Timestamp hora;
   String horaApertura;
   String horaCierre;
@@ -23,7 +23,7 @@ class Marcador {
       this.lon,
       this.servicios,
       this.productos,
-      this.clientes,
+      this.vistos,
       this.hora,
       this.horaApertura,
       this.horaCierre,
@@ -38,7 +38,7 @@ class Marcador {
         lon = snapshot['lon'] ?? '',
         servicios = snapshot['servicios'].cast<bool>() ?? '',
         productos = snapshot['productos'].cast<bool>() ?? '',
-        clientes = snapshot['clientes'] ?? '',
+        vistos = snapshot['vistos'] ?? '',
         hora = snapshot['hora'] ?? '',
         horaApertura = snapshot['horaApertura'] ?? '',
         horaCierre = snapshot['horaCierre'] ?? '',

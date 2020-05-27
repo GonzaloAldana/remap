@@ -22,6 +22,7 @@ class NavigationBar extends StatefulWidget {
 
 class _NavigationBarState extends State<NavigationBar> {
   int currentPage = 0;
+  TiendaStore tiendaStore;
 
   screens(BuildContext rootContext, int _tabIndex) {
     switch (_tabIndex) {
@@ -42,7 +43,9 @@ class _NavigationBarState extends State<NavigationBar> {
 
   @override
   Widget build(BuildContext context) {
-    TiendaStore tiendaStore = Provider.of<TiendaStore>(context, listen: false);
+    if (tiendaStore == null) {
+      tiendaStore = Provider.of<TiendaStore>(context, listen: false);
+    }
 
     if (tiendaStore.everythingIsLoading) tiendaStore.loadEverything();
 

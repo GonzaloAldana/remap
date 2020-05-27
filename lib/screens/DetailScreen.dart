@@ -21,7 +21,9 @@ class DetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    tiendaStore = Provider.of<TiendaStore>(context, listen: false);
+    if (tiendaStore == null) {
+      tiendaStore = Provider.of<TiendaStore>(context, listen: false);
+    }
     putStatiscticsUpdate(tiendaStore.countryCode, marc, 1);
 
     var appBar = AppBar(

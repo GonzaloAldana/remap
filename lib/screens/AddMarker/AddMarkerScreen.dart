@@ -16,6 +16,7 @@ import 'package:remap/utils/utils.dart';
 
 class AddMarkerScreen extends StatelessWidget {
   final LatLng pos;
+  static TiendaStore tiendaStore;
 
   const AddMarkerScreen({
     Key key,
@@ -24,7 +25,9 @@ class AddMarkerScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    TiendaStore tiendaStore = Provider.of<TiendaStore>(context, listen: false);
+    if (tiendaStore == null) {
+      tiendaStore = Provider.of<TiendaStore>(context, listen: false);
+    }
 
     File image;
 
