@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:remap/store/tienda_store/tiendastore.dart';
 import 'package:latlong/latlong.dart';
 import 'package:remap/utils/constants.dart';
+import 'package:remap/utils/functions.dart';
 
 import 'DetailScreen.dart';
 
@@ -60,8 +61,9 @@ class _HomePageState extends State<MapScreen> {
                 icon: Icon(FontAwesomeIcons.mapMarkerAlt),
                 color: Theme.of(context).accentColor,
                 iconSize: 30.0,
-                onPressed: () {
-                  Navigator.push(
+                onPressed: () async {
+                  await putStatiscticsUpdate(tiendaStore.countryCode, marc, 1);
+                  await Navigator.push(
                     context,
                     MaterialPageRoute(
                       builder: (context) => DetailScreen(marc: marc),

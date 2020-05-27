@@ -38,6 +38,7 @@ class SmartTicketScreen extends StatelessWidget {
             return DistanciaMarcadorListGenerator(
                 listaDistanciaMarcador:
                     marcadores.data as List<DistanciaMarcador>,
+                countryCode: tiendaStore.countryCode,
                 mostrarHorario: false);
           },
         ),

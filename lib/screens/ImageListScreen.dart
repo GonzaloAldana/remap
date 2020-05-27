@@ -194,7 +194,9 @@ class _ImageListScreenState extends State<ImageListScreen> {
                 ? Center(child: MyConstants.of(context).progressIndicator)
                 : DistanciaMarcadorListGenerator(
                     controller: _scrollController,
-                    listaDistanciaMarcador: tiendaStore.resultadoBusqueda),
+                    listaDistanciaMarcador: tiendaStore.resultadoBusqueda,
+                    countryCode: tiendaStore.countryCode,
+                  ),
           )
         ]))
       ],
