@@ -24,7 +24,6 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.2
   cached_network_image: ^2.0.0
-  fancy_bottom_navigation: ^0.3.2
   font_awesome_flutter: ^8.8.1
   flutter_map: ^0.8.2
   flutter_map_marker_cluster: ^0.2.7
@@ -45,6 +44,7 @@ dependencies:
   esys_flutter_share: ^1.0.2
   image_cropper: ^1.2.2
   international_phone_input: ^1.0.4
+  jumping_bottom_nav_bar: ^0.0.4
 
 dev_dependencies:
   flutter_test:

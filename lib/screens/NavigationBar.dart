@@ -1,7 +1,7 @@
-import 'package:fancy_bottom_navigation/fancy_bottom_navigation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:jumping_bottom_nav_bar/jumping_bottom_nav_bar.dart';
 import 'package:provider/provider.dart';
 import 'package:remap/screens/ContactScreen.dart';
 import 'package:remap/screens/HomeScreen.dart';
@@ -21,25 +21,8 @@ class NavigationBar extends StatefulWidget {
 }
 
 class _NavigationBarState extends State<NavigationBar> {
-  int currentPage = 0;
+  int currentPage = 1;
   TiendaStore tiendaStore;
-
-  screens(BuildContext rootContext, int _tabIndex) {
-    switch (_tabIndex) {
-      case 0:
-        return HomeScreen();
-        break;
-      case 1:
-        return ImageListScreen();
-        break;
-      case 2:
-        return MapScreen();
-        break;
-      case 3:
-        return SelectProductscreen();
-        break;
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,6 +31,19 @@ class _NavigationBarState extends State<NavigationBar> {
     }
 
     if (tiendaStore.everythingIsLoading) tiendaStore.loadEverything();
+
+    var iconList = [
+      TabItemIcon(
+          iconData: Icons.home, startColor: MyConstants.of(context).colorGray),
+      TabItemIcon(
+          iconData: Icons.location_city,
+          startColor: MyConstants.of(context).colorGray),
+      TabItemIcon(
+          iconData: FontAwesomeIcons.mapMarkerAlt,
+          startColor: MyConstants.of(context).colorGray),
+      TabItemIcon(
+          iconData: Icons.list, startColor: MyConstants.of(context).colorGray),
+    ];
 
     var appBar = AppBar(
       title: Text('ReMap 4.0'),
@@ -84,23 +80,35 @@ class _NavigationBarState extends State<NavigationBar> {
           ],
         )));
 
-    var pantallaNavegacion = Scaffold(
-      appBar: appBar,
-      body: screens(context, currentPage),
-      bottomNavigationBar: FancyBottomNavigation(
-        tabs: [
-          TabData(iconData: Icons.home, title: "Inicio"),
-          TabData(iconData: Icons.location_city, title: "Negocios"),
-          TabData(iconData: FontAwesomeIcons.mapMarkerAlt, title: "Mapa"),
-          TabData(iconData: Icons.list, title: "Comprar"),
-        ],
-        onTabChangedListener: (position) {
-          setState(() {
-            currentPage = position;
-          });
-        },
-      ), // This trailing comma makes auto-formatting nicer for build methods.
-    );
+    var pantallaNavegacion = DefaultTabController(
+        length: iconList.length,
+        child: Scaffold(
+          appBar: appBar,
+          body: TabBarView(
+            physics: NeverScrollableScrollPhysics(),
+            children: [
+              HomeScreen(),
+              ImageListScreen(),
+              Container(child: MapScreen()),
+              SelectProductscreen()
+            ],
+          ),
+          bottomNavigationBar: JumpingTabBar(
+            onChangeTab: (position) {
+              currentPage = position;
+            },
+            circleGradient: LinearGradient(
+              colors: [
+                MyConstants.of(context).color2,
+                MyConstants.of(context).color2Gradient
+              ],
+              begin: Alignment.bottomLeft,
+              end: Alignment.topRight,
+            ),
+            items: iconList,
+            selectedIndex: currentPage,
+          ),
+        ));
 
     return Observer(
       builder: (_) => (!tiendaStore.everythingIsLoading)
