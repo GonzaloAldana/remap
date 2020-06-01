@@ -1,3 +1,4 @@
+import 'package:firebase_admob/firebase_admob.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -7,27 +8,36 @@ import 'package:remap/utils/constants.dart';
 
 void main() => runApp(MyConstants(child: MyApp()));
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   // This widget is the root of your application.
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  @override
+  void initState() {
+    FirebaseAdMob.instance
+        .initialize(appId: 'ca-app-pub-3350228298599642~8510151158');
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
     return Provider<TiendaStore>(
-      create: (_) => TiendaStore(),
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Remap 4.0',
-        theme: ThemeData(
-          primaryColor: MyConstants.of(context).color1,
-          accentColor: MyConstants.of(context).color2,
-          fontFamily: MyConstants.of(context).fontFamily,
-          primarySwatch: Colors.blue,
-        ),
-        home: SafeArea(
-            child: // NavigationBar()
-                NavigationBar()),
-      ),
-    );
+        create: (_) => TiendaStore(),
+        child: MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'Remap 4.0',
+          theme: ThemeData(
+            primaryColor: MyConstants.of(context).color1,
+            accentColor: MyConstants.of(context).color2,
+            fontFamily: MyConstants.of(context).fontFamily,
+            primarySwatch: Colors.blue,
+          ),
+          home: SafeArea(child: NavigationBar()),
+        ));
   }
 }

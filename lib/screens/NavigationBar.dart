@@ -89,7 +89,7 @@ class _NavigationBarState extends State<NavigationBar> {
             children: [
               HomeScreen(),
               ImageListScreen(),
-              Container(child: MapScreen()),
+              MapScreen(),
               SelectProductscreen()
             ],
           ),
