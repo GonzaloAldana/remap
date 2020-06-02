@@ -1,114 +1,35 @@
 {
   "project_info": {
-    "project_number": "261413608691",
-    "firebase_url": "https://pokemapa-8ff2e.firebaseio.com",
-    "project_id": "pokemapa-8ff2e",
-    "storage_bucket": "pokemapa-8ff2e.appspot.com"
+    "project_number": "877492152909",
+    "firebase_url": "https://meica-2472f.firebaseio.com",
+    "project_id": "meica-2472f",
+    "storage_bucket": "meica-2472f.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:261413608691:android:abbaa716b089a82d69eb86",
+        "mobilesdk_app_id": "1:877492152909:android:216e66e4f621bbfc528a04",
         "android_client_info": {
-          "package_name": "com.example.gonzalo_ui"
+          "package_name": "com.actg.meica"
         }
       },
       "oauth_client": [
         {
-          "client_id": "261413608691-esch2e37vp2laf814aiuk3ftdt5ltpm0.apps.googleusercontent.com",
+          "client_id": "877492152909-n95mnhb7ur7u603ao4b2jfg6upfvduc7.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDzS7cWnYlOAuetyu8zYtmHq6QMnnWp4Dk"
+          "current_key": "AIzaSyBUcOs0QWh7WwD5zBqsF1rodlUcAtOkCOc"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "261413608691-esch2e37vp2laf814aiuk3ftdt5ltpm0.apps.googleusercontent.com",
+              "client_id": "877492152909-n95mnhb7ur7u603ao4b2jfg6upfvduc7.apps.googleusercontent.com",
               "client_type": 3
-            },
-            {
-              "client_id": "261413608691-o6jcno2i2uroobi9r6qsquf6kn0gktnr.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "street.art.leon"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:261413608691:android:a25773a8d6c9e3e3",
-        "android_client_info": {
-          "package_name": "com.example.mapa"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "261413608691-esch2e37vp2laf814aiuk3ftdt5ltpm0.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyDzS7cWnYlOAuetyu8zYtmHq6QMnnWp4Dk"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "261413608691-esch2e37vp2laf814aiuk3ftdt5ltpm0.apps.googleusercontent.com",
-              "client_type": 3
-            },
-            {
-              "client_id": "261413608691-o6jcno2i2uroobi9r6qsquf6kn0gktnr.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "street.art.leon"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:261413608691:android:c1fcff223cba38b769eb86",
-        "android_client_info": {
-          "package_name": "com.example.remap"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "261413608691-esch2e37vp2laf814aiuk3ftdt5ltpm0.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyDzS7cWnYlOAuetyu8zYtmHq6QMnnWp4Dk"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "261413608691-esch2e37vp2laf814aiuk3ftdt5ltpm0.apps.googleusercontent.com",
-              "client_type": 3
-            },
-            {
-              "client_id": "261413608691-o6jcno2i2uroobi9r6qsquf6kn0gktnr.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "street.art.leon"
-              }
             }
           ]
         }
