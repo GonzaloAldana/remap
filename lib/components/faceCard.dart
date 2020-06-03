@@ -45,6 +45,7 @@ class FaceCard extends StatelessWidget {
 
     var txtNombre = Text(
       this.nombre,
+      textAlign: TextAlign.center,
       style: TextStyle(
           fontSize: MyConstants.of(context).midTitleSize,
           fontWeight: MyConstants.of(context).fontMedium,
