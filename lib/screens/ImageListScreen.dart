@@ -59,6 +59,7 @@ class _ImageListScreenState extends State<ImageListScreen> {
                       children: <Widget>[
                         Expanded(
                           child: CustomScrollView(
+                            physics: BouncingScrollPhysics(),
                             slivers: <Widget>[
                               SliverList(
                                 delegate: SliverChildListDelegate([

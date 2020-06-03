@@ -14,6 +14,7 @@ class HomeScreen extends StatelessWidget {
 
     return Container(
       child: SingleChildScrollView(
+        physics: BouncingScrollPhysics(),
         child: Column(
           children: <Widget>[
             ContainerSeparator(
@@ -54,12 +55,12 @@ class HomeScreen extends StatelessWidget {
             ),
             ContainerSeparator(
               titulo: '¿Cómo puedo ayudar?',
-              subtitulo: 'Conviértete en un héroe',
+              subtitulo: 'Guías de uso de la app',
               child: TutorialesListGenerator(),
             ),
             ContainerSeparator(
               titulo: 'Nuestros aliados',
-              subtitulo: 'Conoce quiénes están ayudando al mundo',
+              subtitulo: 'Conoce quiénes están apoyando esta iniciativa',
               child: AliadosListGenerator(),
             ),
             SizedBox(

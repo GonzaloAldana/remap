@@ -11,17 +11,20 @@ class AliadosListGenerator extends StatelessWidget {
 
     return Container(
       height: getResponsiveDps(160, width),
-      child: ListView.builder(
+      child: ListView(
         scrollDirection: Axis.horizontal,
+        physics: BouncingScrollPhysics(),
         shrinkWrap: true,
-        itemCount: 10,
-        itemBuilder: (context, index) {
-          return FaceCard(
-              //
-              nombre: 'Gonzalo',
+        children: <Widget>[
+          FaceCard(
+              nombre: 'Frena La Curva',
               url:
-                  'https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500');
-        },
+                  'https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'),
+          FaceCard(
+              nombre: 'Lab León',
+              url:
+                  'https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500')
+        ],
       ),
     );
   }

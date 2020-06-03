@@ -55,3 +55,46 @@ Function showMissingDialog = (BuildContext context, String texto) =>
                 )));
       },
     );
+
+Function showLongTextDialog = (BuildContext context, String texto) =>
+    showDialog<void>(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext context) {
+        return AlertDialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20.0)),
+            content: Container(
+                height:
+                    getResponsiveDps(300, MediaQuery.of(context).size.width),
+                width: getResponsiveDps(300, MediaQuery.of(context).size.width),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: <Widget>[
+                    Expanded(
+                      child: CustomScrollView(
+                        physics: BouncingScrollPhysics(),
+                        slivers: <Widget>[
+                          SliverList(
+                            delegate: SliverChildListDelegate([
+                              Column(
+                                children: <Widget>[
+                                  Text(
+                                    texto,
+                                    textAlign: TextAlign.center,
+                                  )
+                                ],
+                              )
+                            ]),
+                          )
+                        ],
+                      ),
+                    ),
+                    SlimButton(
+                      text: 'Cerrar',
+                      onPress: () => Navigator.of(context).pop(),
+                    )
+                  ],
+                )));
+      },
+    );
