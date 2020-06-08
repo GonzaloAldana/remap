@@ -60,7 +60,7 @@ void shareImage(String imageUrl) async {
   String tipo = imageUrl.split('.').last.split('%').first.split('?').first;
   await Share.file("Compartir en", 'foto.${tipo}', bytes.buffer.asUint8List(),
       'image/${tipo}',
-      text: 'Compartido desde ReMap 4.0');
+      text: 'Compartido desde Meica');
 }
 
 Future<List<Marcador>> getMarcadores(
@@ -90,7 +90,7 @@ void launchMap(String lat, String long) async {
 
 void launchWhatsApp(DistanciaMarcador marc) async {
   String message =
-      'Hola, vi tu tienda en ReMap 4.0 y me gustaría ponerme en contacto contigo';
+      'Hola, vi tu tienda en Meica y me gustaría ponerme en contacto contigo';
   var whatsappUrl =
       "whatsapp://send?phone=${marc.marcador.telefono}&text=$message";
   if (await canLaunch(whatsappUrl)) {

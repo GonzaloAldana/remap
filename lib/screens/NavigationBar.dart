@@ -8,6 +8,7 @@ import 'package:remap/screens/HomeScreen.dart';
 import 'package:remap/screens/SelectProductsScreen.dart';
 import 'package:remap/store/tienda_store/tiendastore.dart';
 import 'package:remap/utils/constants.dart';
+import 'package:remap/utils/utils.dart';
 import 'ImageListScreen.dart';
 import 'MapScreen.dart';
 
@@ -26,6 +27,7 @@ class _NavigationBarState extends State<NavigationBar> {
 
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
     if (tiendaStore == null) {
       tiendaStore = Provider.of<TiendaStore>(context, listen: false);
     }
@@ -34,19 +36,32 @@ class _NavigationBarState extends State<NavigationBar> {
 
     var iconList = [
       TabItemIcon(
-          iconData: Icons.home, startColor: MyConstants.of(context).colorGray),
+          curveColor: MyConstants.of(context).color1.withAlpha(100),
+          iconData: Icons.home,
+          startColor: MyConstants.of(context).colorGray),
       TabItemIcon(
+          curveColor: MyConstants.of(context).color1.withAlpha(100),
           iconData: Icons.location_city,
           startColor: MyConstants.of(context).colorGray),
       TabItemIcon(
+          curveColor: MyConstants.of(context).color1.withAlpha(100),
           iconData: FontAwesomeIcons.mapMarkerAlt,
           startColor: MyConstants.of(context).colorGray),
       TabItemIcon(
-          iconData: Icons.list, startColor: MyConstants.of(context).colorGray),
+          curveColor: MyConstants.of(context).color1.withAlpha(100),
+          iconData: Icons.list,
+          startColor: MyConstants.of(context).colorGray),
     ];
 
     var appBar = AppBar(
-      title: Text('ReMap 4.0'),
+      title: Container(
+        height: getResponsiveDps(35, width),
+        width: getResponsiveDps(35, width),
+        decoration: BoxDecoration(
+          image: DecorationImage(
+              image: AssetImage('assets/meicaBlanco.png'), fit: BoxFit.cover),
+        ),
+      ),
       actions: <Widget>[
         IconButton(
           icon: Icon(

@@ -30,7 +30,7 @@ class _MyAppState extends State<MyApp> {
         create: (_) => TiendaStore(),
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
-          title: 'Remap 4.0',
+          title: 'Meica',
           theme: ThemeData(
             primaryColor: MyConstants.of(context).color1,
             accentColor: MyConstants.of(context).color2,

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
-import 'package:loading_animations/loading_animations.dart';
 
 class MyConstants extends InheritedWidget {
   static MyConstants of(BuildContext context) =>
@@ -9,8 +8,8 @@ class MyConstants extends InheritedWidget {
   MyConstants({Widget child, Key key}) : super(key: key, child: child);
 
   final String successMessage = 'Some message';
-  final Color color1 = Color(0xff100339); //Color(0xff584BDD);
-  final Color color2 = Color(0xfff1554c); //Color(0xffB154FD);
+  final Color color1 = Color(0xff009A8E); //Color(0xff584BDD);
+  final Color color2 = Color(0xffFFC500); //Color(0xffB154FD);
   final Color color2Gradient = Color(0xfffdb05e); //Color(0xffB154FD);
   final Color colorGray = Color(0xff454545);
   final String fontFamily = 'Montserrat';
@@ -46,13 +45,7 @@ class MyConstants extends InheritedWidget {
     'Servicio a domicilio'
   ];
 
-  final Widget progressIndicator = LoadingDoubleFlipping.circle(
-    borderColor: Color(0xfff1554c),
-    borderSize: 3.0,
-    size: 100.0,
-    backgroundColor: Color(0xff100339),
-    duration: Duration(milliseconds: 500),
-  );
+  final Widget progressIndicator = CircularProgressIndicator();
 
   final tileLayerOptions = TileLayerOptions(
     urlTemplate:
