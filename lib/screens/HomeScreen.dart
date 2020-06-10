@@ -1,16 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:remap/atoms/containerSeparator.dart';
 import 'package:remap/lists/AliadosListGenerator.dart';
 import 'package:remap/lists/TutorialesListGenerator.dart';
+import 'package:remap/store/tienda_store/tiendastore.dart';
 import 'package:remap/utils/constants.dart';
 import 'package:remap/utils/utils.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key key}) : super(key: key);
+  static TiendaStore tiendaStore;
 
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
+    if (tiendaStore == null) {
+      tiendaStore = Provider.of<TiendaStore>(context, listen: false);
+    }
 
     return Container(
       child: SingleChildScrollView(
@@ -61,7 +67,9 @@ class HomeScreen extends StatelessWidget {
             ContainerSeparator(
               titulo: 'Nuestros aliados',
               subtitulo: 'Conoce quiénes están apoyando esta iniciativa',
-              child: AliadosListGenerator(),
+              child: AliadosListGenerator(
+                aliados: tiendaStore.listaAliados,
+              ),
             ),
             SizedBox(
               height: 20,

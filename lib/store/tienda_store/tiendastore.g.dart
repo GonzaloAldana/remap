@@ -13,34 +13,30 @@ mixin _$TiendaStore on _TiendaStore, Store {
 
   @override
   Position get position {
-    _$positionAtom.context.enforceReadPolicy(_$positionAtom);
-    _$positionAtom.reportObserved();
+    _$positionAtom.reportRead();
     return super.position;
   }
 
   @override
   set position(Position value) {
-    _$positionAtom.context.conditionallyRunInAction(() {
+    _$positionAtom.reportWrite(value, super.position, () {
       super.position = value;
-      _$positionAtom.reportChanged();
-    }, _$positionAtom, name: '${_$positionAtom.name}_set');
+    });
   }
 
   final _$countryCodeAtom = Atom(name: '_TiendaStore.countryCode');
 
   @override
   String get countryCode {
-    _$countryCodeAtom.context.enforceReadPolicy(_$countryCodeAtom);
-    _$countryCodeAtom.reportObserved();
+    _$countryCodeAtom.reportRead();
     return super.countryCode;
   }
 
   @override
   set countryCode(String value) {
-    _$countryCodeAtom.context.conditionallyRunInAction(() {
+    _$countryCodeAtom.reportWrite(value, super.countryCode, () {
       super.countryCode = value;
-      _$countryCodeAtom.reportChanged();
-    }, _$countryCodeAtom, name: '${_$countryCodeAtom.name}_set');
+    });
   }
 
   final _$administrativeAreaAtom =
@@ -48,35 +44,30 @@ mixin _$TiendaStore on _TiendaStore, Store {
 
   @override
   String get administrativeArea {
-    _$administrativeAreaAtom.context
-        .enforceReadPolicy(_$administrativeAreaAtom);
-    _$administrativeAreaAtom.reportObserved();
+    _$administrativeAreaAtom.reportRead();
     return super.administrativeArea;
   }
 
   @override
   set administrativeArea(String value) {
-    _$administrativeAreaAtom.context.conditionallyRunInAction(() {
+    _$administrativeAreaAtom.reportWrite(value, super.administrativeArea, () {
       super.administrativeArea = value;
-      _$administrativeAreaAtom.reportChanged();
-    }, _$administrativeAreaAtom, name: '${_$administrativeAreaAtom.name}_set');
+    });
   }
 
   final _$localityAtom = Atom(name: '_TiendaStore.locality');
 
   @override
   String get locality {
-    _$localityAtom.context.enforceReadPolicy(_$localityAtom);
-    _$localityAtom.reportObserved();
+    _$localityAtom.reportRead();
     return super.locality;
   }
 
   @override
   set locality(String value) {
-    _$localityAtom.context.conditionallyRunInAction(() {
+    _$localityAtom.reportWrite(value, super.locality, () {
       super.locality = value;
-      _$localityAtom.reportChanged();
-    }, _$localityAtom, name: '${_$localityAtom.name}_set');
+    });
   }
 
   final _$ubicacionIsLoadingAtom =
@@ -84,35 +75,30 @@ mixin _$TiendaStore on _TiendaStore, Store {
 
   @override
   bool get ubicacionIsLoading {
-    _$ubicacionIsLoadingAtom.context
-        .enforceReadPolicy(_$ubicacionIsLoadingAtom);
-    _$ubicacionIsLoadingAtom.reportObserved();
+    _$ubicacionIsLoadingAtom.reportRead();
     return super.ubicacionIsLoading;
   }
 
   @override
   set ubicacionIsLoading(bool value) {
-    _$ubicacionIsLoadingAtom.context.conditionallyRunInAction(() {
+    _$ubicacionIsLoadingAtom.reportWrite(value, super.ubicacionIsLoading, () {
       super.ubicacionIsLoading = value;
-      _$ubicacionIsLoadingAtom.reportChanged();
-    }, _$ubicacionIsLoadingAtom, name: '${_$ubicacionIsLoadingAtom.name}_set');
+    });
   }
 
   final _$listaMarcadoresAtom = Atom(name: '_TiendaStore.listaMarcadores');
 
   @override
   List<Marcador> get listaMarcadores {
-    _$listaMarcadoresAtom.context.enforceReadPolicy(_$listaMarcadoresAtom);
-    _$listaMarcadoresAtom.reportObserved();
+    _$listaMarcadoresAtom.reportRead();
     return super.listaMarcadores;
   }
 
   @override
   set listaMarcadores(List<Marcador> value) {
-    _$listaMarcadoresAtom.context.conditionallyRunInAction(() {
+    _$listaMarcadoresAtom.reportWrite(value, super.listaMarcadores, () {
       super.listaMarcadores = value;
-      _$listaMarcadoresAtom.reportChanged();
-    }, _$listaMarcadoresAtom, name: '${_$listaMarcadoresAtom.name}_set');
+    });
   }
 
   final _$listaMarcadoresIsLoadingAtom =
@@ -120,19 +106,16 @@ mixin _$TiendaStore on _TiendaStore, Store {
 
   @override
   bool get listaMarcadoresIsLoading {
-    _$listaMarcadoresIsLoadingAtom.context
-        .enforceReadPolicy(_$listaMarcadoresIsLoadingAtom);
-    _$listaMarcadoresIsLoadingAtom.reportObserved();
+    _$listaMarcadoresIsLoadingAtom.reportRead();
     return super.listaMarcadoresIsLoading;
   }
 
   @override
   set listaMarcadoresIsLoading(bool value) {
-    _$listaMarcadoresIsLoadingAtom.context.conditionallyRunInAction(() {
+    _$listaMarcadoresIsLoadingAtom
+        .reportWrite(value, super.listaMarcadoresIsLoading, () {
       super.listaMarcadoresIsLoading = value;
-      _$listaMarcadoresIsLoadingAtom.reportChanged();
-    }, _$listaMarcadoresIsLoadingAtom,
-        name: '${_$listaMarcadoresIsLoadingAtom.name}_set');
+    });
   }
 
   final _$listaDistanciaMarcadoresAtom =
@@ -140,19 +123,16 @@ mixin _$TiendaStore on _TiendaStore, Store {
 
   @override
   List<DistanciaMarcador> get listaDistanciaMarcadores {
-    _$listaDistanciaMarcadoresAtom.context
-        .enforceReadPolicy(_$listaDistanciaMarcadoresAtom);
-    _$listaDistanciaMarcadoresAtom.reportObserved();
+    _$listaDistanciaMarcadoresAtom.reportRead();
     return super.listaDistanciaMarcadores;
   }
 
   @override
   set listaDistanciaMarcadores(List<DistanciaMarcador> value) {
-    _$listaDistanciaMarcadoresAtom.context.conditionallyRunInAction(() {
+    _$listaDistanciaMarcadoresAtom
+        .reportWrite(value, super.listaDistanciaMarcadores, () {
       super.listaDistanciaMarcadores = value;
-      _$listaDistanciaMarcadoresAtom.reportChanged();
-    }, _$listaDistanciaMarcadoresAtom,
-        name: '${_$listaDistanciaMarcadoresAtom.name}_set');
+    });
   }
 
   final _$listaDistanciaMarcadoresIsLoadingAtom =
@@ -160,37 +140,31 @@ mixin _$TiendaStore on _TiendaStore, Store {
 
   @override
   bool get listaDistanciaMarcadoresIsLoading {
-    _$listaDistanciaMarcadoresIsLoadingAtom.context
-        .enforceReadPolicy(_$listaDistanciaMarcadoresIsLoadingAtom);
-    _$listaDistanciaMarcadoresIsLoadingAtom.reportObserved();
+    _$listaDistanciaMarcadoresIsLoadingAtom.reportRead();
     return super.listaDistanciaMarcadoresIsLoading;
   }
 
   @override
   set listaDistanciaMarcadoresIsLoading(bool value) {
-    _$listaDistanciaMarcadoresIsLoadingAtom.context.conditionallyRunInAction(
-        () {
+    _$listaDistanciaMarcadoresIsLoadingAtom
+        .reportWrite(value, super.listaDistanciaMarcadoresIsLoading, () {
       super.listaDistanciaMarcadoresIsLoading = value;
-      _$listaDistanciaMarcadoresIsLoadingAtom.reportChanged();
-    }, _$listaDistanciaMarcadoresIsLoadingAtom,
-        name: '${_$listaDistanciaMarcadoresIsLoadingAtom.name}_set');
+    });
   }
 
   final _$resultadoBusquedaAtom = Atom(name: '_TiendaStore.resultadoBusqueda');
 
   @override
   List<DistanciaMarcador> get resultadoBusqueda {
-    _$resultadoBusquedaAtom.context.enforceReadPolicy(_$resultadoBusquedaAtom);
-    _$resultadoBusquedaAtom.reportObserved();
+    _$resultadoBusquedaAtom.reportRead();
     return super.resultadoBusqueda;
   }
 
   @override
   set resultadoBusqueda(List<DistanciaMarcador> value) {
-    _$resultadoBusquedaAtom.context.conditionallyRunInAction(() {
+    _$resultadoBusquedaAtom.reportWrite(value, super.resultadoBusqueda, () {
       super.resultadoBusqueda = value;
-      _$resultadoBusquedaAtom.reportChanged();
-    }, _$resultadoBusquedaAtom, name: '${_$resultadoBusquedaAtom.name}_set');
+    });
   }
 
   final _$resultadoBusquedaIsLoadingAtom =
@@ -198,19 +172,31 @@ mixin _$TiendaStore on _TiendaStore, Store {
 
   @override
   bool get resultadoBusquedaIsLoading {
-    _$resultadoBusquedaIsLoadingAtom.context
-        .enforceReadPolicy(_$resultadoBusquedaIsLoadingAtom);
-    _$resultadoBusquedaIsLoadingAtom.reportObserved();
+    _$resultadoBusquedaIsLoadingAtom.reportRead();
     return super.resultadoBusquedaIsLoading;
   }
 
   @override
   set resultadoBusquedaIsLoading(bool value) {
-    _$resultadoBusquedaIsLoadingAtom.context.conditionallyRunInAction(() {
+    _$resultadoBusquedaIsLoadingAtom
+        .reportWrite(value, super.resultadoBusquedaIsLoading, () {
       super.resultadoBusquedaIsLoading = value;
-      _$resultadoBusquedaIsLoadingAtom.reportChanged();
-    }, _$resultadoBusquedaIsLoadingAtom,
-        name: '${_$resultadoBusquedaIsLoadingAtom.name}_set');
+    });
+  }
+
+  final _$listaAliadosAtom = Atom(name: '_TiendaStore.listaAliados');
+
+  @override
+  List<Aliado> get listaAliados {
+    _$listaAliadosAtom.reportRead();
+    return super.listaAliados;
+  }
+
+  @override
+  set listaAliados(List<Aliado> value) {
+    _$listaAliadosAtom.reportWrite(value, super.listaAliados, () {
+      super.listaAliados = value;
+    });
   }
 
   final _$everythingIsLoadingAtom =
@@ -218,22 +204,19 @@ mixin _$TiendaStore on _TiendaStore, Store {
 
   @override
   bool get everythingIsLoading {
-    _$everythingIsLoadingAtom.context
-        .enforceReadPolicy(_$everythingIsLoadingAtom);
-    _$everythingIsLoadingAtom.reportObserved();
+    _$everythingIsLoadingAtom.reportRead();
     return super.everythingIsLoading;
   }
 
   @override
   set everythingIsLoading(bool value) {
-    _$everythingIsLoadingAtom.context.conditionallyRunInAction(() {
+    _$everythingIsLoadingAtom.reportWrite(value, super.everythingIsLoading, () {
       super.everythingIsLoading = value;
-      _$everythingIsLoadingAtom.reportChanged();
-    }, _$everythingIsLoadingAtom,
-        name: '${_$everythingIsLoadingAtom.name}_set');
+    });
   }
 
-  final _$getUbicacionStoreAsyncAction = AsyncAction('getUbicacionStore');
+  final _$getUbicacionStoreAsyncAction =
+      AsyncAction('_TiendaStore.getUbicacionStore');
 
   @override
   Future<dynamic> getUbicacionStore() {
@@ -241,7 +224,7 @@ mixin _$TiendaStore on _TiendaStore, Store {
   }
 
   final _$getListaMarcadoresFromAPIAsyncAction =
-      AsyncAction('getListaMarcadoresFromAPI');
+      AsyncAction('_TiendaStore.getListaMarcadoresFromAPI');
 
   @override
   Future<dynamic> getListaMarcadoresFromAPI() {
@@ -250,111 +233,12 @@ mixin _$TiendaStore on _TiendaStore, Store {
   }
 
   final _$getListaDistanciaMarcadoresFromAPIAsyncAction =
-      AsyncAction('getListaDistanciaMarcadoresFromAPI');
+      AsyncAction('_TiendaStore.getListaDistanciaMarcadoresFromAPI');
 
   @override
   Future<dynamic> getListaDistanciaMarcadoresFromAPI() {
     return _$getListaDistanciaMarcadoresFromAPIAsyncAction
         .run(() => super.getListaDistanciaMarcadoresFromAPI());
-  }
-
-  final _$loadEverythingAsyncAction = AsyncAction('loadEverything');
-
-  @override
-  Future<void> loadEverything() {
-    return _$loadEverythingAsyncAction.run(() => super.loadEverything());
-  }
-
-  final _$_TiendaStoreActionController = ActionController(name: '_TiendaStore');
-
-  @override
-  void changeUbicacionIsLoading() {
-    final _$actionInfo = _$_TiendaStoreActionController.startAction();
-    try {
-      return super.changeUbicacionIsLoading();
-    } finally {
-      _$_TiendaStoreActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  void changeUbicacionIsNotLoading() {
-    final _$actionInfo = _$_TiendaStoreActionController.startAction();
-    try {
-      return super.changeUbicacionIsNotLoading();
-    } finally {
-      _$_TiendaStoreActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  void changeListaMarcadoresIsLoading() {
-    final _$actionInfo = _$_TiendaStoreActionController.startAction();
-    try {
-      return super.changeListaMarcadoresIsLoading();
-    } finally {
-      _$_TiendaStoreActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  void changeListaMarcadoresIsNotLoading() {
-    final _$actionInfo = _$_TiendaStoreActionController.startAction();
-    try {
-      return super.changeListaMarcadoresIsNotLoading();
-    } finally {
-      _$_TiendaStoreActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  void changeListaDistanciaMarcadoresIsLoading() {
-    final _$actionInfo = _$_TiendaStoreActionController.startAction();
-    try {
-      return super.changeListaDistanciaMarcadoresIsLoading();
-    } finally {
-      _$_TiendaStoreActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  void changeListaDistanciaMarcadoresIsNotLoading() {
-    final _$actionInfo = _$_TiendaStoreActionController.startAction();
-    try {
-      return super.changeListaDistanciaMarcadoresIsNotLoading();
-    } finally {
-      _$_TiendaStoreActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  void changeResultadoBusquedaIsLoading() {
-    final _$actionInfo = _$_TiendaStoreActionController.startAction();
-    try {
-      return super.changeResultadoBusquedaIsLoading();
-    } finally {
-      _$_TiendaStoreActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  void changeResultadoBusquedaIsNotLoading() {
-    final _$actionInfo = _$_TiendaStoreActionController.startAction();
-    try {
-      return super.changeResultadoBusquedaIsNotLoading();
-    } finally {
-      _$_TiendaStoreActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  void filterSearchResults(String query) {
-    final _$actionInfo = _$_TiendaStoreActionController.startAction();
-    try {
-      return super.filterSearchResults(query);
-    } finally {
-      _$_TiendaStoreActionController.endAction(_$actionInfo);
-    }
   }
 
   @override
@@ -369,9 +253,126 @@ mixin _$TiendaStore on _TiendaStore, Store {
     }
   }
 
+  final _$getAliadosAPIAsyncAction = AsyncAction('_TiendaStore.getAliadosAPI');
+
+  @override
+  Future<dynamic> getAliadosAPI() {
+    return _$getAliadosAPIAsyncAction.run(() => super.getAliadosAPI());
+  }
+
+  final _$loadEverythingAsyncAction =
+      AsyncAction('_TiendaStore.loadEverything');
+
+  @override
+  Future<void> loadEverything() {
+    return _$loadEverythingAsyncAction.run(() => super.loadEverything());
+  }
+
+  final _$_TiendaStoreActionController = ActionController(name: '_TiendaStore');
+
+  @override
+  void changeUbicacionIsLoading() {
+    final _$actionInfo = _$_TiendaStoreActionController.startAction(
+        name: '_TiendaStore.changeUbicacionIsLoading');
+    try {
+      return super.changeUbicacionIsLoading();
+    } finally {
+      _$_TiendaStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void changeUbicacionIsNotLoading() {
+    final _$actionInfo = _$_TiendaStoreActionController.startAction(
+        name: '_TiendaStore.changeUbicacionIsNotLoading');
+    try {
+      return super.changeUbicacionIsNotLoading();
+    } finally {
+      _$_TiendaStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void changeListaMarcadoresIsLoading() {
+    final _$actionInfo = _$_TiendaStoreActionController.startAction(
+        name: '_TiendaStore.changeListaMarcadoresIsLoading');
+    try {
+      return super.changeListaMarcadoresIsLoading();
+    } finally {
+      _$_TiendaStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void changeListaMarcadoresIsNotLoading() {
+    final _$actionInfo = _$_TiendaStoreActionController.startAction(
+        name: '_TiendaStore.changeListaMarcadoresIsNotLoading');
+    try {
+      return super.changeListaMarcadoresIsNotLoading();
+    } finally {
+      _$_TiendaStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void changeListaDistanciaMarcadoresIsLoading() {
+    final _$actionInfo = _$_TiendaStoreActionController.startAction(
+        name: '_TiendaStore.changeListaDistanciaMarcadoresIsLoading');
+    try {
+      return super.changeListaDistanciaMarcadoresIsLoading();
+    } finally {
+      _$_TiendaStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void changeListaDistanciaMarcadoresIsNotLoading() {
+    final _$actionInfo = _$_TiendaStoreActionController.startAction(
+        name: '_TiendaStore.changeListaDistanciaMarcadoresIsNotLoading');
+    try {
+      return super.changeListaDistanciaMarcadoresIsNotLoading();
+    } finally {
+      _$_TiendaStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void changeResultadoBusquedaIsLoading() {
+    final _$actionInfo = _$_TiendaStoreActionController.startAction(
+        name: '_TiendaStore.changeResultadoBusquedaIsLoading');
+    try {
+      return super.changeResultadoBusquedaIsLoading();
+    } finally {
+      _$_TiendaStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void changeResultadoBusquedaIsNotLoading() {
+    final _$actionInfo = _$_TiendaStoreActionController.startAction(
+        name: '_TiendaStore.changeResultadoBusquedaIsNotLoading');
+    try {
+      return super.changeResultadoBusquedaIsNotLoading();
+    } finally {
+      _$_TiendaStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void filterSearchResults(String query) {
+    final _$actionInfo = _$_TiendaStoreActionController.startAction(
+        name: '_TiendaStore.filterSearchResults');
+    try {
+      return super.filterSearchResults(query);
+    } finally {
+      _$_TiendaStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
   @override
   void searchAll() {
-    final _$actionInfo = _$_TiendaStoreActionController.startAction();
+    final _$actionInfo = _$_TiendaStoreActionController.startAction(
+        name: '_TiendaStore.searchAll');
     try {
       return super.searchAll();
     } finally {
@@ -381,7 +382,8 @@ mixin _$TiendaStore on _TiendaStore, Store {
 
   @override
   void changeEverythingIsLoading() {
-    final _$actionInfo = _$_TiendaStoreActionController.startAction();
+    final _$actionInfo = _$_TiendaStoreActionController.startAction(
+        name: '_TiendaStore.changeEverythingIsLoading');
     try {
       return super.changeEverythingIsLoading();
     } finally {
@@ -391,7 +393,8 @@ mixin _$TiendaStore on _TiendaStore, Store {
 
   @override
   void changeEverythingIsNotLoading() {
-    final _$actionInfo = _$_TiendaStoreActionController.startAction();
+    final _$actionInfo = _$_TiendaStoreActionController.startAction(
+        name: '_TiendaStore.changeEverythingIsNotLoading');
     try {
       return super.changeEverythingIsNotLoading();
     } finally {
@@ -401,8 +404,20 @@ mixin _$TiendaStore on _TiendaStore, Store {
 
   @override
   String toString() {
-    final string =
-        'position: ${position.toString()},countryCode: ${countryCode.toString()},administrativeArea: ${administrativeArea.toString()},locality: ${locality.toString()},ubicacionIsLoading: ${ubicacionIsLoading.toString()},listaMarcadores: ${listaMarcadores.toString()},listaMarcadoresIsLoading: ${listaMarcadoresIsLoading.toString()},listaDistanciaMarcadores: ${listaDistanciaMarcadores.toString()},listaDistanciaMarcadoresIsLoading: ${listaDistanciaMarcadoresIsLoading.toString()},resultadoBusqueda: ${resultadoBusqueda.toString()},resultadoBusquedaIsLoading: ${resultadoBusquedaIsLoading.toString()},everythingIsLoading: ${everythingIsLoading.toString()}';
-    return '{$string}';
+    return '''
+position: ${position},
+countryCode: ${countryCode},
+administrativeArea: ${administrativeArea},
+locality: ${locality},
+ubicacionIsLoading: ${ubicacionIsLoading},
+listaMarcadores: ${listaMarcadores},
+listaMarcadoresIsLoading: ${listaMarcadoresIsLoading},
+listaDistanciaMarcadores: ${listaDistanciaMarcadores},
+listaDistanciaMarcadoresIsLoading: ${listaDistanciaMarcadoresIsLoading},
+resultadoBusqueda: ${resultadoBusqueda},
+resultadoBusquedaIsLoading: ${resultadoBusquedaIsLoading},
+listaAliados: ${listaAliados},
+everythingIsLoading: ${everythingIsLoading}
+    ''';
   }
 }

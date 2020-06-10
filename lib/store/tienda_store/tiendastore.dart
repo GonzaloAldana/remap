@@ -210,6 +210,17 @@ abstract class _TiendaStore with Store {
     changeResultadoBusquedaIsNotLoading();
   }
 
+// Aliados -----------------------------
+  @observable
+  List<Aliado> listaAliados = List<Aliado>();
+
+  @action
+  Future getAliadosAPI() async {
+    await getAliados().then((lista) {
+      listaAliados = lista;
+    });
+  }
+
 // Todossss---------------------------------------------------------
   @observable
   bool everythingIsLoading = true;
@@ -229,6 +240,7 @@ abstract class _TiendaStore with Store {
     await getUbicacionStore();
     await getListaMarcadoresFromAPI();
     await getListaDistanciaMarcadoresFromAPI();
+    await getAliadosAPI();
     resultadoBusqueda = List.of(listaDistanciaMarcadores);
     changeEverythingIsNotLoading();
   }

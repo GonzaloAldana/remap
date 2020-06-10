@@ -16,6 +16,16 @@ Future<Marcador> getMarcador(String coleccion, String id) async {
   return Marcador.fromMap(doc.data, doc.documentID);
 }
 
+Future<List<Aliado>> getAliados() async {
+  List<Aliado> lista = List();
+  QuerySnapshot doc =
+      await Firestore.instance.collection('aliados').getDocuments();
+  lista = doc.documents.map((DocumentSnapshot docSnapshot) {
+    return Aliado.fromMap(docSnapshot.data);
+  }).toList();
+  return lista;
+}
+
 Future<void> putStatiscticsUpdate(
     String coleccion, DistanciaMarcador distmarc, int option) async {
   /// Option:

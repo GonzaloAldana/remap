@@ -70,3 +70,13 @@ class SmartTicket {
 
   SmartTicket({this.distanciaMarcador, this.horario});
 }
+
+class Aliado {
+  String nombre;
+  String imagen;
+
+  Aliado({this.nombre, this.imagen});
+  Aliado.fromMap(Map snapshot)
+      : nombre = snapshot['nombre'] ?? '',
+        imagen = snapshot['imagen'] ?? '';
+}
