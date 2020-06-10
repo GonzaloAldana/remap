@@ -90,71 +90,76 @@ class DetailScreen extends StatelessWidget {
       },
     );
 
-    var listaProductosServicios = Expanded(
-      child: ListView(
-        children: [
-          for (MapEntry entry in marc.marcador.productos.asMap().entries)
-            entry.value
-                ? Card(
-                    child: ListTile(
-                      title: Text(
-                          MyConstants.of(context).listaProductos[entry.key]),
-                      trailing: Icon(
-                        Icons.check_circle,
-                        color: Colors.green,
-                      ),
-                    ),
-                  )
-                : Container(),
-          for (MapEntry entry in marc.marcador.servicios.asMap().entries)
-            entry.value
-                ? Card(
-                    child: ListTile(
-                      title: Text(
-                          MyConstants.of(context).listaServicios[entry.key]),
-                      trailing: Icon(
-                        Icons.check_circle,
-                        color: Colors.green,
-                      ),
-                    ),
-                  )
-                : Container(),
-          for (MapEntry entry in marc.marcador.serviciosCliente.asMap().entries)
-            entry.value
-                ? Card(
-                    child: ListTile(
-                      title: Text(MyConstants.of(context)
-                          .listaServiciosCliente[entry.key]),
-                      trailing: Icon(
-                        Icons.check_circle,
-                        color: Colors.green,
-                      ),
-                    ),
-                  )
-                : Container()
-        ],
-      ),
-    );
-
     var separador = SizedBox(height: 15);
 
     return SafeArea(
       child: Scaffold(
-        appBar: appBar,
-        body: Container(
-          child: Column(
-            children: [
-              imagenDetalle,
-              separador,
-              btnLanzarMapa,
-              separador,
-              btnContactar,
-              separador,
-              listaProductosServicios
+          appBar: appBar,
+          body: Container(
+              child: CustomScrollView(
+            physics: BouncingScrollPhysics(),
+            slivers: <Widget>[
+              SliverList(
+                delegate: SliverChildListDelegate([
+                  Column(
+                    children: <Widget>[
+                      imagenDetalle,
+                      separador,
+                      btnLanzarMapa,
+                      separador,
+                      btnContactar,
+                      separador,
+                      for (MapEntry entry
+                          in marc.marcador.productos.asMap().entries)
+                        entry.value
+                            ? Card(
+                                child: ListTile(
+                                  title: Text(MyConstants.of(context)
+                                      .listaProductos[entry.key]),
+                                  trailing: Icon(
+                                    Icons.check_circle,
+                                    color: Colors.green,
+                                  ),
+                                ),
+                              )
+                            : Container(),
+                      for (MapEntry entry
+                          in marc.marcador.servicios.asMap().entries)
+                        entry.value
+                            ? Card(
+                                child: ListTile(
+                                  title: Text(MyConstants.of(context)
+                                      .listaServicios[entry.key]),
+                                  trailing: Icon(
+                                    Icons.check_circle,
+                                    color: Colors.green,
+                                  ),
+                                ),
+                              )
+                            : Container(),
+                      for (MapEntry entry
+                          in marc.marcador.serviciosCliente.asMap().entries)
+                        entry.value
+                            ? Card(
+                                child: ListTile(
+                                  title: Text(MyConstants.of(context)
+                                      .listaServiciosCliente[entry.key]),
+                                  trailing: Icon(
+                                    Icons.check_circle,
+                                    color: Colors.green,
+                                  ),
+                                ),
+                              )
+                            : Container(),
+                      Container(
+                        height: 20,
+                      )
+                    ],
+                  )
+                ]),
+              )
             ],
-          ),
-        ),
-      ),
+          ))),
     );
   }
 }

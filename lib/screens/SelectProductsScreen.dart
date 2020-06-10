@@ -26,6 +26,7 @@ class SelectProductscreen extends StatelessWidget {
 
     return Container(
         child: CustomScrollView(
+      physics: BouncingScrollPhysics(),
       slivers: <Widget>[
         SliverList(
           delegate: SliverChildListDelegate([
