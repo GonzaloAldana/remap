@@ -6,8 +6,6 @@ import 'package:remap/screens/DetailScreen.dart';
 import 'package:remap/utils/functions.dart';
 import 'package:remap/utils/models.dart';
 
-const String testDevice = 'FEF1601C5B8DC07838A6D281D6911215';
-
 class DistanciaMarcadorListGenerator extends StatefulWidget {
   const DistanciaMarcadorListGenerator(
       {Key key,
@@ -30,7 +28,6 @@ class DistanciaMarcadorListGenerator extends StatefulWidget {
 class _DistanciaMarcadorListGeneratorState
     extends State<DistanciaMarcadorListGenerator> {
   static const MobileAdTargetingInfo targetingInfo = MobileAdTargetingInfo(
-    testDevices: testDevice != null ? <String>[testDevice] : null,
     nonPersonalizedAds: true,
   );
 

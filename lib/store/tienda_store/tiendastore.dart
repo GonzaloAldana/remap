@@ -47,7 +47,7 @@ abstract class _TiendaStore with Store {
       changeUbicacionIsNotLoading();
     });
     await Geolocator().placemarkFromPosition(position).then((placemark) {
-      countryCode = placemark[0].country;
+      countryCode = placemark[0].isoCountryCode;
       administrativeArea = placemark[0].administrativeArea;
       locality = placemark[0].locality;
     });

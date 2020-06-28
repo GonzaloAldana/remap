@@ -158,7 +158,6 @@ class _DataContactScreenState extends State<DataContactScreen> {
                   'hora': Timestamp.now(),
                   'registrado': Timestamp.now(),
                   'serviciosCliente': serviciosClienteSeleccionado,
-                  'telefono': telefono,
                   'vistos': 0,
                   'compartidos': 0,
                   'contactados': 0
