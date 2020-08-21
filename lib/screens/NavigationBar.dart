@@ -110,7 +110,9 @@ class _NavigationBarState extends State<NavigationBar> {
           ),
           bottomNavigationBar: JumpingTabBar(
             onChangeTab: (position) {
-              currentPage = position;
+              setState(() {
+                currentPage = position;
+              });
             },
             circleGradient: LinearGradient(
               colors: [

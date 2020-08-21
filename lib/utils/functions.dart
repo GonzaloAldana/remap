@@ -68,8 +68,8 @@ Future<List<Marcador>> getMarcadores(
   List<Marcador> lista = List();
   QuerySnapshot doc = await Firestore.instance
       .collection(coleccion)
-      .where('administrativeArea', isEqualTo: administrativeArea)
-      .where('locality', isEqualTo: locality)
+      /* .where('administrativeArea', isEqualTo: administrativeArea)
+      .where('locality', isEqualTo: locality) */
       .where('validado', isEqualTo: true)
       .getDocuments();
   lista = doc.documents.map((DocumentSnapshot docSnapshot) {

@@ -18,13 +18,13 @@ abstract class _TiendaStore with Store {
   Position position;
 
   @observable
-  String countryCode;
+  String countryCode = 'MX';
 
   @observable
-  String administrativeArea;
+  String administrativeArea = '';
 
   @observable
-  String locality;
+  String locality = '';
 
   @observable
   bool ubicacionIsLoading = true;
@@ -46,11 +46,15 @@ abstract class _TiendaStore with Store {
       position = pos;
       changeUbicacionIsNotLoading();
     });
-    await Geolocator().placemarkFromPosition(position).then((placemark) {
-      countryCode = placemark[0].isoCountryCode;
-      administrativeArea = placemark[0].administrativeArea;
-      locality = placemark[0].locality;
-    });
+    try {
+      await Geolocator().placemarkFromPosition(position).then((placemark) {
+        countryCode = placemark[0].isoCountryCode;
+        administrativeArea = placemark[0].administrativeArea;
+        locality = placemark[0].locality;
+      });
+    } catch (e) {
+      print(e);
+    }
   }
 
   // Lista marcadores --------------------------------------------------
