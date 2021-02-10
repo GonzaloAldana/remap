@@ -17,14 +17,14 @@ class _SearchScreenState extends State<SearchScreen> {
 
   // Tenemos 2 listas, una es tooda la información del servidor
   // la otra es el resultado de la búsqueda
-  var duplicateItems = List<String>();
-  var items = List<String>();
+  var duplicateItems = <String>[];
+  var items = <String>[];
 
-  String valorBusqueda = "";
+  String valorBusqueda = '';
 
   void _getNames() {
     // Obtenemos datos del servidor
-    duplicateItems = List<String>.generate(10000, (i) => "Item $i");
+    duplicateItems = List<String>.generate(10000, (i) => 'Item $i');
     setState(() {
       // Copiamos esta lista como resultado de la búsqueda
       items.addAll(duplicateItems);
@@ -40,10 +40,10 @@ class _SearchScreenState extends State<SearchScreen> {
 
   void filterSearchResults() {
     print(valorBusqueda);
-    List<String> dummySearchList = List<String>();
+    var dummySearchList = <String>[];
     dummySearchList.addAll(duplicateItems);
     if (valorBusqueda.isNotEmpty) {
-      List<String> dummyListData = List<String>();
+      var dummyListData = <String>[];
       dummySearchList.forEach((item) {
         if (item.contains(valorBusqueda)) {
           dummyListData.add(item);
@@ -89,7 +89,7 @@ class _SearchScreenState extends State<SearchScreen> {
             focusColor: Theme.of(context).accentColor,
             fillColor: Theme.of(context).accentColor,
             hoverColor: Theme.of(context).accentColor,
-            hintText: "Search",
+            hintText: 'Search',
             prefixIcon:
                 Icon(Icons.search, color: Theme.of(context).accentColor),
             border: OutlineInputBorder(

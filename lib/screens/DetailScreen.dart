@@ -21,9 +21,7 @@ class DetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (tiendaStore == null) {
-      tiendaStore = Provider.of<TiendaStore>(context, listen: false);
-    }
+    tiendaStore ??= Provider.of<TiendaStore>(context, listen: false);
 
     var appBar = AppBar(
       leading: IconButton(
@@ -35,7 +33,7 @@ class DetailScreen extends StatelessWidget {
             padding: EdgeInsets.only(right: 20.0),
             child: GestureDetector(
               onTap: () async {
-                GlobalKey<State> _keyLoader = GlobalKey<State>();
+                var _keyLoader = GlobalKey<State>();
 
                 unawaited(showLoadingDialog(context, _keyLoader)); //invokin
                 await putStatiscticsUpdate(tiendaStore.countryCode, marc, 2);

@@ -13,7 +13,7 @@ class FaceCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
+    var width = MediaQuery.of(context).size.width;
     var border = Radius.circular(getResponsiveDps(82, width));
 
     var cardImage = CachedNetworkImage(
@@ -44,7 +44,7 @@ class FaceCard extends StatelessWidget {
     );
 
     var txtNombre = Text(
-      this.nombre,
+      nombre,
       textAlign: TextAlign.center,
       style: TextStyle(
           fontSize: MyConstants.of(context).midTitleSize,

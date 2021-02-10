@@ -10,7 +10,7 @@ class SelectProductscreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<bool> productsSelected = List<bool>();
+    var productsSelected = <bool>[];
 
     Function callbackProducts =
         (List<bool> itemsSelected) => {productsSelected = itemsSelected};

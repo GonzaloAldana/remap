@@ -9,7 +9,6 @@ import 'package:remap/utils/constants.dart';
 void main() => runApp(MyConstants(child: MyApp()));
 
 class MyApp extends StatefulWidget {
-  // This widget is the root of your application.
   @override
   _MyAppState createState() => _MyAppState();
 }

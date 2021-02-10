@@ -45,12 +45,12 @@ class Marcador {
         serviciosCliente = snapshot['serviciosCliente'].cast<bool>() ?? '',
         telefono = snapshot['telefono'] ?? '';
 
-  toJson() {
+  Map<String, Object> toJson() {
     return {
-      "nombre": nombre,
-      "imagen": imagen,
-      "lat": lat,
-      "lon": lon,
+      'nombre': nombre,
+      'imagen': imagen,
+      'lat': lat,
+      'lon': lon,
       'servicios': servicios,
       ' productos': productos
     };

@@ -27,10 +27,8 @@ class _NavigationBarState extends State<NavigationBar> {
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
-    if (tiendaStore == null) {
-      tiendaStore = Provider.of<TiendaStore>(context, listen: false);
-    }
+    var width = MediaQuery.of(context).size.width;
+    tiendaStore ??= Provider.of<TiendaStore>(context, listen: false);
 
     if (tiendaStore.everythingIsLoading) tiendaStore.loadEverything();
 

@@ -21,7 +21,7 @@ class _SelectPositionScreenState extends State<SelectPositionScreen> {
   double radius = 500;
   TiendaStore tiendaStore;
 
-  generarMarker() {
+  void generarMarker() {
     markers = [
       Marker(
         height: 30,
@@ -35,14 +35,10 @@ class _SelectPositionScreenState extends State<SelectPositionScreen> {
 
   @override
   Widget build(BuildContext context) {
-    if (tiendaStore == null) {
-      tiendaStore = Provider.of<TiendaStore>(context, listen: false);
-    }
+    tiendaStore ??= Provider.of<TiendaStore>(context, listen: false);
 
-    if (_center == null) {
-      _center =
-          LatLng(tiendaStore.position.latitude, tiendaStore.position.longitude);
-    }
+    _center ??=
+        LatLng(tiendaStore.position.latitude, tiendaStore.position.longitude);
 
     generarMarker();
 

@@ -1,7 +1,6 @@
 import 'dart:ffi';
 import 'dart:io';
 import 'dart:math';
-import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:esys_flutter_share/esys_flutter_share.dart';
 import 'package:flutter/foundation.dart';
@@ -17,7 +16,7 @@ Future<Marcador> getMarcador(String coleccion, String id) async {
 }
 
 Future<List<Aliado>> getAliados() async {
-  List<Aliado> lista = List();
+  var lista = <Aliado>[];
   QuerySnapshot doc =
       await Firestore.instance.collection('aliados').getDocuments();
   lista = doc.documents.map((DocumentSnapshot docSnapshot) {
@@ -56,20 +55,17 @@ Future<void> putStatiscticsUpdate(
 void shareImage(String imageUrl) async {
   var request = await HttpClient().getUrl(Uri.parse(imageUrl));
   var response = await request.close();
-  Uint8List bytes = await consolidateHttpClientResponseBytes(response);
-  String tipo = imageUrl.split('.').last.split('%').first.split('?').first;
-  await Share.file("Compartir en", 'foto.${tipo}', bytes.buffer.asUint8List(),
+  var bytes = await consolidateHttpClientResponseBytes(response);
+  var tipo = imageUrl.split('.').last.split('%').first.split('?').first;
+  await Share.file('Compartir en', 'foto.${tipo}', bytes.buffer.asUint8List(),
       'image/${tipo}',
       text: 'Compartido desde Meica');
 }
 
-Future<List<Marcador>> getMarcadores(
-    String coleccion, String administrativeArea, String locality) async {
-  List<Marcador> lista = List();
+Future<List<Marcador>> getMarcadores(String coleccion) async {
+  var lista = <Marcador>[];
   QuerySnapshot doc = await Firestore.instance
       .collection(coleccion)
-      /* .where('administrativeArea', isEqualTo: administrativeArea)
-      .where('locality', isEqualTo: locality) */
       .where('validado', isEqualTo: true)
       .getDocuments();
   lista = doc.documents.map((DocumentSnapshot docSnapshot) {
@@ -89,10 +85,10 @@ void launchMap(String lat, String long) async {
 }
 
 void launchWhatsApp(DistanciaMarcador marc) async {
-  String message =
+  var message =
       'Hola, vi tu tienda en Meica y me gustaría ponerme en contacto contigo';
   var whatsappUrl =
-      "whatsapp://send?phone=${marc.marcador.telefono}&text=$message";
+      'whatsapp://send?phone=${marc.marcador.telefono}&text=$message';
   if (await canLaunch(whatsappUrl)) {
     await launch(whatsappUrl);
   } else {
@@ -102,7 +98,7 @@ void launchWhatsApp(DistanciaMarcador marc) async {
 
 Future<String> dist(
     double latInit, double lonInit, double lat, double lon) async {
-  double distancia =
+  var distancia =
       await Geolocator().distanceBetween(latInit, lonInit, lat, lon);
   distancia = distancia / 1000;
   return distancia.toStringAsFixed(2);
@@ -110,9 +106,9 @@ Future<String> dist(
 
 Future<List<DistanciaMarcador>> getDistanciasMarcadores(
     List<Marcador> marcadores, double latInit, double lonInit) async {
-  List<DistanciaMarcador> resultado = List<DistanciaMarcador>();
-  for (Marcador marcador in marcadores) {
-    DistanciaMarcador distanciaMarcador = DistanciaMarcador();
+  var resultado = <DistanciaMarcador>[];
+  for (var marcador in marcadores) {
+    var distanciaMarcador = DistanciaMarcador();
     distanciaMarcador.marcador = marcador;
     distanciaMarcador.distancia =
         await dist(latInit, lonInit, marcador.lat, marcador.lon);
@@ -122,7 +118,7 @@ Future<List<DistanciaMarcador>> getDistanciasMarcadores(
 }
 
 Future<Position> getPosition() async {
-  Position respuesta = await Geolocator().getLastKnownPosition();
+  var respuesta = await Geolocator().getLastKnownPosition();
   await Geolocator()
       .getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
       .then((Position position) {
@@ -140,9 +136,8 @@ Future<List<DistanciaMarcador>> getSmartTicket(String collection, double dist,
   /// gonzaloaldana.com
 //TODO: cambiar el área administrativa
   listaRecursivaCombinacionesTiendasCumplenConElCliente =
-      List<List<DistanciaMarcador>>();
-  List<DistanciaMarcador> listaCercanosQueCumplenloQueQuiereElCliente =
-      List<DistanciaMarcador>();
+      <List<DistanciaMarcador>>[];
+  var listaCercanosQueCumplenloQueQuiereElCliente = <DistanciaMarcador>[];
 
   distanciaMarcadores
       .removeWhere((item) => double.parse(item.distancia) > dist);
@@ -150,8 +145,8 @@ Future<List<DistanciaMarcador>> getSmartTicket(String collection, double dist,
   // Hasta aquí ya tenemos los lugares cercanos
   // Vamos a comprobar que tengan lo que el usuario necesita
 
-  for (DistanciaMarcador distMarc in distanciaMarcadores) {
-    int necesarios = 0;
+  for (var distMarc in distanciaMarcadores) {
+    var necesarios = 0;
 
     for (var i = 0;
         i < min(distMarc.marcador.productos.length, products.length);
@@ -171,25 +166,23 @@ Future<List<DistanciaMarcador>> getSmartTicket(String collection, double dist,
   // necesitamos ver las permutaciones para conocer todas las combinaciones que funcionen
   // Para esto vamos a usar recursividad
   print(listaCercanosQueCumplenloQueQuiereElCliente.length);
-  for (DistanciaMarcador distMarc
-      in listaCercanosQueCumplenloQueQuiereElCliente) {
+  for (var distMarc in listaCercanosQueCumplenloQueQuiereElCliente) {
     // Vamos a comenzar nuestras combinaciones con cada elemento de la lista
-    List<DistanciaMarcador> listaFaltantes =
-        List.from(listaCercanosQueCumplenloQueQuiereElCliente);
+    var listaFaltantes = List<DistanciaMarcador>.from(
+        listaCercanosQueCumplenloQueQuiereElCliente);
     listaFaltantes.remove(distMarc);
     await getCombinacionRecursiva(
-        List<DistanciaMarcador>(), distMarc, List.of(products), listaFaltantes);
+        <DistanciaMarcador>[], distMarc, List.of(products), listaFaltantes);
   }
   ;
 
   // Ya que tenemos lo que puede satisfacer las necesidades del cliente
   // falta ver el tema de cuál tienda necesita más clientes
-  double clientesPromedio = 0;
-  List<DistanciaMarcador> listaTiendasMenosClientes = List<DistanciaMarcador>();
-  for (List<DistanciaMarcador> listaAux
-      in listaRecursivaCombinacionesTiendasCumplenConElCliente) {
-    double promedioListTemporal = 0;
-    for (DistanciaMarcador distMarc in listaAux) {
+  var clientesPromedio = 0.0;
+  var listaTiendasMenosClientes = <DistanciaMarcador>[];
+  for (var listaAux in listaRecursivaCombinacionesTiendasCumplenConElCliente) {
+    var promedioListTemporal = 0.0;
+    for (var distMarc in listaAux) {
       promedioListTemporal += distMarc.marcador.vistos;
     }
     promedioListTemporal = promedioListTemporal / listaAux.length;
@@ -233,15 +226,15 @@ Future<List<DistanciaMarcador>> getSmartTicket(String collection, double dist,
   } */
 
   // Lista en caso de que no haya suficientes tiendas para surtir la lista de la despensa
-  List<DistanciaMarcador> listaDefault = List<DistanciaMarcador>();
-  DistanciaMarcador distMarcadorDefault = DistanciaMarcador();
-  Marcador marcadorDefault = Marcador();
+  var listaDefault = <DistanciaMarcador>[];
+  var distMarcadorDefault = DistanciaMarcador();
+  var marcadorDefault = Marcador();
   marcadorDefault.nombre =
-      "No pudimos completar tu ticket; puedes mapear más tiendas por tu zona o buscarlas individualmente";
+      'No pudimos completar tu ticket; puedes mapear más tiendas por tu zona o buscarlas individualmente';
   marcadorDefault.imagen =
       'https://previews.123rf.com/images/elenabsl/elenabsl1409/elenabsl140900005/31392676-street-map.jpg';
   distMarcadorDefault.marcador = marcadorDefault;
-  distMarcadorDefault.distancia = "--";
+  distMarcadorDefault.distancia = '--';
   listaDefault.add(distMarcadorDefault);
 
   return listaTiendasMenosClientes.isNotEmpty
@@ -254,7 +247,7 @@ Future<Void> getCombinacionRecursiva(
     DistanciaMarcador marcadorSiguiente,
     List<bool> productosFaltantes,
     List<DistanciaMarcador> listaFaltantes) async {
-  int necesarios = 0;
+  var necesarios = 0;
 
   for (var i = 0;
       i <
@@ -285,7 +278,7 @@ Future<Void> getCombinacionRecursiva(
     }
 
     // Verificar si ya con esto terminamos de cumplir las necesidades
-    int necesariosFaltantes = 0;
+    var necesariosFaltantes = 0;
 
     for (var i = 0; i < productosFaltantes.length; i++) {
       if (productosFaltantes[i]) {
@@ -296,7 +289,7 @@ Future<Void> getCombinacionRecursiva(
     // Si aún quedan necesidades por cumplir, vamos recursivamente
     // Si no es el caso, agregamos esta permutación a la lista de los que cumplen con las necesidades del cliente
     if (necesariosFaltantes > 0) {
-      for (DistanciaMarcador distMarc in listaFaltantes) {
+      for (var distMarc in listaFaltantes) {
         // Vamos a repetir la recursividad
         await getCombinacionRecursiva(List.from(listaTemporal), distMarc,
             List.from(productosFaltantes), List.from(listaFaltantes));

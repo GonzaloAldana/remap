@@ -20,46 +20,9 @@ abstract class _TiendaStore with Store {
   @observable
   String countryCode = 'MX';
 
-  @observable
-  String administrativeArea = '';
-
-  @observable
-  String locality = '';
-
-  @observable
-  bool ubicacionIsLoading = true;
-
-  @action
-  void changeUbicacionIsLoading() {
-    ubicacionIsLoading = true;
-  }
-
-  @action
-  void changeUbicacionIsNotLoading() {
-    ubicacionIsLoading = false;
-  }
-
-  @action
-  Future getUbicacionStore() async {
-    changeUbicacionIsLoading();
-    await getPosition().then((pos) {
-      position = pos;
-      changeUbicacionIsNotLoading();
-    });
-    try {
-      await Geolocator().placemarkFromPosition(position).then((placemark) {
-        countryCode = placemark[0].isoCountryCode;
-        administrativeArea = placemark[0].administrativeArea;
-        locality = placemark[0].locality;
-      });
-    } catch (e) {
-      print(e);
-    }
-  }
-
   // Lista marcadores --------------------------------------------------
   @observable
-  List<Marcador> listaMarcadores = List<Marcador>();
+  List<Marcador> listaMarcadores = <Marcador>[];
 
   @observable
   bool listaMarcadoresIsLoading = true;
@@ -77,8 +40,7 @@ abstract class _TiendaStore with Store {
   @action
   Future getListaMarcadoresFromAPI() async {
     changeListaMarcadoresIsLoading();
-    await getMarcadores(countryCode, administrativeArea, locality)
-        .then((lista) {
+    await getMarcadores(countryCode).then((lista) {
       listaMarcadores = lista;
       changeListaMarcadoresIsNotLoading();
     });
@@ -86,7 +48,7 @@ abstract class _TiendaStore with Store {
 
   // Lista DistanciaMarcador --------------------------------------------------
   @observable
-  List<DistanciaMarcador> listaDistanciaMarcadores = List<DistanciaMarcador>();
+  List<DistanciaMarcador> listaDistanciaMarcadores = <DistanciaMarcador>[];
 
   @observable
   bool listaDistanciaMarcadoresIsLoading = true;
@@ -116,7 +78,7 @@ abstract class _TiendaStore with Store {
 
   // Lista Busqueda --------------------------------------------------
   @observable
-  List<DistanciaMarcador> resultadoBusqueda = List<DistanciaMarcador>();
+  List<DistanciaMarcador> resultadoBusqueda = <DistanciaMarcador>[];
 
   @observable
   bool resultadoBusquedaIsLoading = false;
@@ -135,7 +97,7 @@ abstract class _TiendaStore with Store {
   void filterSearchResults(String query) {
     changeResultadoBusquedaIsLoading();
     if (query.isNotEmpty) {
-      List<DistanciaMarcador> dummyListData = List<DistanciaMarcador>();
+      var dummyListData = <DistanciaMarcador>[];
       listaDistanciaMarcadores.forEach((item) {
         if (item.marcador.nombre.toLowerCase().contains(query.toLowerCase())) {
           dummyListData.add(item);
@@ -157,10 +119,10 @@ abstract class _TiendaStore with Store {
     if (products.isNotEmpty ||
         services.isNotEmpty ||
         serviceClient.isNotEmpty) {
-      List<DistanciaMarcador> dummyListData = List<DistanciaMarcador>();
+      var dummyListData = <DistanciaMarcador>[];
 
-      for (DistanciaMarcador item in listaDistanciaMarcadores) {
-        int necesarios = 0;
+      for (var item in listaDistanciaMarcadores) {
+        var necesarios = 0;
 
         for (var i = 0;
             i < min(item.marcador.productos.length, products.length);
@@ -216,7 +178,7 @@ abstract class _TiendaStore with Store {
 
 // Aliados -----------------------------
   @observable
-  List<Aliado> listaAliados = List<Aliado>();
+  List<Aliado> listaAliados = <Aliado>[];
 
   @action
   Future getAliadosAPI() async {
@@ -241,7 +203,6 @@ abstract class _TiendaStore with Store {
 
   @action
   Future<void> loadEverything() async {
-    await getUbicacionStore();
     await getListaMarcadoresFromAPI();
     await getListaDistanciaMarcadoresFromAPI();
     await getAliadosAPI();

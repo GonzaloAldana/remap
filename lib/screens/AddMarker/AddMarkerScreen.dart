@@ -25,9 +25,9 @@ class AddMarkerScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (tiendaStore == null) {
-      tiendaStore = Provider.of<TiendaStore>(context, listen: false);
-    }
+    final picker = ImagePicker();
+
+    tiendaStore ??= Provider.of<TiendaStore>(context, listen: false);
 
     File image;
 
@@ -46,7 +46,7 @@ class AddMarkerScreen extends StatelessWidget {
     }
 
     var appBar = AppBar(
-      title: Text("Agregar tienda"),
+      title: Text('Agregar tienda'),
       actions: <Widget>[
         Padding(
             padding: EdgeInsets.only(right: 20.0),
@@ -60,21 +60,25 @@ class AddMarkerScreen extends StatelessWidget {
                           children: <Widget>[
                             ListTile(
                               leading: Icon(Icons.add_a_photo),
-                              title: Text("Fotografía"),
+                              title: Text('Fotografía'),
                               onTap: () async {
-                                image = await ImagePicker.pickImage(
+                                var file = await picker.getImage(
                                     source: ImageSource.camera,
                                     imageQuality: 50);
+                                image = File(file.path);
+
                                 await Navigator.of(context).pop();
                               },
                             ),
                             ListTile(
                               leading: Icon(Icons.image),
-                              title: Text("Galería"),
+                              title: Text('Galería'),
                               onTap: () async {
-                                image = await ImagePicker.pickImage(
+                                var file = await picker.getImage(
                                     source: ImageSource.gallery,
                                     imageQuality: 50);
+                                image = File(file.path);
+
                                 await Navigator.of(context).pop();
                               },
                             ),
@@ -93,8 +97,8 @@ class AddMarkerScreen extends StatelessWidget {
 
     final formKey = GlobalKey<FormState>();
     String _titulo;
-    List<bool> productsSelected = List<bool>();
-    List<bool> servicesSelected = List<bool>();
+    var productsSelected = <bool>[];
+    var servicesSelected = <bool>[];
 
     Function callbackProducts =
         (List<bool> itemsSelected) => {productsSelected = itemsSelected};
@@ -119,8 +123,6 @@ class AddMarkerScreen extends StatelessWidget {
                 'productos': productsSelected,
                 'servicios': servicesSelected,
                 'clientes': 0,
-                'administrativeArea': tiendaStore.administrativeArea,
-                'locality': tiendaStore.locality,
                 'validado': false,
                 'imagen': await uploadFile(),
                 'hora': Timestamp.now()
@@ -151,7 +153,7 @@ class AddMarkerScreen extends StatelessWidget {
             }
         };
 
-    final GlobalKey<State> _keyLoader = GlobalKey<State>();
+    final _keyLoader = GlobalKey<State>();
 
     Future<void> _handleSubmit(BuildContext context) async {
       unawaited(showLoadingDialog(context, _keyLoader)); //invoking login
@@ -167,7 +169,7 @@ class AddMarkerScreen extends StatelessWidget {
             focusColor: Theme.of(context).accentColor,
             fillColor: Theme.of(context).accentColor,
             hoverColor: Theme.of(context).accentColor,
-            hintText: "Nombre",
+            hintText: 'Nombre',
             prefixIcon:
                 Icon(Icons.text_fields, color: Theme.of(context).accentColor),
             border: OutlineInputBorder(

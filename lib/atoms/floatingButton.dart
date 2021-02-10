@@ -20,7 +20,7 @@ class FloatingButton extends StatefulWidget {
 class _FloatingButtonState extends State<FloatingButton> {
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
+    var width = MediaQuery.of(context).size.width;
 
     return Opacity(
       opacity: 0.9,

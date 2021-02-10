@@ -50,7 +50,7 @@ class _BulletListState extends State<BulletList> {
 
     Function funcNotMultiSelectable = () => {
           setState(() {
-            for (int i = 0; i < list.length; i++) {
+            for (var i = 0; i < list.length; i++) {
               list[i].isSelected = false;
             }
             list[index].isSelected = true;
@@ -64,7 +64,7 @@ class _BulletListState extends State<BulletList> {
         widget.isMultiSelectable
             ? funcMultiSelectable()
             : funcNotMultiSelectable();
-        List<bool> booleanList = List<bool>();
+        var booleanList = <bool>[];
         for (ListItem i in list) {
           booleanList.add(i.isSelected);
         }
@@ -81,13 +81,14 @@ class _BulletListState extends State<BulletList> {
 
   void populateData() {
     list = [];
-    for (int i = 0; i < widget.options.length; i++) {
+    for (var i = 0; i < widget.options.length; i++) {
       list.add(ListItem<String>(widget.options[i]));
     }
   }
 
+  @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
+    var width = MediaQuery.of(context).size.width;
     return Container(
       width: getResponsiveDps(305, width),
       child: ListView.builder(

@@ -39,7 +39,7 @@ class _DistanciaMarcadorListGeneratorState
         //Change Interstitial AdUnitId with Admob ID
         targetingInfo: targetingInfo,
         listener: (MobileAdEvent event) {
-          print("IntersttialAd $event");
+          print('IntersttialAd $event');
           if (event == MobileAdEvent.closed) dispose();
         });
   }
@@ -55,10 +55,11 @@ class _DistanciaMarcadorListGeneratorState
   @override
   Widget build(BuildContext context) {
     var callback = (dynamic objectParameter) async {
-      if (anuncios % 3 == 0)
+      if (anuncios % 3 == 0) {
         createInterstitialAd()
           ..load()
           ..show();
+      }
       anuncios++;
       await putStatiscticsUpdate(
           widget.countryCode, (objectParameter as DistanciaMarcador), 1);
@@ -88,7 +89,7 @@ class _DistanciaMarcadorListGeneratorState
       shrinkWrap: true,
       itemCount: widget.listaDistanciaMarcador.length,
       itemBuilder: (context, index) {
-        DistanciaMarcador marc = widget.listaDistanciaMarcador[index];
+        var marc = widget.listaDistanciaMarcador[index];
         return ImageCard(
           onPressed: marc.distancia != '--' ? () => callback(marc) : null,
           nombre: marc.marcador.nombre,

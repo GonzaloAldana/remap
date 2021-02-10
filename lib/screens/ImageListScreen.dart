@@ -21,20 +21,18 @@ class ImageListScreen extends StatefulWidget {
 
 class _ImageListScreenState extends State<ImageListScreen> {
   TiendaStore tiendaStore;
-  ScrollController _scrollController = ScrollController();
+  final ScrollController _scrollController = ScrollController();
   String _titulo;
   var controller = TextEditingController();
   void filterSearchResults() => tiendaStore.filterSearchResults(_titulo);
-  List<bool> productsSelected = List<bool>();
-  List<bool> servicesSelected = List<bool>();
-  List<bool> servicesClientSelected = List<bool>();
+  List<bool> productsSelected = <bool>[];
+  List<bool> servicesSelected = <bool>[];
+  List<bool> servicesClientSelected = <bool>[];
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
-    if (tiendaStore == null) {
-      tiendaStore = Provider.of<TiendaStore>(context, listen: false);
-    }
+    var width = MediaQuery.of(context).size.width;
+    tiendaStore ??= Provider.of<TiendaStore>(context, listen: false);
 
     Function callbackProducts =
         (List<bool> itemsSelected) => {productsSelected = itemsSelected};
@@ -105,8 +103,8 @@ class _ImageListScreenState extends State<ImageListScreen> {
                             SlimButton(
                                 text: 'Todos',
                                 onPress: () {
-                                  productsSelected = List<bool>();
-                                  servicesSelected = List<bool>();
+                                  productsSelected = <bool>[];
+                                  servicesSelected = <bool>[];
                                   tiendaStore.searchAll();
                                   Navigator.of(context).pop();
                                 }),
@@ -117,8 +115,8 @@ class _ImageListScreenState extends State<ImageListScreen> {
                                       productsSelected,
                                       servicesSelected,
                                       servicesClientSelected);
-                                  productsSelected = List<bool>();
-                                  servicesSelected = List<bool>();
+                                  productsSelected = <bool>[];
+                                  servicesSelected = <bool>[];
                                   Navigator.of(context).pop();
                                 })
                           ],
@@ -135,7 +133,7 @@ class _ImageListScreenState extends State<ImageListScreen> {
           focusColor: Theme.of(context).accentColor,
           fillColor: Theme.of(context).accentColor,
           hoverColor: Theme.of(context).accentColor,
-          hintText: "Buscar",
+          hintText: 'Buscar',
           prefixIcon: Icon(Icons.search, color: Theme.of(context).accentColor),
           suffixIcon: controller.text.isNotEmpty
               ? IconButton(

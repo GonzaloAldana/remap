@@ -11,7 +11,7 @@ class ContainerSeparator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
+    var width = MediaQuery.of(context).size.width;
 
     var containerTitulo = titulo != null
         ? Container(
@@ -52,7 +52,7 @@ class ContainerSeparator extends StatelessWidget {
         SizedBox(height: getResponsiveDps(2, width)),
         containerSubtitulo,
         SizedBox(height: getResponsiveDps(12, width)),
-        child != null ? child : Container(),
+        child ?? Container(),
         SizedBox(height: getResponsiveDps(20, width))
       ]),
     );

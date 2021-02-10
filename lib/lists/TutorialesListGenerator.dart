@@ -8,7 +8,7 @@ class TutorialesListGenerator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
+    var width = MediaQuery.of(context).size.width;
 
     return Container(
       height: getResponsiveDps(199, width),
@@ -35,7 +35,7 @@ class TutorialesListGenerator extends StatelessWidget {
             url:
                 'https://i2.wp.com/www.insights.la/wp-content/uploads/2018/01/Customer-Journey-Mapping.jpg?fit=620%2C400&ssl=1',
             onPressed: () {
-              showLongTextDialog(context, """ Política de Uso de Meica
+              showLongTextDialog(context, ''' Política de Uso de Meica
 
 Acerca de:
 
@@ -67,7 +67,7 @@ Cualquier material descargado u obtenido, además de cualquier acuerdo, pago, o 
 Limitación de responsabilidad:
 
 ACTG PROYECTOS no será responsable ante usted o cualquier otra parte por cualquier daño directo, indirecto, casual, especial, resultante o ejemplar, incluyendo, pero no limitado a daños por pérdidas de ganancias, fondos, uso, datos u otras pérdidas intangibles, más allá de si nosotros fuimos advertidos de la posibilidad de dicho daño. En el caso de que la ley aplicable no permita la limitación o exclusión de responsabilidad o daños casuales o resultantes, nuestra responsabilidad estará limitada al máximo permitido por la ley aplicable.
- """);
+ ''');
             },
           )
         ],

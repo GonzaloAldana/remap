@@ -49,7 +49,7 @@ class MyConstants extends InheritedWidget {
 
   final tileLayerOptions = TileLayerOptions(
     urlTemplate:
-        "https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}@2x.png?access_token={accessToken}",
+        'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}@2x.png?access_token={accessToken}',
     //: "https://api.mapbox.com/styles/v1/{id}/tiles/256/{z}/{x}/{y}?access_token={accessToken}",
     additionalOptions: {
       'accessToken':

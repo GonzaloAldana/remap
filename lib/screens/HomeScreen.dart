@@ -13,10 +13,8 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
-    if (tiendaStore == null) {
-      tiendaStore = Provider.of<TiendaStore>(context, listen: false);
-    }
+    var width = MediaQuery.of(context).size.width;
+    tiendaStore ??= Provider.of<TiendaStore>(context, listen: false);
 
     return Container(
       child: SingleChildScrollView(

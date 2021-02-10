@@ -16,8 +16,8 @@ class SelectServiceProductScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<bool> productsSelected = List<bool>();
-    List<bool> servicesSelected = List<bool>();
+    var productsSelected = <bool>[];
+    var servicesSelected = <bool>[];
 
     var btnOk = IconButton(
       icon: Icon(
@@ -55,7 +55,7 @@ class SelectServiceProductScreen extends StatelessWidget {
     );
 
     var appBar = AppBar(
-      title: Text("¿Qué ofrecen?"),
+      title: Text('¿Qué ofrecen?'),
       leading: btnRegresar,
       actions: <Widget>[btnOk],
     );

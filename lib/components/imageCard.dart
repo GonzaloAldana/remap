@@ -23,7 +23,7 @@ class ImageCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
+    var width = MediaQuery.of(context).size.width;
 
     var border = Radius.circular(getResponsiveDps(7, width));
 
@@ -34,7 +34,7 @@ class ImageCard extends StatelessWidget {
           height: getResponsiveDps(distancia != null ? 73 : 46, width),
           width: getResponsiveDps(375, width),
           child: Text(
-            this.nombre,
+            nombre,
             style: TextStyle(
                 fontSize: MyConstants.of(context).midTitleSize,
                 fontWeight: MyConstants.of(context).fontMedium,
@@ -42,7 +42,7 @@ class ImageCard extends StatelessWidget {
           )),
     );
 
-    Widget txtDistancia = distancia != null
+    var txtDistancia = distancia != null
         ? Positioned(
             bottom: 0,
             left: 0,
@@ -50,7 +50,7 @@ class ImageCard extends StatelessWidget {
                 height: getResponsiveDps(25, width),
                 width: getResponsiveDps(360, width),
                 child: Text(
-                  this.distancia + ' KM',
+                  distancia + ' KM',
                   textAlign: TextAlign.right,
                   style: TextStyle(
                       fontSize: MyConstants.of(context).midTitleSize,

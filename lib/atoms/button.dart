@@ -19,7 +19,7 @@ class PrimaryBtn extends StatefulWidget {
 class _PrimaryBtnState extends State<PrimaryBtn> {
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
+    var width = MediaQuery.of(context).size.width;
 
     return MaterialButton(
       shape: StadiumBorder(),

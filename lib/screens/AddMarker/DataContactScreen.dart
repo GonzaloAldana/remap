@@ -35,18 +35,18 @@ class _DataContactScreenState extends State<DataContactScreen> {
   File image;
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
   TimeOfDay horaInicial, horaCierre;
-  List<bool> diasSemanaSeleccionados = List<bool>();
+  List<bool> diasSemanaSeleccionados = <bool>[];
   List<bool> serviciosClienteSeleccionado = List<bool>.of([false, false]);
   TiendaStore tiendaStore;
   String phoneNumber;
   String phoneIsoCode = '+52';
 
+  final picker = ImagePicker();
+
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
-    if (tiendaStore == null) {
-      tiendaStore = Provider.of<TiendaStore>(context, listen: false);
-    }
+    var width = MediaQuery.of(context).size.width;
+    tiendaStore ??= Provider.of<TiendaStore>(context, listen: false);
 
     Function callbackClient = (List<bool> itemsSelected) =>
         {serviciosClienteSeleccionado = itemsSelected};
@@ -54,7 +54,7 @@ class _DataContactScreenState extends State<DataContactScreen> {
     Function callbackServices =
         (List<bool> itemsSelected) => {diasSemanaSeleccionados = itemsSelected};
 
-    const List<String> diasSemana = [
+    const diasSemana = <String>[
       'Lunes',
       'Martes',
       'Miércoles',
@@ -73,8 +73,9 @@ class _DataContactScreenState extends State<DataContactScreen> {
 
     Future uploadFile() async {
       String res;
-      StorageReference storageReference = FirebaseStorage.instance.ref().child(
-          '${tiendaStore.countryCode}/${tiendaStore.administrativeArea}/${tiendaStore.locality}/${_path.basename(image.path)}}');
+      StorageReference storageReference = FirebaseStorage.instance
+          .ref()
+          .child('${tiendaStore.countryCode}/${_path.basename(image.path)}}');
       StorageUploadTask uploadTask = storageReference.putFile(image);
       await uploadTask.onComplete;
       await storageReference.getDownloadURL().then((fileURL) {
@@ -89,7 +90,7 @@ class _DataContactScreenState extends State<DataContactScreen> {
         color: Colors.white,
       ),
       onPressed: () async {
-        int diasSeleccionados =
+        var diasSeleccionados =
             List.of(diasSemanaSeleccionados.where((p) => p == true)).length;
         if (nombre == null ||
             telefono == null ||
@@ -108,19 +109,21 @@ class _DataContactScreenState extends State<DataContactScreen> {
                     children: <Widget>[
                       ListTile(
                         leading: Icon(Icons.add_a_photo),
-                        title: Text("Fotografía"),
+                        title: Text('Fotografía'),
                         onTap: () async {
-                          image = await ImagePicker.pickImage(
+                          var file = await picker.getImage(
                               source: ImageSource.camera, imageQuality: 50);
+                          image = File(file.path);
                           await Navigator.of(context).pop();
                         },
                       ),
                       ListTile(
                         leading: Icon(Icons.image),
-                        title: Text("Galería"),
+                        title: Text('Galería'),
                         onTap: () async {
-                          image = await ImagePicker.pickImage(
+                          var file = await picker.getImage(
                               source: ImageSource.gallery, imageQuality: 50);
+                          image = File(file.path);
                           await Navigator.of(context).pop();
                         },
                       ),
@@ -130,7 +133,7 @@ class _DataContactScreenState extends State<DataContactScreen> {
               }).then((_) async {
             if (image != null) {
               unawaited(showLoadingDialog(context, _keyLoader));
-              File cropped = await ImageCropper.cropImage(
+              var cropped = await ImageCropper.cropImage(
                   sourcePath: image.path,
                   androidUiSettings: AndroidUiSettings(
                       toolbarTitle: 'Editar Imagen',
@@ -147,8 +150,6 @@ class _DataContactScreenState extends State<DataContactScreen> {
                   'productos': widget.productsSelected,
                   'servicios': widget.servicesSelected,
                   'clientes': 0,
-                  'administrativeArea': tiendaStore.administrativeArea,
-                  'locality': tiendaStore.locality,
                   'validado': false,
                   'telefono': telefono,
                   'direccion': direccion,
@@ -209,7 +210,7 @@ class _DataContactScreenState extends State<DataContactScreen> {
                         focusColor: Theme.of(context).accentColor,
                         fillColor: Theme.of(context).accentColor,
                         hoverColor: Theme.of(context).accentColor,
-                        hintText: "Nombre de la tienda",
+                        hintText: 'Nombre de la tienda',
                         prefixIcon: Icon(Icons.format_color_text,
                             color: Theme.of(context).accentColor),
                         border: OutlineInputBorder(
@@ -230,7 +231,7 @@ class _DataContactScreenState extends State<DataContactScreen> {
                         focusColor: Theme.of(context).accentColor,
                         fillColor: Theme.of(context).accentColor,
                         hoverColor: Theme.of(context).accentColor,
-                        hintText: "Dirección de la tienda",
+                        hintText: 'Dirección de la tienda',
                         prefixIcon: Icon(Icons.store_mall_directory,
                             color: Theme.of(context).accentColor),
                         border: OutlineInputBorder(
@@ -262,7 +263,7 @@ class _DataContactScreenState extends State<DataContactScreen> {
                         ? '¿A qué hora abre?'
                         : 'Abre a las ${horaInicial.hour.toString().padLeft(2, '0')}:${horaInicial.minute.toString().padLeft(2, '0')} hrs',
                     onPress: () async {
-                      TimeOfDay hora = await showTimePicker(
+                      var hora = await showTimePicker(
                           context: context, initialTime: TimeOfDay.now());
                       setState(() {
                         horaInicial = hora;
@@ -274,7 +275,7 @@ class _DataContactScreenState extends State<DataContactScreen> {
                         ? '¿A qué hora cierra?'
                         : 'Cierra a las ${horaCierre.hour.toString().padLeft(2, '0')}:${horaCierre.minute.toString().padLeft(2, '0')} hrs',
                     onPress: () async {
-                      TimeOfDay hora = await showTimePicker(
+                      var hora = await showTimePicker(
                           context: context, initialTime: TimeOfDay.now());
                       setState(() {
                         horaCierre = hora;

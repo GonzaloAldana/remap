@@ -17,19 +17,17 @@ class SmartTicketScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (tiendaStore == null) {
-      tiendaStore = Provider.of<TiendaStore>(context, listen: false);
-    }
+    tiendaStore ??= Provider.of<TiendaStore>(context, listen: false);
 
     var appBar = AppBar(
-      title: Text("Ticket Inteligente"),
+      title: Text('Ticket Inteligente'),
     );
 
     return Scaffold(
       appBar: appBar,
       body: Container(
         child: FutureBuilder(
-          future: getSmartTicket("tiendas", 2, listaProductos,
+          future: getSmartTicket('tiendas', 2, listaProductos,
               tiendaStore.listaDistanciaMarcadores),
           builder: (context, marcadores) {
             if (!marcadores.hasData) {

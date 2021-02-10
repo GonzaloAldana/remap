@@ -9,7 +9,7 @@ class AliadosListGenerator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
+    var width = MediaQuery.of(context).size.width;
 
     return Container(
       height: getResponsiveDps(160, width),

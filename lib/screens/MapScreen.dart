@@ -27,9 +27,7 @@ class _HomePageState extends State<MapScreen> {
 
   @override
   Widget build(BuildContext context) {
-    if (tiendaStore == null) {
-      tiendaStore = Provider.of<TiendaStore>(context, listen: false);
-    }
+    tiendaStore ??= Provider.of<TiendaStore>(context, listen: false);
 
     var markerPolygonOptions = PolygonOptions(
         borderColor: Theme.of(context).accentColor,

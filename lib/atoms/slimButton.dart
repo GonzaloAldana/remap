@@ -19,7 +19,7 @@ class SlimButton extends StatefulWidget {
 class _SlimButtonState extends State<SlimButton> {
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
+    var width = MediaQuery.of(context).size.width;
 
     return MaterialButton(
       minWidth: getResponsiveDps(100, width),

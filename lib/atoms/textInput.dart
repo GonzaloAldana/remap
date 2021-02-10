@@ -13,7 +13,7 @@ class DecoratedTextInput extends StatefulWidget {
 class _DecoratedTextInputState extends State<DecoratedTextInput> {
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
+    var width = MediaQuery.of(context).size.width;
 
     return Container(
       child: Container(

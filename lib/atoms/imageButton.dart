@@ -22,8 +22,8 @@ class ImageButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
-    double height =
+    var width = MediaQuery.of(context).size.width;
+    var height =
         isBig ? getResponsiveDps(172, width) : getResponsiveDps(75, width);
 
     Widget singleImage = Opacity(

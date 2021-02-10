@@ -27,10 +27,8 @@ class _ContactScreenState extends State<ContactScreen> {
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
-    if (tiendaStore == null) {
-      tiendaStore = Provider.of<TiendaStore>(context, listen: false);
-    }
+    var width = MediaQuery.of(context).size.width;
+    tiendaStore ??= Provider.of<TiendaStore>(context, listen: false);
 
     var appBar = AppBar(
       title: Text('Contacto'),
@@ -49,7 +47,7 @@ class _ContactScreenState extends State<ContactScreen> {
         validator: (String value) => (value.isEmpty || tema.isEmpty)
             ? 'No se ha seleccionado un tema'
             : null,
-        hint: Text(tema == null ? "Selecciona un tema" : tema),
+        hint: Text(tema ?? 'Selecciona un tema'),
         onChanged: (String opt) => setState(() {
           tema = opt;
         }),
@@ -93,7 +91,7 @@ class _ContactScreenState extends State<ContactScreen> {
                       focusColor: Theme.of(context).accentColor,
                       fillColor: Theme.of(context).accentColor,
                       hoverColor: Theme.of(context).accentColor,
-                      hintText: "Tu correo (opcional)",
+                      hintText: 'Tu correo (opcional)',
                       prefixIcon: Icon(Icons.alternate_email,
                           color: Theme.of(context).accentColor),
                       border: OutlineInputBorder(
@@ -116,7 +114,7 @@ class _ContactScreenState extends State<ContactScreen> {
                       focusColor: Theme.of(context).accentColor,
                       fillColor: Theme.of(context).accentColor,
                       hoverColor: Theme.of(context).accentColor,
-                      hintText: "Tu mensaje",
+                      hintText: 'Tu mensaje',
                       prefixIcon: Icon(Icons.email,
                           color: Theme.of(context).accentColor),
                       border: OutlineInputBorder(
@@ -143,8 +141,6 @@ class _ContactScreenState extends State<ContactScreen> {
                         'correo': correo,
                         'tema': tema,
                         'pais': tiendaStore.countryCode,
-                        'estado': tiendaStore.administrativeArea,
-                        'ciudad': tiendaStore.locality,
                         'respondido': false,
                         'fecha': Timestamp.now()
                       });

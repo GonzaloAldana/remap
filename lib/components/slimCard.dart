@@ -15,9 +15,9 @@ class SlimCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
+    var width = MediaQuery.of(context).size.width;
     // El ancho original era 162
-    double ancho = 220;
+    var ancho = 220.0;
 
     var cardImage = CachedNetworkImage(
       imageUrl: url,
@@ -72,7 +72,7 @@ class SlimCard extends StatelessWidget {
               borderRadius: BorderRadius.vertical(
                   bottom: Radius.circular(getResponsiveDps(7, width)))),
           child: Text(
-            this.nombre,
+            nombre,
             style: TextStyle(
                 fontSize: MyConstants.of(context).midTitleSize,
                 fontWeight: MyConstants.of(context).fontMedium,
