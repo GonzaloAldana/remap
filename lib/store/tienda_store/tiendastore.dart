@@ -20,6 +20,28 @@ abstract class _TiendaStore with Store {
   @observable
   String countryCode = 'MX';
 
+  @observable
+  bool ubicacionIsLoading = true;
+
+  @action
+  void changeUbicacionIsLoading() {
+    ubicacionIsLoading = true;
+  }
+
+  @action
+  void changeUbicacionIsNotLoading() {
+    ubicacionIsLoading = false;
+  }
+
+  @action
+  Future getUbicacionStore() async {
+    changeUbicacionIsLoading();
+    await getPosition().then((pos) {
+      position = pos;
+      changeUbicacionIsNotLoading();
+    });
+  }
+
   // Lista marcadores --------------------------------------------------
   @observable
   List<Marcador> listaMarcadores = <Marcador>[];
@@ -113,8 +135,8 @@ abstract class _TiendaStore with Store {
   }
 
   @action
-  void filterProductServiceResults(List<bool> products, List<bool> services,
-      List<bool> serviceClient) async {
+  Future<dynamic> filterProductServiceResults(List<bool> products,
+      List<bool> services, List<bool> serviceClient) async {
     changeResultadoBusquedaIsLoading();
     if (products.isNotEmpty ||
         services.isNotEmpty ||
@@ -203,6 +225,7 @@ abstract class _TiendaStore with Store {
 
   @action
   Future<void> loadEverything() async {
+    await getUbicacionStore();
     await getListaMarcadoresFromAPI();
     await getListaDistanciaMarcadoresFromAPI();
     await getAliadosAPI();

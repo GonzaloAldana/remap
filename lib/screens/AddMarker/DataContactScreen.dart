@@ -5,7 +5,6 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:international_phone_input/international_phone_input.dart';
 import 'package:provider/provider.dart';
 import 'package:remap/atoms/containerSeparator.dart';
 import 'package:remap/atoms/slimButton.dart';
@@ -38,10 +37,32 @@ class _DataContactScreenState extends State<DataContactScreen> {
   List<bool> diasSemanaSeleccionados = <bool>[];
   List<bool> serviciosClienteSeleccionado = List<bool>.of([false, false]);
   TiendaStore tiendaStore;
-  String phoneNumber;
-  String phoneIsoCode = '+52';
 
   final picker = ImagePicker();
+
+  final diasSemana = <String>[
+    'Lunes',
+    'Martes',
+    'Miércoles',
+    'Jueves',
+    'Viernes',
+    'Sábado',
+    'Domingo'
+  ];
+
+  Future<String> uploadFile() async {
+    String res;
+    var storageReference = FirebaseStorage.instance
+        .ref()
+        .child('${tiendaStore.countryCode}/${_path.basename(image.path)}}');
+    var uploadTask = storageReference.putFile(image);
+    await uploadTask.whenComplete(() async {
+      await storageReference.getDownloadURL().then((fileURL) {
+        res = fileURL;
+      });
+    });
+    return res;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,36 +75,6 @@ class _DataContactScreenState extends State<DataContactScreen> {
     Function callbackServices =
         (List<bool> itemsSelected) => {diasSemanaSeleccionados = itemsSelected};
 
-    const diasSemana = <String>[
-      'Lunes',
-      'Martes',
-      'Miércoles',
-      'Jueves',
-      'Viernes',
-      'Sábado',
-      'Domingo'
-    ];
-
-    void onPhoneNumberChange(
-        String number, String internationalizedPhoneNumber, String isoCode) {
-      setState(() {
-        telefono = internationalizedPhoneNumber;
-      });
-    }
-
-    Future uploadFile() async {
-      String res;
-      StorageReference storageReference = FirebaseStorage.instance
-          .ref()
-          .child('${tiendaStore.countryCode}/${_path.basename(image.path)}}');
-      StorageUploadTask uploadTask = storageReference.putFile(image);
-      await uploadTask.onComplete;
-      await storageReference.getDownloadURL().then((fileURL) {
-        res = fileURL;
-      });
-      return res;
-    }
-
     var btnOk = IconButton(
       icon: Icon(
         Icons.done,
@@ -94,6 +85,7 @@ class _DataContactScreenState extends State<DataContactScreen> {
             List.of(diasSemanaSeleccionados.where((p) => p == true)).length;
         if (nombre == null ||
             telefono == null ||
+            telefono == '' ||
             direccion == null ||
             horaInicial == null ||
             horaCierre == null ||
@@ -140,10 +132,12 @@ class _DataContactScreenState extends State<DataContactScreen> {
                       toolbarColor: Colors.grey[200]));
               if (cropped != null) {
                 image = cropped;
-                await Firestore.instance
+                var urlImage = await uploadFile();
+
+                await FirebaseFirestore.instance
                     .collection(tiendaStore.countryCode)
-                    .document()
-                    .setData({
+                    .doc()
+                    .set({
                   'lat': widget.pos.latitude,
                   'lon': widget.pos.longitude,
                   'nombre': nombre,
@@ -155,7 +149,7 @@ class _DataContactScreenState extends State<DataContactScreen> {
                   'direccion': direccion,
                   'horaApertura': '${horaInicial.hour}:${horaInicial.minute}',
                   'horaCierre': '${horaCierre.hour}:${horaCierre.minute}',
-                  'imagen': await uploadFile(),
+                  'imagen': urlImage,
                   'hora': Timestamp.now(),
                   'registrado': Timestamp.now(),
                   'serviciosCliente': serviciosClienteSeleccionado,
@@ -189,6 +183,111 @@ class _DataContactScreenState extends State<DataContactScreen> {
 
     var separador = SizedBox(height: 15);
 
+    var txtNombre = Container(
+      width: getResponsiveDps(345, width),
+      child: TextField(
+        cursorColor: Theme.of(context).accentColor,
+        style: TextStyle(color: Theme.of(context).accentColor),
+        onChanged: (value) => setState(() {
+          nombre = value;
+        }),
+        decoration: InputDecoration(
+            focusColor: Theme.of(context).accentColor,
+            fillColor: Theme.of(context).accentColor,
+            hoverColor: Theme.of(context).accentColor,
+            hintText: 'Nombre de la tienda',
+            prefixIcon: Icon(Icons.format_color_text,
+                color: Theme.of(context).accentColor),
+            border: OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(25.0)))),
+      ),
+    );
+
+    var txtDireccion = Container(
+      width: getResponsiveDps(345, width),
+      child: TextField(
+        cursorColor: Theme.of(context).accentColor,
+        style: TextStyle(color: Theme.of(context).accentColor),
+        onChanged: (value) => setState(() {
+          direccion = value;
+        }),
+        decoration: InputDecoration(
+            focusColor: Theme.of(context).accentColor,
+            fillColor: Theme.of(context).accentColor,
+            hoverColor: Theme.of(context).accentColor,
+            hintText: 'Dirección de la tienda',
+            prefixIcon: Icon(Icons.store_mall_directory,
+                color: Theme.of(context).accentColor),
+            border: OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(25.0)))),
+      ),
+    );
+
+    var txtTelefono = Container(
+      width: getResponsiveDps(345, width),
+      child: TextField(
+        keyboardType: TextInputType.phone,
+        cursorColor: Theme.of(context).accentColor,
+        style: TextStyle(color: Theme.of(context).accentColor),
+        onChanged: (value) => setState(() {
+          telefono = value;
+        }),
+        decoration: InputDecoration(
+            focusColor: Theme.of(context).accentColor,
+            fillColor: Theme.of(context).accentColor,
+            hoverColor: Theme.of(context).accentColor,
+            hintText: 'Teléfono de la tienda',
+            prefixIcon: Icon(Icons.phone, color: Theme.of(context).accentColor),
+            border: OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(25.0)))),
+      ),
+    );
+
+    var txtHoraInicio = SlimButton(
+        text: horaInicial == null
+            ? '¿A qué hora abre?'
+            : 'Abre a las ${horaInicial.hour.toString().padLeft(2, '0')}:${horaInicial.minute.toString().padLeft(2, '0')} hrs',
+        onPress: () async {
+          var hora = await showTimePicker(
+              context: context, initialTime: TimeOfDay.now());
+          setState(() {
+            horaInicial = hora;
+          });
+        });
+
+    var txtHoraFin = SlimButton(
+        text: horaCierre == null
+            ? '¿A qué hora cierra?'
+            : 'Cierra a las ${horaCierre.hour.toString().padLeft(2, '0')}:${horaCierre.minute.toString().padLeft(2, '0')} hrs',
+        onPress: () async {
+          var hora = await showTimePicker(
+              context: context, initialTime: TimeOfDay.now());
+          setState(() {
+            horaCierre = hora;
+          });
+          print(horaInicial);
+        });
+
+    var opcAtencionCliente = ContainerSeparator(
+      titulo: 'Atención al cliente',
+      child: BulletList(
+        options: MyConstants.of(context).listaServiciosCliente,
+        isSecondary: true,
+        isMultiSelectable: true,
+        callBack: callbackClient,
+      ),
+    );
+
+    var opcDiasSemana = ContainerSeparator(
+      titulo: 'Días de la semana',
+      child: BulletList(
+        options: diasSemana,
+        isSecondary: true,
+        isMultiSelectable: true,
+        callBack: callbackServices,
+      ),
+    );
+
     return Scaffold(
       appBar: appBar,
       body: GestureDetector(
@@ -198,110 +297,19 @@ class _DataContactScreenState extends State<DataContactScreen> {
             child: Column(
               children: <Widget>[
                 separador,
-                Container(
-                  width: getResponsiveDps(345, width),
-                  child: TextField(
-                    cursorColor: Theme.of(context).accentColor,
-                    style: TextStyle(color: Theme.of(context).accentColor),
-                    onChanged: (value) => setState(() {
-                      nombre = value;
-                    }),
-                    decoration: InputDecoration(
-                        focusColor: Theme.of(context).accentColor,
-                        fillColor: Theme.of(context).accentColor,
-                        hoverColor: Theme.of(context).accentColor,
-                        hintText: 'Nombre de la tienda',
-                        prefixIcon: Icon(Icons.format_color_text,
-                            color: Theme.of(context).accentColor),
-                        border: OutlineInputBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(25.0)))),
-                  ),
-                ),
+                txtNombre,
                 separador,
-                Container(
-                  width: getResponsiveDps(345, width),
-                  child: TextField(
-                    cursorColor: Theme.of(context).accentColor,
-                    style: TextStyle(color: Theme.of(context).accentColor),
-                    onChanged: (value) => setState(() {
-                      direccion = value;
-                    }),
-                    decoration: InputDecoration(
-                        focusColor: Theme.of(context).accentColor,
-                        fillColor: Theme.of(context).accentColor,
-                        hoverColor: Theme.of(context).accentColor,
-                        hintText: 'Dirección de la tienda',
-                        prefixIcon: Icon(Icons.store_mall_directory,
-                            color: Theme.of(context).accentColor),
-                        border: OutlineInputBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(25.0)))),
-                  ),
-                ),
+                txtDireccion,
                 separador,
-                Container(
-                    width: getResponsiveDps(345, width),
-                    child: InternationalPhoneInput(
-                      decoration: InputDecoration(
-                          hintText: '(363) 123-4567',
-                          focusColor: Theme.of(context).accentColor,
-                          fillColor: Theme.of(context).accentColor,
-                          hoverColor: Theme.of(context).accentColor,
-                          prefixIcon: Icon(Icons.phone,
-                              color: Theme.of(context).accentColor),
-                          border: OutlineInputBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(25.0)))),
-                      onPhoneNumberChange: onPhoneNumberChange,
-                      initialPhoneNumber: phoneNumber,
-                      initialSelection: phoneIsoCode,
-                    )),
+                txtTelefono,
                 separador,
-                SlimButton(
-                    text: horaInicial == null
-                        ? '¿A qué hora abre?'
-                        : 'Abre a las ${horaInicial.hour.toString().padLeft(2, '0')}:${horaInicial.minute.toString().padLeft(2, '0')} hrs',
-                    onPress: () async {
-                      var hora = await showTimePicker(
-                          context: context, initialTime: TimeOfDay.now());
-                      setState(() {
-                        horaInicial = hora;
-                      });
-                    }),
+                txtHoraInicio,
                 separador,
-                SlimButton(
-                    text: horaCierre == null
-                        ? '¿A qué hora cierra?'
-                        : 'Cierra a las ${horaCierre.hour.toString().padLeft(2, '0')}:${horaCierre.minute.toString().padLeft(2, '0')} hrs',
-                    onPress: () async {
-                      var hora = await showTimePicker(
-                          context: context, initialTime: TimeOfDay.now());
-                      setState(() {
-                        horaCierre = hora;
-                      });
-                      print(horaInicial);
-                    }),
+                txtHoraFin,
                 separador,
-                ContainerSeparator(
-                  titulo: 'Atención al cliente',
-                  child: BulletList(
-                    options: MyConstants.of(context).listaServiciosCliente,
-                    isSecondary: true,
-                    isMultiSelectable: true,
-                    callBack: callbackClient,
-                  ),
-                ),
+                opcAtencionCliente,
                 separador,
-                ContainerSeparator(
-                  titulo: 'Días de la semana',
-                  child: BulletList(
-                    options: diasSemana,
-                    isSecondary: true,
-                    isMultiSelectable: true,
-                    callBack: callbackServices,
-                  ),
-                ),
+                opcDiasSemana,
                 separador
               ],
             ),

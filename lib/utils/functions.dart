@@ -1,26 +1,25 @@
-import 'dart:ffi';
 import 'dart:io';
 import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:esys_flutter_share/esys_flutter_share.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_open_whatsapp/flutter_open_whatsapp.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'models.dart';
 
 Future<Marcador> getMarcador(String coleccion, String id) async {
-  DocumentSnapshot doc =
-      await Firestore.instance.collection(coleccion).document(id).get();
-  return Marcador.fromMap(doc.data, doc.documentID);
+  var doc =
+      await FirebaseFirestore.instance.collection(coleccion).doc(id).get();
+  return Marcador.fromMap(doc.data(), doc.id);
 }
 
 Future<List<Aliado>> getAliados() async {
   var lista = <Aliado>[];
-  QuerySnapshot doc =
-      await Firestore.instance.collection('aliados').getDocuments();
-  lista = doc.documents.map((DocumentSnapshot docSnapshot) {
-    return Aliado.fromMap(docSnapshot.data);
+  var doc = await FirebaseFirestore.instance.collection('aliados').get();
+  lista = doc.docs.map((DocumentSnapshot docSnapshot) {
+    return Aliado.fromMap(docSnapshot.data());
   }).toList();
   return lista;
 }
@@ -46,10 +45,10 @@ Future<void> putStatiscticsUpdate(
       campo = 'vistos';
       break;
   }
-  await Firestore.instance
+  await FirebaseFirestore.instance
       .collection(coleccion)
-      .document(distmarc.marcador.id)
-      .updateData({campo: FieldValue.increment(1)});
+      .doc(distmarc.marcador.id)
+      .update({campo: FieldValue.increment(1)});
 }
 
 void shareImage(String imageUrl) async {
@@ -64,12 +63,12 @@ void shareImage(String imageUrl) async {
 
 Future<List<Marcador>> getMarcadores(String coleccion) async {
   var lista = <Marcador>[];
-  QuerySnapshot doc = await Firestore.instance
+  var doc = await FirebaseFirestore.instance
       .collection(coleccion)
       .where('validado', isEqualTo: true)
-      .getDocuments();
-  lista = doc.documents.map((DocumentSnapshot docSnapshot) {
-    return Marcador.fromMap(docSnapshot.data, docSnapshot.documentID);
+      .get();
+  lista = doc.docs.map((DocumentSnapshot docSnapshot) {
+    return Marcador.fromMap(docSnapshot.data(), docSnapshot.id);
   }).toList();
   return lista;
 }
@@ -87,19 +86,13 @@ void launchMap(String lat, String long) async {
 void launchWhatsApp(DistanciaMarcador marc) async {
   var message =
       'Hola, vi tu tienda en Meica y me gustaría ponerme en contacto contigo';
-  var whatsappUrl =
-      'whatsapp://send?phone=${marc.marcador.telefono}&text=$message';
-  if (await canLaunch(whatsappUrl)) {
-    await launch(whatsappUrl);
-  } else {
-    throw 'Could not launch $whatsappUrl';
-  }
+
+  await FlutterOpenWhatsapp.sendSingleMessage(marc.marcador.telefono, message);
 }
 
 Future<String> dist(
     double latInit, double lonInit, double lat, double lon) async {
-  var distancia =
-      await Geolocator().distanceBetween(latInit, lonInit, lat, lon);
+  var distancia = await Geolocator.distanceBetween(latInit, lonInit, lat, lon);
   distancia = distancia / 1000;
   return distancia.toStringAsFixed(2);
 }
@@ -118,12 +111,16 @@ Future<List<DistanciaMarcador>> getDistanciasMarcadores(
 }
 
 Future<Position> getPosition() async {
-  var respuesta = await Geolocator().getLastKnownPosition();
-  await Geolocator()
-      .getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
-      .then((Position position) {
-    respuesta = position;
-  });
+  var respuesta;
+  try {
+    respuesta = await Geolocator.getLastKnownPosition();
+    await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
+        .then((Position position) {
+      respuesta = position;
+    });
+  } catch (err) {
+    respuesta = Position(latitude: 21.1146651, longitude: -101.6485488);
+  }
   return respuesta;
 }
 
@@ -242,7 +239,7 @@ Future<List<DistanciaMarcador>> getSmartTicket(String collection, double dist,
       : listaDefault;
 }
 
-Future<Void> getCombinacionRecursiva(
+void getCombinacionRecursiva(
     List<DistanciaMarcador> listaTemporal,
     DistanciaMarcador marcadorSiguiente,
     List<bool> productosFaltantes,

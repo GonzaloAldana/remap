@@ -131,10 +131,10 @@ class _ContactScreenState extends State<ContactScreen> {
                       await showMissingDialog(context,
                           'Falta llenar algunos campos. \n\nNos interesa conocer tu opinión, por favor completa el formulario para poder escucharte.');
                     } else {
-                      await Firestore.instance
+                      await FirebaseFirestore.instance
                           .collection('mensajes')
-                          .document()
-                          .setData({
+                          .doc()
+                          .set({
                         'lat': tiendaStore.position.latitude,
                         'lon': tiendaStore.position.longitude,
                         'mensaje': mensaje,

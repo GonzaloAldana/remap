@@ -33,16 +33,16 @@ class AddMarkerScreen extends StatelessWidget {
 
     Future uploadFile() async {
       String res;
-      StorageReference storageReference = FirebaseStorage.instance
+      var storageReference = FirebaseStorage.instance
           .ref()
           .child('${tiendaStore.countryCode}/${_path.basename(image.path)}}');
-      StorageUploadTask uploadTask = storageReference.putFile(image);
-      await uploadTask.onComplete;
-      print('File Uploaded');
-      await storageReference.getDownloadURL().then((fileURL) {
-        res = fileURL;
+      var uploadTask = storageReference.putFile(image);
+      await uploadTask.whenComplete(() async {
+        await storageReference.getDownloadURL().then((fileURL) {
+          res = fileURL;
+        });
+        return res;
       });
-      return res;
     }
 
     var appBar = AppBar(
@@ -113,10 +113,10 @@ class AddMarkerScreen extends StatelessWidget {
                   servicesSelected.where((item) => item == true).isNotEmpty))
             {
               formKey.currentState.save(),
-              Firestore.instance
+              FirebaseFirestore.instance
                   .collection(tiendaStore.countryCode)
-                  .document()
-                  .setData({
+                  .doc()
+                  .set({
                 'lat': pos.latitude,
                 'lon': pos.longitude,
                 'nombre': _titulo,

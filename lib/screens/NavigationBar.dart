@@ -5,7 +5,6 @@ import 'package:jumping_bottom_nav_bar/jumping_bottom_nav_bar.dart';
 import 'package:provider/provider.dart';
 import 'package:remap/screens/ContactScreen.dart';
 import 'package:remap/screens/HomeScreen.dart';
-import 'package:remap/screens/SelectProductsScreen.dart';
 import 'package:remap/store/tienda_store/tiendastore.dart';
 import 'package:remap/utils/constants.dart';
 import 'package:remap/utils/utils.dart';
@@ -44,10 +43,6 @@ class _NavigationBarState extends State<NavigationBar> {
       TabItemIcon(
           curveColor: MyConstants.of(context).color1.withAlpha(100),
           iconData: FontAwesomeIcons.mapMarkerAlt,
-          startColor: MyConstants.of(context).colorGray),
-      TabItemIcon(
-          curveColor: MyConstants.of(context).color1.withAlpha(100),
-          iconData: Icons.list,
           startColor: MyConstants.of(context).colorGray),
     ];
 
@@ -103,7 +98,6 @@ class _NavigationBarState extends State<NavigationBar> {
               HomeScreen(),
               ImageListScreen(),
               MapScreen(),
-              SelectProductscreen()
             ],
           ),
           bottomNavigationBar: JumpingTabBar(
